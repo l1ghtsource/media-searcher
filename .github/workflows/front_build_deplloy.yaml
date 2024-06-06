@@ -25,4 +25,4 @@ jobs:
           ssh-add /home/runner/.ssh/id_ed25519
     - name: push2serv
 #      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -v
-      run: scp -r lct-hack-yappy-2024/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~static/
+      run: scp -r frontend/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~static/
