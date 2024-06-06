@@ -1,0 +1,14 @@
+
+.addVideoBtn{
+    background-color: #00E2B8;
+    border-radius: 14px;
+    height: 43px;
+    width: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addVideoBtn:hover{
+    background-color: #00c39f;
+}
