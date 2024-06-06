@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function AddVideoBtn() {
   return (
     <div className={cl.addVideoBtn}>
-      <Link to="/newVideo">
+      <Link to="/addVideo">
         <img src={plus} alt="addVideo" />
       </Link>
     </div>

@@ -1,0 +1,47 @@
+
+.dropArea, .dropAreaDrag{
+    text-align: center;
+    width: 334px;
+    height: 543px;
+    padding: 127px 30px 43px 30px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%23828282FF' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 20px;
+}
+
+.dropAreaDrag{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dropAreaDrag{
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%2300E2B8FF' stroke-width='5' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+    border-radius: 20px;
+}
+
+.dropArea > *{
+    margin: 0 auto;
+}
+
+.dragVideo__text > *:not(:last-child){
+    margin-bottom: 30px;
+}
+
+.dragVideo__text{
+    margin-bottom: 92px;
+}
+
+.format{
+    font-size: 15px;
+    color: #828282;
+    font-weight: bold;
+}
+
+.text{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.uploadedVideo{
+    width: 334px;
+    height: 543px;
+}

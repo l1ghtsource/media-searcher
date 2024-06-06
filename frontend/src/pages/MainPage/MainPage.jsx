@@ -15,8 +15,8 @@ function MainPage({filters, videos, languages}) {
       <div className={cl.mainPage__videos}>
         {
           videos && videos.map((video, index) => (
-            <div className={cl.video}>
-              <VideoComponent key={index} url={video.url}/>
+            <div className={cl.video} key={index}>
+              <VideoComponent url={video.url}/>
               <div className={cl.video__info}> 
                 <div className={cl.videoInfo__profile}>
                   <ProfileBtn/>
@@ -28,8 +28,8 @@ function MainPage({filters, videos, languages}) {
                 </div>
                 <div className={cl.videoInfo__tags}>
                   {
-                    video.tags && video.tags.map((tag) => (
-                      <div>{tag}</div>
+                    video.tags && video.tags.map((tag, index) => (
+                      <div key={index}>{tag}</div>
                     ))
                   }
                 </div>

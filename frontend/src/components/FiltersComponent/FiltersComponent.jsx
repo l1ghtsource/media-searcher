@@ -6,8 +6,8 @@ function FiltersComponent({filters}) {
   return (
     <div className={cl.filters}>
         {
-            filters && filters.map((filter) => (
-                <div>
+            filters && filters.map((filter, index) => (
+                <div key={index}>
                     <div className={cl.filters__title}>{filter.title}</div>
                     <div className={cl.filters__options}>
                     {   
