@@ -11,7 +11,7 @@ jobs:
         node-version: 20
     - name: build npm
       run: |
-          cd lct-hack-yappy-2024
+          cd frontend
           npm ci 
           npm run build
           ls
