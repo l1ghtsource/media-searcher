@@ -1,0 +1,18 @@
+
+.header{
+    padding: 23px 35px 0 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchDiv{
+    display: flex;
+    gap: 19px;
+}
+
+.rightHeader{
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}

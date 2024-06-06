@@ -1,0 +1,10 @@
+
+.profileBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 51px;
+    height: 51px;
+    background-color: #4f4f53;
+    border-radius: 50%;
+}

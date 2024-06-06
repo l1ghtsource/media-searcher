@@ -1,0 +1,22 @@
+
+.filters{
+    background-color: #24292b;
+    padding: 20px 24px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 41px;
+    width: 240px;
+}
+
+.filters__title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 17px;
+}
+
+.filters__options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 10px;
+}
