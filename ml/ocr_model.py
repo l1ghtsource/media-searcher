@@ -3,14 +3,31 @@ import cv2
 import torch
 from deep_translator import GoogleTranslator
 
+# TODO: change translator to non-API
+
 
 class OCRModel:
     def __init__(self):
+        '''
+        Initializes the OCRModel class.
+
+        This method sets up the GPU flag based on availability, initializes the EasyOCR reader for English and Russian languages, 
+        and sets up the Google Translator for translating detected text to English.
+        '''
         self.flag = True if torch.cuda.is_available() else False
         self.reader = easyocr.Reader(['en', 'ru'], gpu=self.flag)
         self.translator = GoogleTranslator(source='auto', target='en')
 
     def get_text_from_video(self, video_path):
+        '''
+        Extracts text from the video and translates it to English.
+
+        Args:
+            video_path (str): Path to the video file.
+
+        Returns:
+            str: The extracted and translated text from the video.
+        '''
         cap = cv2.VideoCapture(video_path)
 
         frames = []

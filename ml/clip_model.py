@@ -8,12 +8,38 @@ from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normal
 
 class CLIPmodel:
     def __init__(self):
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = CLIPVisionModelWithProjection.from_pretrained("Searchium-ai/clip4clip-webvid150k").to(self.device)
-        self.processor = AutoProcessor.from_pretrained("Searchium-ai/clip4clip-webvid150k")
+        '''
+        Initializes the CLIPmodel class.
+
+        This method sets up the device (GPU if available, otherwise CPU), loads the pretrained CLIP model and processor.
+        '''
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model = CLIPVisionModelWithProjection.from_pretrained('Searchium-ai/clip4clip-webvid150k').to(self.device)
+        self.processor = AutoProcessor.from_pretrained('Searchium-ai/clip4clip-webvid150k')
 
     def video2image(self, video_path, frame_rate=1.0, size=224):
+        '''
+        Extracts frames from a video and preprocesses them for the CLIP model.
+
+        Args:
+            video_path (str): Path to the video file.
+            frame_rate (float): The rate at which frames are extracted from the video.
+            size (int): The size to which frames are resized.
+
+        Returns:
+            torch.Tensor: A tensor containing the preprocessed frames from the video.
+        '''
         def preprocess(size, n_px):
+            '''
+            Preprocesses an image for the CLIP model.
+
+            Args:
+                size (int): The size to which the image is resized.
+                n_px (Image): The image to preprocess.
+
+            Returns:
+                Tensor: The preprocessed image.
+            '''
             return Compose([
                 Resize(size, interpolation=InterpolationMode.BICUBIC),
                 CenterCrop(size),
@@ -29,12 +55,12 @@ class CLIPmodel:
 
         if fps < 1:
             images = np.zeros([3, size, size], dtype=np.float32)
-            print("ERROR: problem reading video file: ", video_path)
+            print('ERROR: problem reading video file: ', video_path)
         else:
             total_duration = (frameCount + fps - 1) // fps
             start_sec, end_sec = 0, total_duration
             interval = fps / frame_rate
-            frames_idx = np.floor(np.arange(start_sec*fps, end_sec*fps, interval))
+            frames_idx = np.floor(np.arange(start_sec * fps, end_sec * fps, interval))
             ret = True
             images = np.zeros([len(frames_idx), 3, size, size], dtype=np.float32)
 
@@ -47,19 +73,28 @@ class CLIPmodel:
                 last_frame = i
                 images[i, :, :, :] = preprocess(size, Image.fromarray(frame).convert("RGB"))
 
-            images = images[:last_frame+1]
+            images = images[:last_frame + 1]
         cap.release()
         video_frames = torch.tensor(images)
 
         return video_frames
 
     def get_video_embeddings(self, path):
+        '''
+        Computes the video embeddings using the CLIP model.
+
+        Args:
+            path (str): Path to the video file.
+
+        Returns:
+            torch.Tensor: A tensor containing the normalized video embeddings.
+        '''
         self.model = self.model.eval()
 
         video = self.video2image(path).to(self.device)
         visual_output = self.model(video)
 
-        visual_output = visual_output["image_embeds"]
+        visual_output = visual_output['image_embeds']
         visual_output = visual_output / visual_output.norm(dim=-1, keepdim=True)
         visual_output = torch.mean(visual_output, dim=0)
         visual_output = visual_output / visual_output.norm(dim=-1, keepdim=True)
