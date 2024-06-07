@@ -32,7 +32,7 @@ class MBartTranslator:
             src_lang (str): The source language code (default is 'en_XX' for English).
 
         Returns:
-            list: A list containing the translated text.
+            list: The translated text.
         '''
         encoded_text = self.tokenizer(text, return_tensors='pt').to(self.device)
 
@@ -72,7 +72,7 @@ class MarianTranslator:
             text (str): The input text to be translated.
 
         Returns:
-            list: A list containing the translated text.
+            list: The translated text.
         '''
         inputs = self.tokenizer(text, return_tensors='pt', padding=True).to(self.device)
         translated = self.model.generate(**inputs)
