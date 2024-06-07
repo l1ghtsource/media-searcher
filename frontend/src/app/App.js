@@ -61,7 +61,7 @@ function App() {
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
         <Route path="/" element={<MainPage filters={filters} videos={videos} languages={languages}/>}/>
-        <Route path="/newVideo" element={<NewVideoPage/>}/>
+        <Route path="/addVideo" element={<NewVideoPage/>}/>
       </Routes>
     </div>
   );

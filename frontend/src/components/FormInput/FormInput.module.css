@@ -1,0 +1,21 @@
+
+.formInput{
+    border-bottom: 1px solid #787878;
+}
+
+.formInput__input{
+    background-color: transparent;
+    font-size: 18px;
+    width: 100%;
+    outline: none;
+    color: #fff;
+    padding: 0px 0px 11px 9px;
+}
+
+.formInput__input::placeholder{
+    color: #777777;
+}
+
+.formInput__input:focus::placeholder{
+    color: transparent;
+}

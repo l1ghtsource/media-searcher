@@ -1,0 +1,25 @@
+
+.newVideoPage{
+    margin-top: 49px;
+}
+
+.newVideoPage__title{
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 35px;
+    padding: 0 158px;
+}
+
+.newVideoPage__title{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.newVideoPage__form{
+    margin-bottom: 154px;
+    display: flex;
+    gap: 105px;
+    align-items: flex-start;
+    justify-content: center;
+}

@@ -1,0 +1,28 @@
+on:
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - name: build npm
+      run: |
+          cd frontend
+          npm ci 
+          npm run build
+          ls
+    - name: Add SSH key
+      run: |
+          mkdir -p /home/runner/.ssh
+          eval `ssh-agent -s`
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/id_ed25519
+          chmod 600 /home/runner/.ssh/id_ed25519
+          ssh-add /home/runner/.ssh/id_ed25519
+    - name: push2serv
+#      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -v
+      run: scp -r frontend/build ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/static/

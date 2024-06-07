@@ -1,0 +1,19 @@
+
+.uploadBtn{
+    background-color: #00E2B8;
+    border-radius: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 17px;
+    color: #000;
+}
+
+.uploadBtn:hover{
+    background-color: #00C39F;
+}
+
+.disabled{
+    background-color: #545454;
+}

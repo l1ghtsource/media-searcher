@@ -1,0 +1,16 @@
+
+.backBtn{
+    display: flex;
+    align-items: center;
+}
+
+.backBtn__text{
+    color: #9A9A9A;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.backBtn:hover{
+    color: #fff;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7470%) hue-rotate(116deg) brightness(109%) contrast(109%);
+}
