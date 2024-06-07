@@ -1,12 +1,9 @@
-import torch.multiprocessing as mp
 import concurrent.futures
 
 from ml.whisper_model import WhisperModel
 from ml.ocr_model import OCRModel
 from ml.clip_model import CLIPmodel
 from ml.text2minilm_model import Text2MiniLM
-
-mp.set_start_method('spawn', force=True)
 
 
 class MetaModel:
