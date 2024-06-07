@@ -1,13 +1,20 @@
-from urllib.request import urlopen
-from shutil import copyfileobj
 import clickhouse_connect
 import tqdm
 import os
+import torch
+import torch.multiprocessing as mp
+from urllib.request import urlopen
+from shutil import copyfileobj
 
 from ml.meta_model import MetaModel
 
+
 client = clickhouse_connect.get_client(host='91.224.86.248', port=8123)
 TABLENAME = 'embeddings'
+
+if torch.cuda.is_available():  # for multiprocessing on GPU
+    mp.set_start_method('spawn', force=True)
+
 
 meta = MetaModel()
 
@@ -73,6 +80,6 @@ def iteration(fp, count, max_id=-1):
     client.insert(TABLENAME, data, column_names=['id', 'clip_emb', 'ocr_emb', 'whisper_emb', 'whisper_len', 'ocr_len'])
 
 
-# start_id = 1000
-# for i in range(100):
-#     iteration(r'/kaggle/input/yappy-doras/15. Yappy/yappy_hackaton_2024_400k.csv', 10, start_id + (i * 10))
+# start_id = <your start id>
+# for i in range(<num of iterations>):
+#     iteration(r'your-path-to-csv-with-links', 10, start_id + (i * 10))
