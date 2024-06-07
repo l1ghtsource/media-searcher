@@ -55,7 +55,7 @@ class SimilarityRanker:
         index.add(embeddings)
         return index
 
-    def get_weights(self, word_whisper_count, word_ocr_count):  # AAAAAAAAA I NEED FORMULA FOR THIS
+    def get_weights(self, word_whisper_count, word_ocr_count):
         '''
         Computes weights for the different embedding types.
 
@@ -66,9 +66,17 @@ class SimilarityRanker:
         Returns:
             tuple: Weights for clip, ocr, and whisper embeddings.
         '''
-        ocr_weight = 0.2
-        whisper_weight = 0.4
-        clip_weight = 0.4
+        max_count = 77
+
+        w_1 = (word_ocr_count / (max_count + word_ocr_count))
+        w_2 = (word_whisper_count / (max_count + word_whisper_count))
+
+        ocr_weight = 0.05 * w_1
+        whisper_weight = 0.05 * w_2
+        clip_weight = 0.9 * (1 - (w_1 + w_2) / 2)
+
+        ocr_weight, whisper_weight, clip_weight = np.exp(
+            [ocr_weight, whisper_weight, clip_weight]) / np.sum(np.exp([ocr_weight, whisper_weight, clip_weight]))
 
         return clip_weight, ocr_weight, whisper_weight
 
@@ -115,6 +123,20 @@ class SimilarityRanker:
 
         best_videos.sort(reverse=True, key=lambda x: x[0])
 
-        res = {x[0]: self.df.iloc[x[1]].link for x in best_videos[:k]}
+        res = {x[0].item(): self.df.iloc[x[1]].link for x in best_videos[:k]}
 
         return res
+
+
+# import clickhouse_connect
+
+# client = clickhouse_connect.get_client(host='91.224.86.248', port=8123)
+# TABLENAME = 'embeddings'
+
+# data = client.query_df(f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM {TABLENAME}')
+# data = data.drop_duplicates(subset='id')
+
+# df = pd.read_csv('path-to-csv-with-links')
+
+# ranker = SimilarityRanker(data, df)
+# res = ranker.find_top_k('your text', k=<num of videos to recomend>)
