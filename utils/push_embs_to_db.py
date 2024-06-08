@@ -1,8 +1,6 @@
 import clickhouse_connect
 import tqdm
 import os
-import torch
-import torch.multiprocessing as mp
 from urllib.request import urlopen
 from shutil import copyfileobj
 
@@ -11,9 +9,6 @@ from ml.meta_model import MetaModel
 
 client = clickhouse_connect.get_client(host='91.224.86.248', port=8123)
 TABLENAME = 'embeddings'
-
-if torch.cuda.is_available():  # for multiprocessing on GPU
-    mp.set_start_method('spawn', force=True)
 
 
 meta = MetaModel()
