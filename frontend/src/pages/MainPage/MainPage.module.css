@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: 67.5px 34px;
+    margin: 0 auto;
 }
 
 .video{
@@ -62,4 +63,13 @@
 
 .mainPage__language{
     width: inherit;
+    position: fixed;
+    top: 120px;
+    right: 80px;
+}
+
+.mainPage__filters{
+    position: fixed;
+    top: 120px;
+    left: 80px;
 }

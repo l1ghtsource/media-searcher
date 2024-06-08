@@ -1,69 +1,106 @@
-import React, { useState } from 'react'
-import cl from "./MainPage.module.css"
-import FiltersComponent from '../../components/FiltersComponent/FiltersComponent'
-import VideoComponent from '../../components/VideoComponent/VideoComponent'
-import ProfileBtn from '../../components/ProfileBtn/ProfileBtn'
-import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput'
+import React, { useState, useEffect, useRef } from 'react';
+import cl from "./MainPage.module.css";
+import FiltersComponent from '../../components/FiltersComponent/FiltersComponent';
+import VideoComponent from '../../components/VideoComponent/VideoComponent';
+import ProfileBtn from '../../components/ProfileBtn/ProfileBtn';
+import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
 
-function MainPage({filters, videos, languages}) {
-
+function MainPage({ filters, videos, languages }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
+  const videoRefs = useRef([]);
 
   const handlePlay = (index) => {
-    if (playingVideoIndex !== null && playingVideoIndex !== index){
+    if (playingVideoIndex !== null && playingVideoIndex !== index) {
       const previousVideo = document.getElementById(`video-${playingVideoIndex}`);
-      if(previousVideo){
+      if (previousVideo) {
         previousVideo.pause();
       }
     }
     setPlayingVideoIndex(index);
-  }
+  };
 
+  useEffect(() => {
+    let timerId;
+    const handleKeyPress = (e) => {
+      if (videos && videos.length > 0){
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown'){
+          e.preventDefault(); // предотвращаем стандартное действие клавиш
+          if (e.key === 'ArrowUp') {
+            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
+          } else if (e.key === 'ArrowDown') {
+            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
+          }
+        }   
+      }
+      
+    };
+
+    const handleScroll = (e) => {
+      if (videos && videos.length > 0) {
+        if (e.deltaY < 0) {
+          clearTimeout(timerId);
+          timerId = setTimeout(() => {
+            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
+          }, 300); // Здесь можно задать нужную вам задержку (в миллисекундах)
+        } else if (e.deltaY > 0) {
+          clearTimeout(timerId);
+          timerId = setTimeout(() => {
+            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
+          }, 300); // Здесь можно задать нужную вам задержку (в миллисекундах)
+        }
+      }
+    };
+
+    console.log(playingVideoIndex);
+    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('wheel', handleScroll);
+  
+    if (playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
+      const element = videoRefs.current[playingVideoIndex];
+      const offset = 120; // Здесь можно задать желаемое смещение от верха блока
+      const topPosition = element.offsetTop - offset;
+      window.scrollTo({
+        top: topPosition,
+        behavior: 'smooth',
+      });
+    }
+  
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('wheel', handleScroll);
+      clearTimeout(timerId);
+    };
+  }, [playingVideoIndex, videos]);
 
   return (
     <div className={cl.mainPage}>
-
       <div className={cl.mainPage__filters}>
-        <FiltersComponent filters={filters}/>
+        <FiltersComponent filters={filters} />
       </div>
 
-      <div className={cl.mainPage__videos}> 
-        {
-          videos && videos.map((video, index) => (
-            <div className={cl.video} key={index}>
+      <div className={cl.mainPage__videos}>
+        {videos &&
+          videos.map((video, index) => (
+            <div ref={(el) => (videoRefs.current[index] = el)} className={cl.video} key={index}>
               <VideoComponent url={video.url} id={`video-${index}`} onPlay={() => handlePlay(index)} />
-              <div className={cl.video__info}> 
+              <div className={cl.video__info}>
                 <div className={cl.videoInfo__profile}>
-                  <ProfileBtn/>
+                  <ProfileBtn />
                   <div>{video.user}</div>
                 </div>
-                {/* // TODO: ПОКА УБИРАЕМ ЭТО  */}
-                {/* <div className={cl.videoInfo__description}>
-                  <div className={cl.description__title}>Описание</div>
-                  <div className={cl.description__text}>{video.description}</div>
-                </div>
-                <div className={cl.videoInfo__tags}>
-                  {
-                    video.tags && video.tags.map((tag, index) => (
-                      <div key={index}>{tag}</div>
-                    ))
-                  }
-                </div> */}
                 <div className={cl.videoInfo__transcription}>
-                  <TranscriptionInput url={video.url}/>
+                  <TranscriptionInput url={video.url} />
                 </div>
               </div>
             </div>
-          ))
-        }
+          ))}
       </div>
 
       <div className={cl.mainPage__language}>
-        <FiltersComponent filters={languages}/>
+        <FiltersComponent filters={languages} />
       </div>
-
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
