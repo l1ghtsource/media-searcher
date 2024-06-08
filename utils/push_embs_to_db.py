@@ -82,4 +82,4 @@ def iteration(fp, count, max_id=-1):
 
 # start_id = <your start id>
 # for i in range(<num of iterations>):
-#     iteration(r'your-path-to-csv-with-links', 10, start_id + (i * 10))
+#     iteration(r'data\yappy_hackaton_2024_400k.csv', 10, start_id + (i * 10))

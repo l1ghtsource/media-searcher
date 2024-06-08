@@ -136,7 +136,7 @@ class SimilarityRanker:
 # data = client.query_df(f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM {TABLENAME}')
 # data = data.drop_duplicates(subset='id')
 
-# df = pd.read_csv('path-to-csv-with-links')
+# df = pd.read_csv('data\yappy_hackaton_2024_400k.csv')
 
 # ranker = SimilarityRanker(data, df)
-# res = ranker.find_top_k('your text', k=<num of videos to recomend>)
+# res = ranker.find_top_k('your text', k=10)
