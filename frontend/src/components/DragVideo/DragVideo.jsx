@@ -91,7 +91,7 @@ function DragVideo() {
               <div className={cl.text}>Выберите или перетащите видео для загрузки</div>
               <div className={cl.format}>Формат MP4 <br/> Продолжительность видео <br/> от 3 до 60 секунд <br/> Размер менее 250МБ</div>
             </div>
-            <UploadBtn width="149px" onClick={() => document.getElementById('fileInput').click()}>Выберите файл</UploadBtn>
+            <UploadBtn width="149px" size="14px" onClick={() => document.getElementById('fileInput').click()}>Выберите файл</UploadBtn>
             <input
             id="fileInput"
             type='file'

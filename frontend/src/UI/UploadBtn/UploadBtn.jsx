@@ -1,9 +1,9 @@
 import React from 'react'
 import cl from "./UploadBtn.module.css"
 
-function UploadBtn({children, width, onClick}) {
+function UploadBtn({children, width, size, onClick}) {
   return (
-    <div style={{ width: width }} className={cl.uploadBtn} onClick={onClick}>
+    <div style={{ width: width, fontSize: size }} className={cl.uploadBtn} onClick={onClick}>
         {children}
     </div>
   )

@@ -1,14 +1,118 @@
-import React from 'react'
-import cl from './VideoComponent.module.css'
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import cl from './VideoComponent.module.css';
+import volume from "../../assets/svgIcons/volume.svg";
+import mute from "../../assets/svgIcons/mute.svg";
+import play from "../../assets/svgIcons/play.svg";
+import pause from "../../assets/svgIcons/pause.svg";
 
-function VideoComponent({url}) {
+function VideoComponent({ url, id, onPlay}) {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [progressPercent, setProgressPercent] = useState(0);
+  const requestRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    const handleLoadedMetaData = () => {
+      setDuration(video.duration);
+    };
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(video.currentTime);
+      setProgressPercent((video.currentTime / video.duration) * 100);
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetaData);
+    video.addEventListener('timeupdate', handleTimeUpdate);
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetaData);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, []);
+
+  const animate = useCallback(() => {
+    const video = videoRef.current;
+    if (video) {
+      setCurrentTime(video.currentTime);
+      setProgressPercent((video.currentTime / video.duration) * 100);
+      requestRef.current = requestAnimationFrame(animate);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      requestRef.current = requestAnimationFrame(animate);
+    } else {
+      cancelAnimationFrame(requestRef.current);
+    }
+
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [isPlaying, animate]);
+
+  const togglePlayPause = () => {
+    const video = videoRef.current;
+    if (isPlaying) {
+      video.pause();
+    } else {
+      video.play();
+      onPlay();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    video.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  const handleProgressChange = (event) => {
+    const video = videoRef.current;
+    const newTime = event.target.value;
+    video.currentTime = newTime;
+    setCurrentTime(newTime);
+    setProgressPercent((newTime / video.duration) * 100);
+  };
+
   return (
-    <video className={cl.video} controls loop preload='metadata' src={url}>
+    <div className={cl.videoContainer}>
+      <div className={cl.wrapper}>
+        <ul className={cl.videoControls}>
+          <li className={cl.options}>
+            <button className={cl.play} onClick={togglePlayPause}>
+              <img src={isPlaying ? pause : play} alt="play/pause" />
+            </button>
+            <button className={cl.volume} onClick={toggleMute}>
+              <img src={isMuted ? mute : volume} alt="volume" />
+            </button>
+          </li>
+        </ul>
+        <div className={cl.progressContainer}>
+          <input
+            type="range"
+            className={cl.progressBar}
+            min="0"
+            max={duration}
+            value={currentTime}
+            onChange={handleProgressChange}
+            style={{
+              background: `linear-gradient(90deg, rgba(153, 153, 153, 0.4) ${progressPercent}%, rgba(0, 0, 0, 0.4) ${progressPercent}%)`
+            }}
+          />
+        </div>
+      </div>
+      <video id={id} className={cl.video} loop preload='metadata' src={url} ref={videoRef} onClick={togglePlayPause}>
         Простите, но ваш браузер не поддерживает встроенные видео.
         Попробуйте скачать видео <a href={url}>по этой ссылке</a>
         и открыть его на своём устройстве.
-    </video>
-  )
+      </video>
+    </div>
+  );
 }
 
-export default VideoComponent
+export default VideoComponent;

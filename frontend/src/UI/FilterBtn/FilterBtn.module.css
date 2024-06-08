@@ -6,4 +6,10 @@
     border: 1px solid #00E2B8;
     border-radius: 20px;
     padding: 0 13px;
+    cursor: pointer;
+}
+
+.active{
+    background-color: #00E2B8;
+    color: black;
 }

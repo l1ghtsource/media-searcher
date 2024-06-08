@@ -1,6 +1,54 @@
+.videoContainer {
+    position: relative;
+}
 
-.video{
-    border-radius: 18px;
-    height: 601px;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  padding: 0px 16px;
+}
+
+.options {
+  display: flex;
+  gap: 16px;
+}
+
+.volume, .play {
+  background-color: transparent;
+}
+
+.volume:hover, .play:hover {
+  cursor: pointer;
+}
+
+.progressContainer, .progressBar {
     width: inherit;
+}
+
+.progressBar {
+    appearance: none;
+    height: 4px;
+    outline: none;
+    border-radius: 2px;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+
+.progressBar::-webkit-slider-thumb {
+    appearance: none;
+    width: 3px;
+    height: 4px;
+    cursor: pointer;
+}
+
+.video {
+  border-radius: 18px;
+  height: 601px;
+  width: inherit;
 }

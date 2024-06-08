@@ -61,3 +61,7 @@ body{
 	background-color: #1b1b1f;
 	color: #fff;
 }
+
+textarea{
+	font-family: "Inter";
+}

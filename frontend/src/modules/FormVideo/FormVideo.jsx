@@ -8,7 +8,7 @@ function FormVideo() {
     <div className={cl.formVideo}>
         <FormInput placeholder="Добавить видео по ссылке"/>
         <FormInput placeholder="Описание"/>
-        <UploadBtn>Загрузить</UploadBtn>
+        <UploadBtn size="18px">Загрузить</UploadBtn>
     </div>
   )
 }

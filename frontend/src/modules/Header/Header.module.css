@@ -16,3 +16,18 @@
     gap: 28px;
     align-items: center;
 }
+
+.searchText__typo{
+    display: flex;
+    justify-content: space-between;
+    margin: 9px 0 0 4px;
+    font-size: 18px;
+}
+
+.typo__text, .typo__btn{
+    color: #828282;
+}
+
+.typo__text > span, .typo__btn:hover{
+    color: #fff;
+}

@@ -1,0 +1,30 @@
+.loadingCircle circle {
+    stroke-dasharray: 0 600;
+    stroke: #00E2B8;
+    stroke-width: 15;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: fill 2.2s linear infinite;
+}
+
+@keyframes fill {
+    0% {
+        stroke-dasharray: 0 750; 
+    }
+    100% {
+        stroke-dasharray: 750 750;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingCircle svg {
+    animation: rotate 2s linear infinite;
+}

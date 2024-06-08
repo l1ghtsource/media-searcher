@@ -18,5 +18,5 @@
 .filters__options{
     display: flex;
     flex-wrap: wrap;
-    gap: 14px 10px;
+    gap: 16px 10px;
 }
