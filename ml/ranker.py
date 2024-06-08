@@ -36,9 +36,9 @@ class SimilarityRanker:
         self.translator = GoogleTranslator(source='auto', target='en')
         self.db = db
         self.df = df
-        self.index_clip = self.create_faiss_index(np.vstack(self.db['clip_emb'].values))
-        self.index_ocr = self.create_faiss_index(np.vstack(self.db['ocr_emb'].values))
-        self.index_whisper = self.create_faiss_index(np.vstack(self.db['whisper_emb'].values))
+        self.index_clip = self.create_faiss_index(np.vstack(self.db['clip_emb'].values).astype('float32'))
+        self.index_ocr = self.create_faiss_index(np.vstack(self.db['ocr_emb'].values).astype('float32'))
+        self.index_whisper = self.create_faiss_index(np.vstack(self.db['whisper_emb'].values).astype('float32'))
 
     def create_faiss_index(self, embeddings):
         '''
@@ -80,7 +80,7 @@ class SimilarityRanker:
 
         return clip_weight, ocr_weight, whisper_weight
 
-    def find_top_k(self, text, k=5):
+    def find_top_k(self, text, k=10):
         '''
         Finds the top k videos that are most similar to the given text.
 
