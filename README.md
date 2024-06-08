@@ -10,7 +10,9 @@ Team Members:
 5) **Артём Плужиников** - ML Engineer
 
 Презентация: [link](https://www.google.com/)
+
 Веб-сервис: [itutitam.ru](https://www.google.com/)
+
 API: [itutitam.ru/api/](https://www.google.com/)
 
 ## Кейс "Сервис текстового поиска по медиаконтенту" (Yappy)
