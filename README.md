@@ -62,6 +62,8 @@ __Мета-модель__: [meta_model.py](https://github.com/l1ghtsource/lct-ha
 3) Исходный код: [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)
    - время поиска топ-20 видео на GPU: 200ms
    - время поиска топ-20 видео на CPU: 300ms
+  
+Вы можете изучить и опробовать ML-часть на Kaggle: <link>
 
 ### Пример поиска видео:
 
