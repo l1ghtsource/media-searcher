@@ -42,25 +42,8 @@ function MainPage({ filters, videos, languages }) {
       
     };
 
-    const handleScroll = (e) => {
-      if (videos && videos.length > 0) {
-        if (e.deltaY < 0) {
-          clearTimeout(timerId);
-          timerId = setTimeout(() => {
-            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
-          }, 300); // Здесь можно задать нужную задержку (в миллисекундах)
-        } else if (e.deltaY > 0) {
-          clearTimeout(timerId);
-          timerId = setTimeout(() => {
-            setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
-          }, 300); // Здесь можно задать нужную задержку (в миллисекундах)
-        }
-      }
-    };
-
     // console.log(playingVideoIndex);
     document.addEventListener('keydown', handleKeyPress);
-    document.addEventListener('wheel', handleScroll);
   
     if (playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
       const element = videoRefs.current[playingVideoIndex];
@@ -74,12 +57,14 @@ function MainPage({ filters, videos, languages }) {
   
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
-      document.removeEventListener('wheel', handleScroll);
       clearTimeout(timerId);
     };
   }, [playingVideoIndex, videos]);
 
   useEffect(() => {
+    let timerId;
+    let startY = 0;
+    
     if (videos && videos.length > 0 && playingVideoIndex !== null) {
       // Останавливаем предыдущее видео при смене индекса
       const previousIndex = playingVideoIndex === 0 ? null : playingVideoIndex - 1;
@@ -101,12 +86,58 @@ function MainPage({ filters, videos, languages }) {
         videoToPlay.play();
       }
 
+      // Автоматически получаем новые видео при прохождение предпоследнего видео в списке
       if(videos.length - 2 > 0 && playingVideoIndex === videos.length - 2){
         console.log('Получить новые видео');
       }
     }
 
-  }, [playingVideoIndex, videos]);
+    const handleScroll = (e) => {
+      if (videos && videos.length > 0) {
+        if (e.deltaY !== undefined) { // Обработка скролла на компьютерах
+          if (e.deltaY < 0) {
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+              setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
+            }, 300); 
+          } else if (e.deltaY > 0) {
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+              setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
+            }, 300); 
+          }
+        } else if (e.touches !== undefined) { // Обработка скролла на мобильных устройствах
+          const deltaY = e.touches[0].clientY - startY;
+          if (deltaY > 50) { // задаем минимальное смещение, чтобы считать это скроллом вверх
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+              setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
+            }, 300); 
+          } else if (deltaY < -50) { // задаем минимальное смещение, чтобы считать это скроллом вниз
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+              setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
+            }, 300); 
+          }
+        }
+      }
+    };
+  
+    const handleTouchStart = (e) => {
+      startY = e.touches[0].clientY;
+    };
+  
+    document.addEventListener('wheel', handleScroll);
+    document.addEventListener('touchmove', handleScroll);
+    document.addEventListener('touchstart', handleTouchStart);
+  
+    return () => {
+      document.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('touchmove', handleScroll);
+      document.removeEventListener('touchstart', handleTouchStart);
+      clearTimeout(timerId);
+    };
+  }, [videos, playingVideoIndex]);
 
   return (
     <div className={cl.mainPage}>
