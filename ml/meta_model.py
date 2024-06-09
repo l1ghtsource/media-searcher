@@ -1,4 +1,6 @@
 import concurrent.futures
+import torch
+import torch.multiprocessing as mp
 
 from ml.whisper_model import WhisperModel
 from ml.ocr_model import OCRModel
@@ -13,6 +15,9 @@ class MetaModel:
 
         This method sets up the Whisper, OCR, CLIP vision, and Text2MiniLM models.
         '''
+        if torch.cuda.is_available():  # for multiprocessing on GPU
+            mp.set_start_method('spawn', force=True)
+
         self.whisper = WhisperModel()
         self.ocr = OCRModel()
         self.clipvision = CLIPmodel()
