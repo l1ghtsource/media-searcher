@@ -83,7 +83,9 @@ function Header({setVideos}) {
                 )
               }
             </div>
-            <SearchVoice onClick={handleVoiceInput}/>
+            <div className={cl.searchVoice}>
+              <SearchVoice onClick={handleVoiceInput}/>
+            </div>
         </div>
         <div className={cl.rightHeader}>
             <AddVideoBtn/>

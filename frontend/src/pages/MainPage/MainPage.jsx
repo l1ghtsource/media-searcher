@@ -58,13 +58,13 @@ function MainPage({ filters, videos, languages }) {
       }
     };
 
-    console.log(playingVideoIndex);
+    // console.log(playingVideoIndex);
     document.addEventListener('keydown', handleKeyPress);
     document.addEventListener('wheel', handleScroll);
   
     if (playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
       const element = videoRefs.current[playingVideoIndex];
-      const offset = 120; // Здесь можно задать желаемое смещение от верха блока
+      const offset = window.innerWidth < 992 ? 0 : 120;; // Здесь можно задать желаемое смещение от верха блока
       const topPosition = element.offsetTop - offset;
       window.scrollTo({
         top: topPosition,
@@ -105,7 +105,7 @@ function MainPage({ filters, videos, languages }) {
         console.log('Получить новые видео');
       }
     }
-    
+
   }, [playingVideoIndex, videos]);
 
   return (

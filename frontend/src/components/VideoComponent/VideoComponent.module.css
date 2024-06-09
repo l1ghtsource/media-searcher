@@ -52,3 +52,42 @@
   height: 601px;
   width: inherit;
 }
+
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .videoContainer{
+      width: 100%;
+    }
+
+    .video{
+      height: 100vh;
+      object-fit: cover;
+      border-radius: 0px;
+    }
+}
+
+@media (max-width: 884px){
+   
+}
+
+@media (max-width: 767px) {
+
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
+}
