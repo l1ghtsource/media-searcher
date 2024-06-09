@@ -7,7 +7,7 @@ import pause from "../../assets/svgIcons/pause.svg";
 
 function VideoComponent({ url, id, onPlay}) {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -25,7 +25,7 @@ function VideoComponent({ url, id, onPlay}) {
       setCurrentTime(video.currentTime);
       setProgressPercent((video.currentTime / video.duration) * 100);
     };
-
+    
     video.addEventListener('loadedmetadata', handleLoadedMetaData);
     video.addEventListener('timeupdate', handleTimeUpdate);
 

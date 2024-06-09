@@ -37,3 +37,13 @@
 .typo__text > span, .typo__btn:hover{
     color: #fff;
 }
+
+.searchBox{
+    position: relative;
+}
+
+.autoComplete__container{
+    position: absolute;
+    width: 100%;
+    margin-top: 15px;
+}

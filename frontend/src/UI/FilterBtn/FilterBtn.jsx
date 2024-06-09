@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cl from "./FilterBtn.module.css"
 
-function FilterBtn({children}) {
-  const [isActive, setIsActive] = useState(false);
-
+function FilterBtn({children, isActive, onClick}) {
   return (
-    <div className={isActive ? `${cl.filterBtn} ${cl.active}` : cl.filterBtn} onClick={() => setIsActive(!isActive)}>{children}</div>
+    <div className={isActive ? `${cl.filterBtn} ${cl.active}` : cl.filterBtn} onClick={onClick}>{children}</div>
   )
 }
 

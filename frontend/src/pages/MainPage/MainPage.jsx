@@ -20,6 +20,13 @@ function MainPage({ filters, videos, languages }) {
   };
 
   useEffect(() => {
+    // Отменяем скролл при размонтировании компонента
+    return () => {
+      window.scrollTo(0, 0);
+    };
+  }, []);
+
+  useEffect(() => {
     let timerId;
     const handleKeyPress = (e) => {
       if (videos && videos.length > 0){
@@ -41,12 +48,12 @@ function MainPage({ filters, videos, languages }) {
           clearTimeout(timerId);
           timerId = setTimeout(() => {
             setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
-          }, 300); // Здесь можно задать нужную вам задержку (в миллисекундах)
+          }, 300); // Здесь можно задать нужную задержку (в миллисекундах)
         } else if (e.deltaY > 0) {
           clearTimeout(timerId);
           timerId = setTimeout(() => {
             setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
-          }, 300); // Здесь можно задать нужную вам задержку (в миллисекундах)
+          }, 300); // Здесь можно задать нужную задержку (в миллисекундах)
         }
       }
     };
@@ -70,6 +77,30 @@ function MainPage({ filters, videos, languages }) {
       document.removeEventListener('wheel', handleScroll);
       clearTimeout(timerId);
     };
+  }, [playingVideoIndex, videos]);
+
+  useEffect(() => {
+    if (videos && videos.length > 0 && playingVideoIndex !== null) {
+      // Останавливаем предыдущее видео при смене индекса
+      const previousIndex = playingVideoIndex === 0 ? null : playingVideoIndex - 1;
+      const nextIndex = playingVideoIndex === videos.length - 1 ? null : playingVideoIndex + 1;
+      
+      const previousVideo = document.getElementById(`video-${previousIndex}`);
+      if (previousVideo) {
+        previousVideo.pause();
+      }
+      
+      const nextVideo = document.getElementById(`video-${nextIndex}`);
+      if (nextVideo) {
+        nextVideo.pause();
+      }
+  
+      // Автоматически запускаем новое видео при смене индекса
+      const videoToPlay = document.getElementById(`video-${playingVideoIndex}`);
+      if (videoToPlay) {
+        videoToPlay.play();
+      }
+    }
   }, [playingVideoIndex, videos]);
 
   return (

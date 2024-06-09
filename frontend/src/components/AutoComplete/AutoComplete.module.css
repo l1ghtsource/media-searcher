@@ -1,0 +1,19 @@
+
+.autoComplete{
+    background-color: #24292B;
+    border-radius: 14px;
+    padding: 23px 56px;
+}
+
+.autoComplete__list > *:not(:last-child){
+    margin-bottom: 11px;
+}
+
+.autoComplete__option{
+    color: #AFAFAF;
+    font-size: 18px;
+}
+
+.autoComplete__option:hover, .highlighted{
+    color: #fff;
+}

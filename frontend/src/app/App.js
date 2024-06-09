@@ -9,6 +9,7 @@ function App() {
 
   const [filters] = useState([
     {title: "Подборки", options: ["аниме", "баскетбол", "творчество", "мир видеоигр", "roblox", "мода"]},
+    {title: "Лица", options: ["аниме", "баскетбол", "творчество", "мир видеоигр", "roblox", "мода"]},
     // {title: "Язык", options: ["русский", "english"]},
   ])
 
