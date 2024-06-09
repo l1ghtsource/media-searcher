@@ -47,3 +47,37 @@
     width: 100%;
     margin-top: 15px;
 }
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    
+}
+
+@media (max-width: 884px){
+   
+}
+
+@media (max-width: 767px) {
+    .logo{
+        display: none;
+    }
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+    .logo{
+        display: none;
+    }
+}

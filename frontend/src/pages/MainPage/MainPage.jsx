@@ -100,7 +100,12 @@ function MainPage({ filters, videos, languages }) {
       if (videoToPlay) {
         videoToPlay.play();
       }
+
+      if(videos.length - 2 > 0 && playingVideoIndex === videos.length - 2){
+        console.log('Получить новые видео');
+      }
     }
+    
   }, [playingVideoIndex, videos]);
 
   return (

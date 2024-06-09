@@ -57,7 +57,9 @@ function Header({setVideos}) {
 
   return (
     <div className={cl.header}>
-        <Link to="/"><img src={logo} alt="Logo" /></Link>
+        <div className={cl.logo}>
+          <Link to="/"><img src={logo} alt="Logo" /></Link>
+        </div>
         <div className={cl.searchDiv}>
             <div className={cl.searchBox}>
               <SearchInput 
