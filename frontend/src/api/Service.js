@@ -6,6 +6,15 @@ export default class SendServer{
     static async getVideos(searchText){
         try {
             console.log(searchText);
+            // const response = await axios.get(
+            //   'https://itut.123581321.ru/api/search_empty',
+            //   {
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //     }
+            //   }
+            // )
+
             const response = [
                 {
                   url: "https://cdn-st.rutubelist.ru/media/e9/e0/b47a9df14a5e97942715e5e705c0/fhd.mp4",
@@ -68,3 +77,4 @@ export default class SendServer{
         }        
     }
 }
+

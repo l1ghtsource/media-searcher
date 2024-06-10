@@ -4,10 +4,13 @@ import volume from "../../assets/svgIcons/volume.svg";
 import mute from "../../assets/svgIcons/mute.svg";
 import play from "../../assets/svgIcons/play.svg";
 import pause from "../../assets/svgIcons/pause.svg";
+import transcription from "../../assets/svgIcons/transcription.svg"
+import filter from "../../assets/svgIcons/filter.svg"
+import AddVideoBtn from '../AddVideoBtn/AddVideoBtn';
 
 function VideoComponent({ url, id, onPlay}) {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -25,7 +28,7 @@ function VideoComponent({ url, id, onPlay}) {
       setCurrentTime(video.currentTime);
       setProgressPercent((video.currentTime / video.duration) * 100);
     };
-
+    
     video.addEventListener('loadedmetadata', handleLoadedMetaData);
     video.addEventListener('timeupdate', handleTimeUpdate);
 
@@ -106,7 +109,14 @@ function VideoComponent({ url, id, onPlay}) {
           />
         </div>
       </div>
-      <video id={id} className={cl.video} loop preload='metadata' src={url} ref={videoRef} onClick={togglePlayPause}>
+      <div className={cl.addVideo}>
+          <AddVideoBtn/>
+      </div>
+      <div className={cl.video__btn}>
+          <img src={transcription} alt="transcription" />
+          <img src={filter} alt="filter" />
+      </div>
+      <video id={id} className={cl.video} loop preload='metadata' src={url} ref={videoRef} onClick={togglePlayPause} playsInline>
         Простите, но ваш браузер не поддерживает встроенные видео.
         Попробуйте скачать видео <a href={url}>по этой ссылке</a>
         и открыть его на своём устройстве.

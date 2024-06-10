@@ -1,7 +1,7 @@
 
 .mainPage{
-    margin-top: 70px;
-    padding: 0 80px;
+    margin-top: 40px;
+    padding: 80px;
     padding-bottom: 113px;
     display: flex;
     justify-content: space-between;
@@ -61,15 +61,70 @@
     gap: 4px 19px;
 }
 
-.mainPage__language{
-    width: inherit;
+.mainPage__language, .mainPage__filters{
     position: fixed;
     top: 120px;
+}
+
+.mainPage__language{
     right: 80px;
 }
 
 .mainPage__filters{
-    position: fixed;
-    top: 120px;
     left: 80px;
+}
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+    .mainPage__filters{
+        left: 30px;
+    }
+
+    .mainPage__language{
+        right: 30px;
+    }
+}
+
+@media (max-width: 1250px){
+    .mainPage__filters, .mainPage__language{
+        display: none;
+    }
+}
+
+@media (max-width: 1200px) {
+
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .mainPage{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .mainPage__videos{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .video__info{
+        display: none;
+    }
+}
+
+@media (max-width: 884px){
+    
+}
+
+@media (max-width: 767px) {
+ 
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
 }

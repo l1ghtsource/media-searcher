@@ -5,7 +5,7 @@
     background-color: #24292B;
     border-radius: 14px;
     padding: 9px 17px;
-    max-height: 43px;
+    height: 43px;
     width: 565px;
 }
 
@@ -14,6 +14,15 @@
     background-color: transparent;
     color: #fff;
     font-size: 18px;
+    touch-action: manipulation;
+}
+
+.searchInput::-webkit-search-cancel-button{
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+    filter: brightness(0) saturate(100%) invert(69%) sepia(55%) saturate(2567%) hue-rotate(119deg) brightness(98%) contrast(101%);
 }
 
 .searchInput::placeholder{
@@ -28,4 +37,73 @@
 
 .searchInput:focus::placeholder{
     color: transparent;
+}
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .search{
+        width: 785px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .searchImg, .searchInput::-webkit-search-cancel-button{
+        filter: brightness(0) saturate(100%) invert(22%) sepia(4%) saturate(16%) hue-rotate(16deg) brightness(105%) contrast(88%);
+    }
+
+    .searchInput{
+        color: #000;
+        font-size: 26px;
+    }
+
+    .searchInput::-webkit-search-cancel-button{
+        height: 30px;
+        width: 30px;
+    }
+
+    .searchInput::placeholder{
+        color: #434343;
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 884px){
+    .search{
+        width: 695px;
+    }
+}
+
+@media (max-width: 767px) {
+    .logo{
+        display: none;
+    }
+
+    .search{
+        width: 554px;
+    }
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+    .search{
+        width: 475px;
+    }
+}
+
+@media (max-width: 476px) {
+    .search{
+        width: 335px;
+    }
 }

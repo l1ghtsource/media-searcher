@@ -37,3 +37,60 @@
 .typo__text > span, .typo__btn:hover{
     color: #fff;
 }
+
+.searchBox{
+    position: relative;
+}
+
+.autoComplete__container{
+    position: absolute;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .header{
+        background-color: transparent;
+        justify-content: center;
+    }
+
+    .logo{
+        display: none;
+    }
+
+    .rightHeader{
+        display: none;
+    }
+
+    .searchVoice{
+        display: none;
+    }
+}
+
+@media (max-width: 884px){
+
+}
+
+@media (max-width: 767px) {
+    
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+    .logo{
+        display: none;
+    }
+}

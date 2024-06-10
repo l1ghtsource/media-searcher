@@ -1,5 +1,6 @@
 .videoContainer {
     position: relative;
+    touch-action: manipulation;
 }
 
 .wrapper {
@@ -51,4 +52,79 @@
   border-radius: 18px;
   height: 601px;
   width: inherit;
+}
+
+.addVideo{
+  display: none;
+  position: absolute;
+  bottom: 35px;
+  right: 30px;
+  z-index: 100;
+}
+
+.video__btn{
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  position: absolute;
+  left: 26px;
+  bottom: 125px;
+  z-index: 100;
+}
+
+.video__btn > img{
+  height: 60px;
+  width: 60px;
+  filter: brightness(0) saturate(100%) invert(54%) sepia(98%) saturate(688%) hue-rotate(123deg) brightness(89%) contrast(102%);
+}
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .videoContainer{
+      width: 100%;
+    }
+
+    .video{
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0px;
+    }
+
+    .progressBar{
+      height: 10px;
+    }
+
+    .volume > img, .play > img{
+      height: 60px;
+      width: 60px;
+    }
+
+    .addVideo{
+      display: block;
+    }
+}
+
+@media (max-width: 884px){
+   
+}
+
+@media (max-width: 767px) {
+
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
 }

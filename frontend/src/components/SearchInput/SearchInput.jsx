@@ -6,7 +6,7 @@ function SearchInput({value, onChange, onKeyDown}) {
   return (
     <div className={cl.search}>
         <img src={search} alt="search" className={cl.searchImg}/>
-        <input className={cl.searchInput} placeholder='Поиск' value={value} onChange={onChange} onKeyDown={onKeyDown}/>
+        <input type='search' className={cl.searchInput} placeholder='Поиск' value={value} onChange={onChange} onKeyDown={onKeyDown}/>
     </div>
   )
 }
