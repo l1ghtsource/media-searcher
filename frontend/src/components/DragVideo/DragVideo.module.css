@@ -41,9 +41,10 @@
     font-weight: bold;
 }
 
-.uploadedVideo{
-    width: 334px;
-    height: 543px;
+.video {
+    border-radius: 18px;
+    height: 601px;
+    width: inherit;
 }
 
 /**** ADAPTIVE *****/
@@ -59,22 +60,7 @@
 
 /*****************TABLET******************/
 @media (max-width: 992px) {
-    .dropArea{
-        width: 780px;
-        height: 1000px;
-    }
-
-    .dragVideo__text > img{
-        height: 150px;
-    }
-
-    .text{
-        font-size: 50px;
-    }
-
-    .format{
-        font-size: 40px;
-    }
+    
 }
 
 @media (max-width: 884px){

@@ -99,12 +99,12 @@ function MainPage({ filters, videos, languages }) {
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
-            }, 300); 
+            }, 150); 
           } else if (e.deltaY > 0) {
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
-            }, 300); 
+            }, 150); 
           }
         } else if (e.touches !== undefined) { // Обработка скролла на мобильных устройствах
           const deltaY = e.touches[0].clientY - startY;
@@ -112,12 +112,12 @@ function MainPage({ filters, videos, languages }) {
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
-            }, 300); 
+            }, 150); 
           } else if (deltaY < -50) { // задаем минимальное смещение, чтобы считать это скроллом вниз
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
-            }, 300); 
+            }, 150); 
           }
         }
       }

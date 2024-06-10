@@ -1,6 +1,7 @@
 .videoContainer {
     position: relative;
     touch-action: manipulation;
+    width: 334px;
 }
 
 .wrapper {
@@ -63,18 +64,18 @@
 }
 
 .video__btn{
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 17px;
   position: absolute;
   left: 26px;
-  bottom: 125px;
+  bottom: 94px;
   z-index: 100;
 }
 
 .video__btn > img{
-  height: 60px;
-  width: 60px;
+  height: 37px;
+  width: 37px;
   filter: brightness(0) saturate(100%) invert(54%) sepia(98%) saturate(688%) hue-rotate(123deg) brightness(89%) contrast(102%);
 }
 
@@ -93,6 +94,7 @@
 @media (max-width: 992px) {
     .videoContainer{
       width: 100%;
+      height: 100vh;
     }
 
     .video{
@@ -100,18 +102,18 @@
       object-fit: cover;
       border-radius: 0px;
     }
-
-    .progressBar{
-      height: 10px;
-    }
-
+    
     .volume > img, .play > img{
-      height: 60px;
-      width: 60px;
+      height: 33px;
+      width: 33px;
     }
 
     .addVideo{
       display: block;
+    }
+
+    .video__btn{
+      display: flex;
     }
 }
 

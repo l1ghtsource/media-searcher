@@ -91,6 +91,14 @@ function Header({setVideos}) {
             <AddVideoBtn/>
             <ProfileBtn/>
         </div>
+        {
+          typoText && (
+            <div className={cl.typo__mobile}>
+              <div className={cl.typoMobile__text}>Показаны результаты по запросу <span>{typoText}</span></div>
+              <div className={cl.typoMobile__btn}>Отмена</div>
+            </div>
+          )
+        }
     </div>
   )
 }

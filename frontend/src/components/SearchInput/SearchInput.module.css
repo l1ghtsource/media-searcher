@@ -5,7 +5,7 @@
     background-color: #24292B;
     border-radius: 14px;
     padding: 9px 17px;
-    height: 43px;
+    max-height: 43px;
     width: 565px;
 }
 
@@ -54,7 +54,6 @@
 @media (max-width: 992px) {
     .search{
         width: 785px;
-        height: 60px;
         background-color: rgba(255, 255, 255, 0.5);
     }
 
@@ -64,17 +63,10 @@
 
     .searchInput{
         color: #000;
-        font-size: 26px;
-    }
-
-    .searchInput::-webkit-search-cancel-button{
-        height: 30px;
-        width: 30px;
     }
 
     .searchInput::placeholder{
         color: #434343;
-        font-size: 26px;
     }
 }
 

@@ -4,19 +4,20 @@
     padding: 80px;
     padding-bottom: 113px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainPage__videos{
     display: flex;
     flex-direction: column;
     gap: 67.5px 34px;
-    margin: 0 auto;
 }
 
 .video{
     display: flex;
     gap: 36px;
+    max-width: 1000px;
 }
 
 .video__info{

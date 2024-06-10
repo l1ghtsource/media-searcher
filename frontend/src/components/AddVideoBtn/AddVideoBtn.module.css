@@ -28,8 +28,8 @@
 /*****************TABLET******************/
 @media (max-width: 992px) {
     .addVideoBtn{
-        height: 65px;
-        width: 65px;
+        height: 48px;
+        width: 48px;
         border-radius: 16px;
         background-color: rgba(0, 0, 0, 0.6);
         border: 3px solid #00c39f;

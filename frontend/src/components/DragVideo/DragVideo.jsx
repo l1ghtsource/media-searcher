@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import cl from "./DragVideo.module.css"
 import upload from "../../assets/svgIcons/upload.svg"
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
-import VideoComponent from '../VideoComponent/VideoComponent';
 
 function DragVideo() {
   const [drag, setDrag] = useState(false);
@@ -77,7 +76,11 @@ function DragVideo() {
         videoSrc 
         ? 
           <div className={cl.uploadedVideo}>
-            <VideoComponent url={videoSrc}/>
+            <video className={cl.video} loop preload='metadata' src={videoSrc} playsInline controls>
+              Простите, но ваш браузер не поддерживает встроенные видео.
+              Попробуйте скачать видео <a href={videoSrc}>по этой ссылке</a>
+              и открыть его на своём устройстве.
+            </video>
           </div>
         :
           <div 

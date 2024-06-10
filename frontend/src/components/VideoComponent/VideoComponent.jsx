@@ -63,7 +63,9 @@ function VideoComponent({ url, id, onPlay}) {
       video.pause();
     } else {
       video.play();
-      onPlay();
+      if (onPlay){
+        onPlay();
+      }
     }
     setIsPlaying(!isPlaying);
   };

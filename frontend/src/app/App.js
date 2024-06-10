@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../modules/Header/Header';
 import MainPage from '../pages/MainPage/MainPage';
 import './styles/main.css'
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NewVideoPage from '../pages/NewVideoPage/NewVideoPage';
 
 function App() {
+
+  const location = useLocation();
 
   const [filters] = useState([
     {title: "Подборки", options: ["аниме", "баскетбол", "творчество", "мир видеоигр", "roblox", "мода"]},
@@ -18,6 +20,14 @@ function App() {
   ])
 
   const [videos, setVideos] = useState();
+
+  useEffect(() => {
+    if (location.pathname === "/addVideo") {
+      document.body.classList.add('scrollable');
+    } else {
+      document.body.classList.remove('scrollable');
+    }
+  }, [location]);
 
   return (
     <div className="App">

@@ -63,6 +63,10 @@ body{
 	overflow: hidden;
 }
 
+body.scrollable{
+	overflow: auto;
+}
+
 textarea{
 	font-family: "Inter";
 }
