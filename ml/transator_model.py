@@ -17,8 +17,8 @@ class MarianTranslator:
         Initializes the Translator with the MBart model and tokenizer, source language is Russian.
         '''
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.model = MarianMTModel.from_pretrained(r'data\fine-tuned-opus-mt-ru-en').to(self.device)
-        self.tokenizer = MarianTokenizer.from_pretrained(r'data\fine-tuned-opus-mt-ru-en')
+        self.model = MarianMTModel.from_pretrained('lightsource/yappy-fine-tuned-opus-mt-ru-en').to(self.device)
+        self.tokenizer = MarianTokenizer.from_pretrained('lightsource/yappy-fine-tuned-opus-mt-ru-en')
 
     def translate(self, text):
         '''

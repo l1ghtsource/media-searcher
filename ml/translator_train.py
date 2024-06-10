@@ -3,6 +3,8 @@ import pickle
 from transformers import MarianMTModel, MarianTokenizer, Trainer, TrainingArguments
 from datasets import Dataset
 
+# u can find trained model at https://huggingface.co/lightsource/yappy-fine-tuned-opus-mt-ru-en
+
 path = r'data\translations.txt'
 
 data = {'translation': []}
