@@ -1,5 +1,11 @@
 
 .filters{
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.filter{
     background-color: #24292b;
     padding: 20px 24px;
     border-radius: 14px;
@@ -9,19 +15,19 @@
     gap: 10px;
 }
 
-.filters__title{
+.filter__title{
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.filters__options{
+.filter__options{
     display: flex;
     flex-wrap: wrap;
     gap: 16px 10px;
 }
 
-.filters__btn{
+.expand{
     background-color: #1b5950;
     color: #fff;
     border-radius: 14px;
@@ -30,4 +36,16 @@
     justify-content: center;
     font-size: 15px;
     height: 26px;
+}
+
+.fold{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 30px;
+}
+
+.fold__text{
+    color: #939393;
+    font-size: 15px;
 }

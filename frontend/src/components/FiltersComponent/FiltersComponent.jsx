@@ -1,32 +1,12 @@
 import React, { useState } from 'react'
 import cl from "./FiltersComponent.module.css"
 import FilterBtn from '../../UI/FilterBtn/FilterBtn'
+import fold from '../../assets/svgIcons/fold.svg'
 
 function FiltersComponent({filters}) {
-    const [visibleFilters, setVisibleFilters] = useState(1);
     const [expanded, setExpanded] = useState({ 0: true });
     const [selectedOptions, setSelectedOptions] = useState({});
-
-    //Функция для показа всех фильтров
-    const showAllFilters = () => {
-        setVisibleFilters(filters.length);
-        setExpanded(prevState => {
-            const newState = { ...prevState };
-            filters.forEach((_, index) => {
-                if(index !== 0){
-                    newState[index] = false; // Раскрываем все фильтры
-                }
-            });
-            return newState;
-        });
-    }
-
-    //Функция для раскрытия всех фильтров
-    const hideAllFilters = () => {
-        setVisibleFilters(1);
-        setExpanded({ 0: true });
-        console.log(selectedOptions);
-    }
+    const [expandedStart] = useState(4);
 
     //Функция для раскрытия опций в фильтре
     const toggleOptions = (index) => {
@@ -53,54 +33,39 @@ function FiltersComponent({filters}) {
     };
 
   return (
-    <div>
-        <div className={cl.filters}>
-            {
-                //* Показать все фильтры
-                filters && filters.slice(0, visibleFilters).map((filter, index) => (
-                    <div key={index}>
-                        <div className={cl.filters__title} onClick={() => toggleOptions(index)}>{filter.title}</div>
-                        <div className={cl.filters__options}>
-                        {   
-                            filter.options.slice(0, expanded[index] ? filter.options.length : 0).map((option, index) => (
-                                <FilterBtn 
-                                    key={index}
-                                    onClick={() => toggleOption(filter.title, option)}
-                                    isActive={selectedOptions[filter.title] && selectedOptions[filter.title].has(option)}
-                                >{option}</FilterBtn>
-                            ))
-                        }
-                        </div>
-                        {/* {
-                            index === 0 && visibleFilters !== filters.length && (
-                                <div className={cl.filters__btn} onClick={() => toggleOptions(index)}>
-                                    {expanded[index] ? 'Скрыть' : 'Больше'}
-                                </div>
-                            )
-                        } */}
-                                        
+    <div className={cl.filters}>
+        {
+            //* Показать все фильтры
+            filters && filters.map((filter, index) => (
+                <div key={index} className={cl.filter}>
+                    <div className={cl.filter__title}>{filter.title}</div>
+                    <div className={cl.filter__options}>
+                    {   
+                        filter.options.slice(0, expanded[index] ? filter.options.length : expandedStart).map((option, index) => (
+                            <FilterBtn 
+                                key={index}
+                                onClick={() => toggleOption(filter.title, option)}
+                                isActive={selectedOptions[filter.title] && selectedOptions[filter.title].has(option)}
+                            >{option}</FilterBtn>
+                        ))
+                    }
                     </div>
-                ))
-            }
-
-            {/* //* Условия для показа кнопки фильтров */}
-            {
-            filters.length > 1 && (
-            visibleFilters < filters.length 
-            ?
-                <div className={cl.filters__btn} onClick={showAllFilters}>
-                Показать все фильтры
+                    {
+                        expanded[index] === false && filter.options.length > expandedStart
+                        ?
+                            <div className={cl.expand} onClick={() => toggleOptions(index)}>Больше</div>
+                        :   
+                            
+                            filter.options.length > expandedStart && (
+                                <div className={cl.fold} onClick={() => toggleOptions(index)}>
+                                    <img src={fold} alt="fold" />
+                                    <div className={cl.fold__text}>Свернуть</div>
+                                </div>
+                            )   
+                    }                                
                 </div>
-            :
-                <div className={cl.filters__btn} onClick={hideAllFilters}>
-                Скрыть все фильтры
-                </div>
-            )
+            ))
         }
-        </div>
-        {/* <div className={cl.filters__submit_btn}>
-            Отправить выбранные фильтры
-        </div> */}
     </div>
   )
 }

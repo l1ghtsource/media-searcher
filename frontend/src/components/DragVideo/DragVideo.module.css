@@ -45,3 +45,48 @@
     width: 334px;
     height: 543px;
 }
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .dropArea{
+        width: 780px;
+        height: 1000px;
+    }
+
+    .dragVideo__text > img{
+        height: 150px;
+    }
+
+    .text{
+        font-size: 50px;
+    }
+
+    .format{
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 884px){
+
+}
+
+@media (max-width: 767px) {
+    
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+    
+}
