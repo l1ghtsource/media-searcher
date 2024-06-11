@@ -9,12 +9,12 @@ from ml.translator_model import MarianTranslator
 
 class OCRModel:
     def __init__(self):
-        if torch.cuda.is_available():
-            mp.set_start_method('spawn', force=True)
-
         self.flag = torch.cuda.is_available()
         self.reader = easyocr.Reader(['en', 'ru'], gpu=self.flag)
         self.translator = MarianTranslator()
+
+        if self.flag:
+            mp.set_start_method('spawn', force=True)
 
     def process_frame(self, frame):
         frame_resized = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
