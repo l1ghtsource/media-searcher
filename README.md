@@ -34,20 +34,12 @@ API: [itutitam.ru/api/](https://www.google.com/)
 ![scheme_asr](whisper_scheme.png)
 
 ### Подробнее о каждом из пунктов:
-1) Исходный код: [clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clip_model.py)
-   - время генерации эмбеддинга видео (20s) на GPU: 4.3s
-   - время генерации эмбеддинга видео (20s) на CPU: 7.5s
-2) Исходный код: [whisper_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/whisper_model.py)
-   - время транскрибации + генерации эмбеддинга видео (25s) на GPU: 2.68s (здесь используем whisper-medium)
-   - время транскрибации + генерации эмбеддинга видео (25s) на CPU: 6s (если нет доступа к GPU, используем whisper-base)
-3) Исходный код: [ocr_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ocr_model.py)
-   - время получения текста + генерации эмбеддинга видео (25s) на GPU: 2.23s
-   - время получения текста + генерации эмбеддинга видео (25s) на CPU: 21s
-
-__Мета-модель__: [meta_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/meta_model.py) 
-   - объединяет в себя 3 прошлых пункта
-   - время обработки видео (25s) на GPU: 8s
-   - время обработки видео (25s) на CPU: 32s
+| Модель          | Время GPU (сек) | Время CPU (сек) |
+|-----------------|-----------------|-----------------|
+| [clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clip_model.py)   | 4.3             | 7.5             |
+| [whisper_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/whisper_model.py)| 2.68 (medium)   | 6 (base)        |
+| [ocr_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ocr_model.py)    | 2.23            | 21              |
+| [meta_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/meta_model.py) (объединяет в себя все прошлые пункты)   | 8               | 32              |
 
 ### Обработка поискового запроса:
 1) __CLIP Embedding__ - строим с помощью *clip4clip-webvid150k* векторное представление поискового запроса для мэтчинга с CLIP-эмбеддингами видео
