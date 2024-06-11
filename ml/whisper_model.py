@@ -7,7 +7,7 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
 
 class WhisperModel:
-    def __init__(self, model_id='openai/whisper-medium'):
+    def __init__(self):
         '''
         Initializes the WhisperModel class.
 
@@ -19,14 +19,15 @@ class WhisperModel:
         '''
         flag = torch.cuda.is_available()
 
+        self.model_id = 'openai/whisper-medium' if flag else 'openai/whisper-base'
         self.dtype = torch.float16 if flag else torch.float32
-        self.device = "cuda" if flag else "cpu"
+        self.device = 'cuda' if flag else 'cpu'
 
         model = AutoModelForSpeechSeq2Seq.from_pretrained(
-            model_id, torch_dtype=self.dtype, low_cpu_mem_usage=True, use_safetensors=True
+            self.model_id, torch_dtype=self.dtype, low_cpu_mem_usage=True, use_safetensors=True
         ).to(self.device)
 
-        processor = AutoProcessor.from_pretrained(model_id)
+        processor = AutoProcessor.from_pretrained(self.model_id)
 
         self.model = model
         self.processor = processor
