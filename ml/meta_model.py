@@ -33,8 +33,6 @@ class MetaModel:
         return clip_emb
 
     def get_embeddings(self, video):
-        # this part is no longer needed after I did the ThreadPoolExecutor in OCRModel
-        # it turned out that if you parallelize only EasyOCR across frames, you will get the best speed (then you parallelize OCR, ASR and CLIP in general)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_method = {
                 executor.submit(self.get_ocr_embeddings, video): 'ocr',
