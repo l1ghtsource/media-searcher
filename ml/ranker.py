@@ -1,11 +1,11 @@
 import faiss
 import numpy as np
 import pandas as pd
-from deep_translator import GoogleTranslator
 from sentence_transformers import util
 
 from ml.text2clip_model import Text2CLIPModel
 from ml.text2minilm_model import Text2MiniLM
+from ml.translator_model import MarianTranslator
 
 
 class SimilarityRanker:
@@ -33,7 +33,7 @@ class SimilarityRanker:
         '''
         self.cliptext = Text2CLIPModel()
         self.textembedder = Text2MiniLM()
-        self.translator = GoogleTranslator(source='auto', target='en')
+        self.translator = MarianTranslator()
         self.db = db
         self.df = df
         self.index_clip = self.create_faiss_index(np.vstack(self.db['clip_emb'].values).astype('float32'))
