@@ -51,24 +51,15 @@ API: [itutitam.ru/api/](https://www.google.com/)
 2) __Text Embedding__ - строим с помощью *all-MiniLM-L6-v2* векторное представление поискового запроса для мэтчинга с эмбеддингами видео (векторными представлениями текстов, полученных с OCR и ASR)
 3) __Ranking__ - на основании полученных эмбеддингов переведенного поискового запроса и эмбеддингов видео, содержащихся в БД *Clickhouse*, проводим быстрый поиск top-k похожих видео с помощью *faiss*, также здесь автоматически рассчитываются веса OCR, ASR и CLIP, на основании количества слов, распознанных *Whisper* и *EasyOCR*
 
-### Подробнее о каждом из пунктов:
-1) Исходный код: 
-   - время генерации эмбеддинга текста на GPU: ~17ms
-   - время генерации эмбеддинга текста на CPU: ~50ms
-2) Исходный код: 
-   - время генерации эмбеддинга текста на GPU: ~8ms
-   - время генерации эмбеддинга текста на CPU: ~22ms
-3) Исходный код: 
-   - время поиска топ-20 видео на GPU: 211ms (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)
-   - время поиска топ-20 видео на CPU: 323ms (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)
+### Замеры времени:
 
 <div align="center">
    
 | Модель          | Время GPU (ms) | Время CPU (ms) |
 |-----------------|-----------------|-----------------|
-| [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py)   | 17           | 50             |
-| [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py)| 8   | 22        |
-| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)| 211               | 323              |
+| [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py) (построение эмбеддинга)| 17           | 50             |
+| [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py) (построение эмбеддинга)| 8   | 22        |
+| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py) (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
 
 </div>
 
