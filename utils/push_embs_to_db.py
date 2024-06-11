@@ -75,6 +75,6 @@ def iteration(fp, count, max_id=-1):
     client.insert(TABLENAME, data, column_names=['id', 'clip_emb', 'ocr_emb', 'whisper_emb', 'whisper_len', 'ocr_len'])
 
 
-# start_id = <your start id>
+# start_id = <your start id> (! must be a multiple of 10)
 # for i in range(<num of iterations>):
 #     iteration(r'data\yappy_hackaton_2024_400k.csv', 10, start_id + (i * 10))
