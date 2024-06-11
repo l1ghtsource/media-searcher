@@ -7,7 +7,7 @@ Team Members:
 2) **Дмитрий Коноплянников** - Frontend
 3) **Анна Гулякина** - Design
 4) **Кирилл Рыжичкин** - ML Engineer
-5) **Артём Плужиников** - ML Engineer
+5) **Артём Плужников** - ML Engineer
 
 Презентация: [link](https://www.google.com/)
 
