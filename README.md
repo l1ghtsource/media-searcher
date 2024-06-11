@@ -59,7 +59,7 @@ API: [itutitam.ru/api/](https://www.google.com/)
 |-----------------|-----------------|-----------------|
 | [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py) (построение эмбеддинга)| 17           | 50             |
 | [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py) (построение эмбеддинга)| 8   | 22        |
-| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py) (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
+| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)<br>(включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
 
 </div>
 
