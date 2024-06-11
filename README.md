@@ -35,14 +35,16 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 ### Подробнее о каждом из пунктов:
 
-<center>
+<div align="center">
+   
 | Модель          | Время GPU (сек) | Время CPU (сек) |
 |-----------------|-----------------|-----------------|
 | [clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clip_model.py)   | 4.3             | 7.5             |
 | [whisper_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/whisper_model.py)| 2.68 (medium)   | 6 (base)        |
 | [ocr_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ocr_model.py)    | 2.23            | 21              |
 | [meta_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/meta_model.py) (объединяет в себя все прошлые пункты)   | 8               | 32              |
-</center>
+
+</div>
 
 ### Обработка поискового запроса:
 1) __CLIP Embedding__ - строим с помощью *clip4clip-webvid150k* векторное представление поискового запроса для мэтчинга с CLIP-эмбеддингами видео
