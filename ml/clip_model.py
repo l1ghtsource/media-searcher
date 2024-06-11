@@ -48,7 +48,6 @@ class CLIPmodel:
                 Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
             ])(n_px)
 
-        cap = cv2.VideoCapture(video_path)
         cap = cv2.VideoCapture(video_path, cv2.CAP_FFMPEG)
         frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
