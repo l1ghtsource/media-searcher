@@ -1,9 +1,7 @@
 import easyocr
 import cv2
 import torch
-from deep_translator import GoogleTranslator
-
-# TODO: change translator to non-API
+from ml.translator_model import MarianTranslator
 
 
 class OCRModel:
@@ -16,7 +14,7 @@ class OCRModel:
         '''
         self.flag = True if torch.cuda.is_available() else False
         self.reader = easyocr.Reader(['en', 'ru'], gpu=self.flag)
-        self.translator = GoogleTranslator(source='auto', target='en')
+        self.translator = MarianTranslator()
 
     def get_text_from_video(self, video_path):
         '''
