@@ -33,11 +33,11 @@ API: [itutitam.ru/api/](https://www.google.com/)
 5) __VAD + ASR + Text Embedding__ - используем *silero-vad* для нахождения фрагментов аудиодорожки видео с голосом, транскрибируем с помощью *whisper-medium*, далее строим эмбеддинг текста с помощью *all-MiniLM-L6-v2*, это позволяет работать с видео, в которых основная информация содержится в их аудиосоставляющей
 ![scheme_asr](whisper_scheme.png)
 
-### Подробнее о каждом из пунктов:
+### Замеры скорости на видео длительностью 25 секунд:
 
 <div align="center">
    
-| Модель          | Время GPU (сек) | Время CPU (сек) |
+| Модель          | Время GPU (s) | Время CPU (s) |
 |-----------------|-----------------|-----------------|
 | [clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clip_model.py)   | 4.3             | 7.5             |
 | [whisper_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/whisper_model.py)| 2.68 (medium)   | 6 (base)        |
@@ -49,18 +49,28 @@ API: [itutitam.ru/api/](https://www.google.com/)
 ### Обработка поискового запроса:
 1) __CLIP Embedding__ - строим с помощью *clip4clip-webvid150k* векторное представление поискового запроса для мэтчинга с CLIP-эмбеддингами видео
 2) __Text Embedding__ - строим с помощью *all-MiniLM-L6-v2* векторное представление поискового запроса для мэтчинга с эмбеддингами видео (векторными представлениями текстов, полученных с OCR и ASR)
-3) __Ranking__ - на основании полученных эмбеддингов поискового запроса и эмбеддингов видео, содержащихся в БД *Clickhouse*, проводим быстрый поиск top-k похожих видео с помощью *faiss*, также здесь автоматически рассчитываются веса OCR, ASR и CLIP, на основании количества слов, распознанных *Whisper* и *EasyOCR*
+3) __Ranking__ - на основании полученных эмбеддингов переведенного поискового запроса и эмбеддингов видео, содержащихся в БД *Clickhouse*, проводим быстрый поиск top-k похожих видео с помощью *faiss*, также здесь автоматически рассчитываются веса OCR, ASR и CLIP, на основании количества слов, распознанных *Whisper* и *EasyOCR*
 
 ### Подробнее о каждом из пунктов:
-1) Исходный код: [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py)
+1) Исходный код: 
    - время генерации эмбеддинга текста на GPU: ~17ms
    - время генерации эмбеддинга текста на CPU: ~50ms
-2) Исходный код: [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py)
+2) Исходный код: 
    - время генерации эмбеддинга текста на GPU: ~8ms
    - время генерации эмбеддинга текста на CPU: ~22ms
-3) Исходный код: [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)
+3) Исходный код: 
    - время поиска топ-20 видео на GPU: 211ms (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)
    - время поиска топ-20 видео на CPU: 323ms (включая перевод, построение эмбеддингов и сам поиск top-k при k=20)
+
+<div align="center">
+   
+| Модель          | Время GPU (ms) | Время CPU (ms) |
+|-----------------|-----------------|-----------------|
+| [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py)   | 17           | 50             |
+| [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py)| 8   | 22        |
+| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)| 211               | 323              |
+
+</div>
 
 ## Кластеризация или поиск видео по тематикам
 
