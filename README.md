@@ -85,7 +85,7 @@ __Мета-модель__: [meta_model.py](https://github.com/l1ghtsource/lct-ha
 
 | Ноутбук                                           | Описание                                     |
 |---------------------------------------------------|----------------------------------------------|
-| [Ноутбук с классами и замерами времени](https://www.kaggle.com/code/l1ghtsource/yappy-hackathon/) | Включает основные классы и замеры времени на GPU и CPU. |
+| [Ноутбук с OCR, ASR, CLIP, Ranker, кластеризацией и замерами времени](https://www.kaggle.com/code/l1ghtsource/yappy-hackathon/) | Включает основные классы и замеры времени на GPU и CPU. |
 | [Ноутбук с файн-тюнингом переводчика](https://www.kaggle.com/code/l1ghtsource/transaltor-finetune/) | Предназначен для проведения файн-тюнинга переводчика на собственном датасете. |
 | [Ноутбук с кластеризацией видео по лицам](https://www.kaggle.com/code/l1ghtsource/yappy-faces/) | Содержит код для кластеризации видео по лицам. |
 
