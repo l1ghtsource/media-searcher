@@ -15,17 +15,6 @@ meta = MetaModel()
 
 
 def load_from_csv(path, start, count):
-    '''
-    Loads video data from a CSV file.
-
-    Args:
-        path (str): The path to the CSV file.
-        start (int): The starting index for loading data.
-        count (int): The number of records to load.
-
-    Returns:
-        list: A list of lists, each containing the video ID, URL, and text description.
-    '''
     with open(path, encoding='utf-8') as f:
         text = f.read().split('\nhttps://cdn-st.rutubelist.ru')
     try:
@@ -37,26 +26,11 @@ def load_from_csv(path, start, count):
 
 
 def download_to(url, path):
-    '''
-    Downloads a file from a URL to a specified path.
-
-    Args:
-        url (str): The URL to download the file from.
-        path (str): The path to save the downloaded file.
-    '''
     with urlopen(url) as in_stream, open(str(path), 'wb') as out_file:
         copyfileobj(in_stream, out_file)
 
 
 def iteration(fp, count, max_id=-1):
-    '''
-    Processes a batch of video files, extracts embeddings, and inserts them into a ClickHouse database.
-
-    Args:
-        fp (str): The file path to the CSV file containing video metadata.
-        count (int): The number of video records to process.
-        max_id (int, optional): The maximum ID to start processing from. Defaults to -1.
-    '''
     if max_id == -1:
         max_id = client.query(f'SELECT max(id) FROM {TABLENAME}').result_columns
         print('maxid', max_id)
