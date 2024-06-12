@@ -8,38 +8,12 @@ from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normal
 
 class CLIPmodel:
     def __init__(self):
-        '''
-        Initializes the CLIPmodel class.
-
-        This method sets up the device (GPU if available, otherwise CPU), loads the pretrained CLIP model and processor.
-        '''
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.model = CLIPVisionModelWithProjection.from_pretrained('Searchium-ai/clip4clip-webvid150k').to(self.device)
         self.processor = AutoProcessor.from_pretrained('Searchium-ai/clip4clip-webvid150k')
 
     def video2image(self, video_path, frame_rate=1.0, size=224):
-        '''
-        Extracts frames from a video and preprocesses them for the CLIP model.
-
-        Args:
-            video_path (str): Path to the video file.
-            frame_rate (float): The rate at which frames are extracted from the video.
-            size (int): The size to which frames are resized.
-
-        Returns:
-            torch.Tensor: A tensor containing the preprocessed frames from the video.
-        '''
         def preprocess(size, n_px):
-            '''
-            Preprocesses an image for the CLIP model.
-
-            Args:
-                size (int): The size to which the image is resized.
-                n_px (Image): The image to preprocess.
-
-            Returns:
-                Tensor: The preprocessed image.
-            '''
             return Compose([
                 Resize(size, interpolation=InterpolationMode.BICUBIC),
                 CenterCrop(size),
@@ -48,7 +22,6 @@ class CLIPmodel:
                 Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
             ])(n_px)
 
-        cap = cv2.VideoCapture(video_path)
         cap = cv2.VideoCapture(video_path, cv2.CAP_FFMPEG)
         frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -71,7 +44,7 @@ class CLIPmodel:
                     break
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 last_frame = i
-                images[i, :, :, :] = preprocess(size, Image.fromarray(frame).convert("RGB"))
+                images[i, :, :, :] = preprocess(size, Image.fromarray(frame).convert('RGB'))
 
             images = images[:last_frame + 1]
         cap.release()
@@ -80,15 +53,6 @@ class CLIPmodel:
         return video_frames
 
     def get_video_embeddings(self, path):
-        '''
-        Computes the video embeddings using the CLIP model.
-
-        Args:
-            path (str): Path to the video file.
-
-        Returns:
-            torch.Tensor: A tensor containing the normalized video embeddings.
-        '''
         self.model = self.model.eval()
 
         video = self.video2image(path).to(self.device)

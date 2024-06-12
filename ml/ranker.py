@@ -1,39 +1,18 @@
 import faiss
 import numpy as np
 import pandas as pd
-from deep_translator import GoogleTranslator
 from sentence_transformers import util
 
 from ml.text2clip_model import Text2CLIPModel
 from ml.text2minilm_model import Text2MiniLM
+from ml.translator_model import MarianTranslator
 
 
 class SimilarityRanker:
-    '''
-    A class to rank the similarity of videos based on text input using various embeddings and similarity scores.
-
-    Attributes:
-        db (pd.DataFrame): DataFrame containing video embeddings and other metadata.
-        df (pd.DataFrame): DataFrame containing video links and additional information.
-        cliptext (Text2CLIPModel): Model for generating CLIP text embeddings.
-        textembedder (Text2MiniLM): Model for generating MiniLM text embeddings.
-        translator (GoogleTranslator): Translator for translating text to English.
-        index_clip (faiss.IndexFlatL2): FAISS index for CLIP embeddings.
-        index_ocr (faiss.IndexFlatL2): FAISS index for OCR embeddings.
-        index_whisper (faiss.IndexFlatL2): FAISS index for Whisper embeddings.
-    '''
-
     def __init__(self, db, df):
-        '''
-        Initializes the SimilarityRanker with embeddings, translators, and FAISS indices.
-
-        Args:
-            db (pd.DataFrame): DataFrame containing video embeddings and other metadata.
-            df (pd.DataFrame): DataFrame containing video links and additional information.
-        '''
         self.cliptext = Text2CLIPModel()
         self.textembedder = Text2MiniLM()
-        self.translator = GoogleTranslator(source='auto', target='en')
+        self.translator = MarianTranslator()
         self.db = db
         self.df = df
         self.index_clip = self.create_faiss_index(np.vstack(self.db['clip_emb'].values).astype('float32'))
@@ -41,31 +20,12 @@ class SimilarityRanker:
         self.index_whisper = self.create_faiss_index(np.vstack(self.db['whisper_emb'].values).astype('float32'))
 
     def create_faiss_index(self, embeddings):
-        '''
-        Creates a FAISS index for the given embeddings.
-
-        Args:
-            embeddings (np.ndarray): Array of embeddings to be indexed.
-
-        Returns:
-            faiss.IndexFlatL2: A FAISS index of the embeddings.
-        '''
         dim = embeddings.shape[1]
         index = faiss.IndexFlatL2(dim)
         index.add(embeddings)
         return index
 
     def get_weights(self, word_whisper_count, word_ocr_count):
-        '''
-        Computes weights for the different embedding types.
-
-        Args:
-            word_whisper_count (int): Count of words from the Whisper model.
-            word_ocr_count (int): Count of words from the OCR model.
-
-        Returns:
-            tuple: Weights for clip, ocr, and whisper embeddings.
-        '''
         max_count = 77
 
         w_1 = (word_ocr_count / (max_count + word_ocr_count))
@@ -80,17 +40,7 @@ class SimilarityRanker:
 
         return clip_weight, ocr_weight, whisper_weight
 
-    def find_top_k(self, text, k=10):
-        '''
-        Finds the top k videos that are most similar to the given text.
-
-        Args:
-            text (str): The input text to find similar videos for.
-            k (int): The number of top similar videos to return.
-
-        Returns:
-            dict: A dictionary with similarity scores as keys and video links as values.
-        '''
+    def find_top_k(self, text, k=5):
         text = self.translator.translate(text)
 
         text_emb = self.textembedder.get_lm_embedding(text).cpu().flatten().detach().numpy()
