@@ -20,7 +20,7 @@ function App() {
   const [faces] = useState([
     {title: "Лица", options: ["Райан Гослинг", "Марго Робби", "Влад А4", "Дима Масленников", "UtopiaShow", "Дубровский"]},
   ])
-  
+
 
   const [videos, setVideos] = useState();
 
@@ -43,8 +43,8 @@ function App() {
       }
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
-        <Route path="/" element={<MainPage filters={filters} videos={videos} faces={faces}/>}/>
-        <Route path="/addVideo" element={<NewVideoPage/>}/>
+        <Route path="/addVideo" element={<MainPage filters={filters} videos={videos} faces={faces}/>}/>
+        <Route path="/" element={<NewVideoPage/>}/>
       </Routes>
     </div>
   );
