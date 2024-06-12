@@ -3,7 +3,7 @@ import cl from "./DragVideo.module.css"
 import upload from "../../assets/svgIcons/upload.svg"
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
 
-function DragVideo() {
+function DragVideo({setVideoFile}) {
   const [drag, setDrag] = useState(false);
   const [error, setError] = useState(' ');
   const [videoSrc, setVideoSrc] = useState(null);
@@ -47,6 +47,7 @@ function DragVideo() {
           setError('Видео должно быть не более 1 минуты.');
         } else {
           setVideoSrc(URL.createObjectURL(file));
+          setVideoFile(file);
         }
       }
       video.src = URL.createObjectURL(file);

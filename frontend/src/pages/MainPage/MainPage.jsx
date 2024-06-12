@@ -5,7 +5,7 @@ import VideoComponent from '../../components/VideoComponent/VideoComponent';
 import ProfileBtn from '../../components/ProfileBtn/ProfileBtn';
 import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
 
-function MainPage({ filters, videos, languages }) {
+function MainPage({ filters, videos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
   const videoRefs = useRef([]);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -204,7 +204,7 @@ function MainPage({ filters, videos, languages }) {
       </div>
 
       <div className={cl.mainPage__language}>
-        <FiltersComponent filters={languages} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
+        <FiltersComponent filters={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
       </div>
     </div>
   );

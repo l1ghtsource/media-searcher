@@ -3,12 +3,12 @@ import cl from "./FormVideo.module.css"
 import FormInput from '../../components/FormInput/FormInput'
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
 
-function FormVideo() {
+function FormVideo({onClick}) {
   return (
     <div className={cl.formVideo}>
         <FormInput placeholder="Добавить видео по ссылке"/>
         <FormInput placeholder="Описание"/>
-        <UploadBtn size="18px">Загрузить</UploadBtn>
+        <UploadBtn size="18px" onClick={onClick}>Загрузить</UploadBtn>
     </div>
   )
 }
