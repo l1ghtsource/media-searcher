@@ -74,9 +74,9 @@ export default class SendServer{
         'key': '1329',
         'x-amz-algorithm': 'AWS4-HMAC-SHA256',
         'x-amz-credential': '51cc92b6-7a2e-4f81-8d81-ee3fe42a9a93:69c950e74f56bf5498c5d29fa8c62daf/20240612/ru-central-1/s3/aws4_request',
-        'x-amz-date': '20240612T205132Z',
-        'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjQtMDYtMTJUMjE6NTE6MzJaIiwgImNvbmRpdGlvbnMiOiBbWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDIwMDAwMDAwXSwgeyJidWNrZXQiOiAibXktYnVja2V0In0sIHsia2V5IjogIjEzMjkifSwgeyJ4LWFtei1hbGdvcml0aG0iOiAiQVdTNC1ITUFDLVNIQTI1NiJ9LCB7IngtYW16LWNyZWRlbnRpYWwiOiAiNTFjYzkyYjYtN2EyZS00ZjgxLThkODEtZWUzZmU0MmE5YTkzOjY5Yzk1MGU3NGY1NmJmNTQ5OGM1ZDI5ZmE4YzYyZGFmLzIwMjQwNjEyL3J1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjQwNjEyVDIwNTEzMloifV19',
-        'x-amz-signature': '52287022a0f0b29ee8fc6e4018ef1b210e1261054b2bf609eaa278b0f71a6853'
+        'x-amz-date': '20240612T220024Z',
+        'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjQtMDYtMTJUMjM6MDA6MjRaIiwgImNvbmRpdGlvbnMiOiBbWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDIwMDAwMDAwXSwgeyJidWNrZXQiOiAibXktYnVja2V0In0sIHsia2V5IjogIjEzMjkifSwgeyJ4LWFtei1hbGdvcml0aG0iOiAiQVdTNC1ITUFDLVNIQTI1NiJ9LCB7IngtYW16LWNyZWRlbnRpYWwiOiAiNTFjYzkyYjYtN2EyZS00ZjgxLThkODEtZWUzZmU0MmE5YTkzOjY5Yzk1MGU3NGY1NmJmNTQ5OGM1ZDI5ZmE4YzYyZGFmLzIwMjQwNjEyL3J1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjQwNjEyVDIyMDAyNFoifV19',
+        'x-amz-signature': 'bc8db3f4b5f5550f53906650ce1138b34032797322d45e21e1e9b8507ef870d3'
       };
 
       const formData = new FormData();
