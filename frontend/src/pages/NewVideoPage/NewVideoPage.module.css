@@ -37,6 +37,11 @@
 
 /*****************TABLET******************/
 @media (max-width: 992px) {
+
+    .newVideoPage{
+        margin-top: 31px;
+    }
+
     .newVideoPage__form{
         flex-direction: column;
         align-items: center;

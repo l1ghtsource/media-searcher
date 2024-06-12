@@ -3,9 +3,8 @@ import cl from "./FiltersComponent.module.css"
 import FilterBtn from '../../UI/FilterBtn/FilterBtn'
 import fold from '../../assets/svgIcons/fold.svg'
 
-function FiltersComponent({filters}) {
+function FiltersComponent({filters, selectedOptions, toggleOption}) {
     const [expanded, setExpanded] = useState({});
-    const [selectedOptions, setSelectedOptions] = useState({});
     const expandedStart = 4;
 
     //Функция для раскрытия опций в фильтре
@@ -16,24 +15,13 @@ function FiltersComponent({filters}) {
         }));
     }
 
-    //Функция для выбора опций
-    const toggleOption = (filterTitle, option) => {
-        setSelectedOptions(prevState => {
-            const newState = { ...prevState };
-            if (!newState[filterTitle]) {
-                newState[filterTitle] = new Set();
-            }
-            if (newState[filterTitle].has(option)) {
-                newState[filterTitle].delete(option);
-            } else {
-                newState[filterTitle].add(option);
-            }
-            return newState;
-        });
+    // Обработчик события onWheel для предотвращения прокрутки внутри FiltersComponent
+    const handleWheel = (e) => {
+        e.stopPropagation();
     };
 
     return (
-        <div className={cl.filters}>
+        <div className={cl.filters} onWheel={handleWheel}>
             {
                 //* Показать все фильтры
                 filters && filters.map((filter, index) => (

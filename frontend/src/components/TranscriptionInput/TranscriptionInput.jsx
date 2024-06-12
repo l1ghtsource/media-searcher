@@ -37,7 +37,9 @@ function TranscriptionInput({url}) {
                 )
             }
         </div>
-        <UploadBtn onClick={() => startLoading()} size="18px">Transcription</UploadBtn>
+        <div className={cl.transcriptionInput__btn}>
+            <UploadBtn onClick={() => startLoading()} size="18px">Transcription</UploadBtn>
+        </div>
     </div>
   )
 }

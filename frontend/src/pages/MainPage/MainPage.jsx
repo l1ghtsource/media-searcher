@@ -8,6 +8,19 @@ import TranscriptionInput from '../../components/TranscriptionInput/Transcriptio
 function MainPage({ filters, videos, languages }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
   const videoRefs = useRef([]);
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [isFilters, setIsFilters] = useState(false);
+  const [isTranscription, setIsTranscription] = useState(false);
+  
+  const toggleFilters = () => {
+    setIsTranscription(false);
+    setIsFilters(prevState => !prevState);
+  }
+
+  const toggleTranscription = () => {
+    setIsFilters(false);
+    setIsTranscription(prevState => !prevState);
+  }
 
   const handlePlay = (index) => {
     if (playingVideoIndex !== null && playingVideoIndex !== index) {
@@ -19,6 +32,22 @@ function MainPage({ filters, videos, languages }) {
     setPlayingVideoIndex(index);
   };
 
+  //Функция для выбора опций
+  const toggleOption = (filterTitle, option) => {
+    setSelectedOptions(prevState => {
+        const newState = { ...prevState };
+        if (!newState[filterTitle]) {
+            newState[filterTitle] = new Set();
+        }
+        if (newState[filterTitle].has(option)) {
+            newState[filterTitle].delete(option);
+        } else {
+            newState[filterTitle].add(option);
+        }
+        return newState;
+    });
+  };  
+
   useEffect(() => {
     // Отменяем скролл при размонтировании компонента
     return () => {
@@ -29,7 +58,7 @@ function MainPage({ filters, videos, languages }) {
   useEffect(() => {
     let timerId;
     const handleKeyPress = (e) => {
-      if (videos && videos.length > 0){
+      if (!isTranscription && !isFilters && videos && videos.length > 0){
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown'){
           e.preventDefault(); // предотвращаем стандартное действие клавиш
           if (e.key === 'ArrowUp') {
@@ -45,7 +74,7 @@ function MainPage({ filters, videos, languages }) {
     // console.log(playingVideoIndex);
     document.addEventListener('keydown', handleKeyPress);
   
-    if (playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
+    if (!isTranscription && !isFilters && playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
       const element = videoRefs.current[playingVideoIndex];
       const offset = window.innerWidth < 992 ? 0 : 120;; // Здесь можно задать желаемое смещение от верха блока
       const topPosition = element.offsetTop - offset;
@@ -59,7 +88,7 @@ function MainPage({ filters, videos, languages }) {
       document.removeEventListener('keydown', handleKeyPress);
       clearTimeout(timerId);
     };
-  }, [playingVideoIndex, videos]);
+  }, [playingVideoIndex, videos, isFilters, isTranscription]);
 
   useEffect(() => {
     let timerId;
@@ -93,7 +122,7 @@ function MainPage({ filters, videos, languages }) {
     }
 
     const handleScroll = (e) => {
-      if (videos && videos.length > 0) {
+      if (!isTranscription && !isFilters && videos && videos.length > 0) {
         if (e.deltaY !== undefined) { // Обработка скролла на компьютерах
           if (e.deltaY < 0) {
             clearTimeout(timerId);
@@ -137,19 +166,30 @@ function MainPage({ filters, videos, languages }) {
       document.removeEventListener('touchstart', handleTouchStart);
       clearTimeout(timerId);
     };
-  }, [videos, playingVideoIndex]);
+  }, [videos, playingVideoIndex, isFilters, isTranscription]);
 
   return (
     <div className={cl.mainPage}>
       <div className={cl.mainPage__filters}>
-        <FiltersComponent filters={filters} />
-      </div>
+        <FiltersComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
+      </div>   
 
       <div className={cl.mainPage__videos}>
         {videos &&
           videos.map((video, index) => (
             <div ref={(el) => (videoRefs.current[index] = el)} className={cl.video} key={index}>
-              <VideoComponent url={video.url} id={`video-${index}`} onPlay={() => handlePlay(index)} />
+              <VideoComponent 
+              url={video.url} 
+              id={`video-${index}`} 
+              onPlay={() => handlePlay(index)}
+              selectedOptions={selectedOptions}
+              toggleOption={toggleOption}
+              filters={filters}
+              isFilters={isFilters}
+              isTranscription={isTranscription}
+              onToggleFilters={toggleFilters}
+              onToggleTranscription={toggleTranscription}
+              />
               <div className={cl.video__info}>
                 <div className={cl.videoInfo__profile}>
                   <ProfileBtn />
@@ -164,7 +204,7 @@ function MainPage({ filters, videos, languages }) {
       </div>
 
       <div className={cl.mainPage__language}>
-        <FiltersComponent filters={languages} />
+        <FiltersComponent filters={languages} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
       </div>
     </div>
   );

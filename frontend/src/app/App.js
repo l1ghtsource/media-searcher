@@ -4,13 +4,18 @@ import MainPage from '../pages/MainPage/MainPage';
 import './styles/main.css'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NewVideoPage from '../pages/NewVideoPage/NewVideoPage';
+import useWindowWidth from '../hooks/useWindowWidth';
 
 function App() {
 
+  const [isHeader, setIsHeader] = useState(true);
   const location = useLocation();
+  const windowWidth = useWindowWidth();
 
   const [filters] = useState([
     {title: "Подборки", options: ["аниме", "баскетбол", "творчество", "мир видеоигр", "roblox", "мода"]},
+    {title: "Лица", options: ["Райан Гослинг", "Марго Робби", "Влад А4", "Дима Масленников", "UtopiaShow", "Дубровский"]},
+    {title: "Лица", options: ["Райан Гослинг", "Марго Робби", "Влад А4", "Дима Масленников", "UtopiaShow", "Дубровский"]},
     {title: "Лица", options: ["Райан Гослинг", "Марго Робби", "Влад А4", "Дима Масленников", "UtopiaShow", "Дубровский"]},
     // {title: "Язык", options: ["русский", "english"]},
   ])
@@ -23,15 +28,21 @@ function App() {
 
   useEffect(() => {
     if (location.pathname === "/addVideo") {
+      setIsHeader(false);
       document.body.classList.add('scrollable');
     } else {
+      setIsHeader(true);
       document.body.classList.remove('scrollable');
     }
   }, [location]);
 
   return (
     <div className="App">
-      <Header setVideos={setVideos}/>
+      {
+        (isHeader || windowWidth > 992) && (
+          <Header setVideos={setVideos}/>
+        )
+      }
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
         <Route path="/" element={<MainPage filters={filters} videos={videos} languages={languages}/>}/>

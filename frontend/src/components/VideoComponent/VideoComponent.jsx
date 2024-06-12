@@ -7,8 +7,10 @@ import pause from "../../assets/svgIcons/pause.svg";
 import transcription from "../../assets/svgIcons/transcription.svg"
 import filter from "../../assets/svgIcons/filter.svg"
 import AddVideoBtn from '../AddVideoBtn/AddVideoBtn';
+import FiltersMobileComponent from '../FiltersMobileComponent/FiltersMobileComponent';
+import TranscriptionInput from '../TranscriptionInput/TranscriptionInput';
 
-function VideoComponent({ url, id, onPlay}) {
+function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, filters, isFilters, isTranscription, onToggleFilters, onToggleTranscription }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -115,14 +117,32 @@ function VideoComponent({ url, id, onPlay}) {
           <AddVideoBtn/>
       </div>
       <div className={cl.video__btn}>
-          <img src={transcription} alt="transcription" />
-          <img src={filter} alt="filter" />
+          <div className={isTranscription ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
+            <img src={transcription} alt="transcription" onClick={onToggleTranscription}/>
+          </div>
+          <div className={isFilters ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
+            <img src={filter} alt="filter" onClick={onToggleFilters} />
+          </div>
       </div>
       <video id={id} className={cl.video} loop preload='metadata' src={url} ref={videoRef} onClick={togglePlayPause} playsInline>
         Простите, но ваш браузер не поддерживает встроенные видео.
         Попробуйте скачать видео <a href={url}>по этой ссылке</a>
         и открыть его на своём устройстве.
       </video>
+      {
+        isFilters && (
+          <div className={cl.filtersMobile}>
+            <FiltersMobileComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
+          </div>
+        )
+      }
+      {
+        isTranscription && (
+          <div className={cl.transcriptionMobile}>
+            <TranscriptionInput url={url}/>
+          </div>
+        )
+      }
     </div>
   );
 }

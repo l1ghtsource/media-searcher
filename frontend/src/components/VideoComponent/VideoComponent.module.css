@@ -73,10 +73,29 @@
   z-index: 100;
 }
 
-.video__btn > img{
+.videoBtn > img{
   height: 37px;
   width: 37px;
   filter: brightness(0) saturate(100%) invert(54%) sepia(98%) saturate(688%) hue-rotate(123deg) brightness(89%) contrast(102%);
+}
+
+.filtersMobile{
+  position: absolute;
+  top: 12%;
+  left: 2%;
+  z-index: 100;
+}
+
+.transcriptionMobile{
+  position: absolute;
+  top: 11%;
+  left: 2%;
+  z-index: 100;
+}
+
+.active{
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 11px;
 }
 
 /**** ADAPTIVE *****/
