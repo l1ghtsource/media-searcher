@@ -10,7 +10,7 @@ function NewVideoPage() {
 
   function sendVideo(){
     if(videoFile) {
-      Service.postVideo(videoFile);
+      Service.putVideo(videoFile);
       console.log(videoFile);
     } else {
       console.error("No video file to upload!")
@@ -25,7 +25,7 @@ function NewVideoPage() {
       </div>
       <div className={cl.newVideoPage__form}>
         <DragVideo setVideoFile={setVideoFile}/>
-        <FormVideo onClick={sendVideo}/>
+        <FormVideo videoFile={videoFile} onClick={sendVideo}/>
       </div>
     </div>
   )

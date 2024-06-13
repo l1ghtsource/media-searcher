@@ -5,6 +5,11 @@ import './styles/main.css'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NewVideoPage from '../pages/NewVideoPage/NewVideoPage';
 import useWindowWidth from '../hooks/useWindowWidth';
+import egorik from "../assets/svgIcons/egorik.jpg";
+import maslennikov from "../assets/svgIcons/maslennikov.jpg";
+import tinkoff from "../assets/svgIcons/tinkoff.jpg";
+import durov from "../assets/svgIcons/durov.png";
+import a4 from "../assets/svgIcons/a4.jpg";
 
 function App() {
 
@@ -18,7 +23,7 @@ function App() {
   ])
 
   const [faces] = useState([
-    {title: "Лица", options: ["Райан Гослинг", "Марго Робби", "Влад А4", "Дима Масленников", "UtopiaShow", "Дубровский"]},
+    {title: "Лица", options: [egorik, maslennikov, tinkoff, durov, a4]},
   ])
 
 
@@ -43,8 +48,8 @@ function App() {
       }
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
-        <Route path="/addVideo" element={<MainPage filters={filters} videos={videos} faces={faces}/>}/>
-        <Route path="/" element={<NewVideoPage/>}/>
+        <Route path="/" element={<MainPage filters={filters} videos={videos} faces={faces}/>}/>
+        <Route path="/addVideo" element={<NewVideoPage/>}/>
       </Routes>
     </div>
   );

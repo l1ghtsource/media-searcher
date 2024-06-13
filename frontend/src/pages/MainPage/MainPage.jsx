@@ -4,6 +4,7 @@ import FiltersComponent from '../../components/FiltersComponent/FiltersComponent
 import VideoComponent from '../../components/VideoComponent/VideoComponent';
 import ProfileBtn from '../../components/ProfileBtn/ProfileBtn';
 import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
+import FacesComponent from '../../components/FacesComponent/FacesComponent';
 
 function MainPage({ filters, videos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
@@ -184,6 +185,7 @@ function MainPage({ filters, videos, faces }) {
               onPlay={() => handlePlay(index)}
               selectedOptions={selectedOptions}
               toggleOption={toggleOption}
+              faces={faces}
               filters={filters}
               isFilters={isFilters}
               isTranscription={isTranscription}
@@ -203,8 +205,8 @@ function MainPage({ filters, videos, faces }) {
           ))}
       </div>
 
-      <div className={cl.mainPage__language}>
-        <FiltersComponent filters={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
+      <div className={cl.mainPage__faces}>
+        <FacesComponent faces={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
       </div>
     </div>
   );

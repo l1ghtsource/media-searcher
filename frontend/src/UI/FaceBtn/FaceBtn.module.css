@@ -1,0 +1,16 @@
+
+.faceBtn{
+    height: 75px;
+    width: 75px;
+}
+
+.active > img{
+    border: 3px solid #00E2B8;
+}
+
+.faceBtn > img{
+    border-radius: 50%;
+    object-fit: cover;
+    height: inherit;
+    width: inherit;
+}

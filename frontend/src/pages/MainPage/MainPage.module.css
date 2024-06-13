@@ -62,12 +62,12 @@
     gap: 4px 19px;
 }
 
-.mainPage__language, .mainPage__filters{
+.mainPage__faces, .mainPage__filters{
     position: fixed;
     top: 120px;
 }
 
-.mainPage__language{
+.mainPage__faces{
     right: 80px;
 }
 
@@ -83,13 +83,13 @@
         left: 30px;
     }
 
-    .mainPage__language{
+    .mainPage__faces{
         right: 30px;
     }
 }
 
 @media (max-width: 1250px){
-    .mainPage__filters, .mainPage__language{
+    .mainPage__filters, .mainPage__faces{
         display: none;
     }
 }
