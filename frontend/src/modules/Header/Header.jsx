@@ -14,9 +14,11 @@ import AutoComplete from '../../components/AutoComplete/AutoComplete'
 function Header({setVideos}) {
   const [searchText, setSearchText] = useState('');
   const [typoText] = useState('');
-  const [autoCompleteList, setAutoCompleteList] = useState([]);
+  const [autoCompleteList, setAutoCompleteList] = useState(['машина', 'машина xiaomi', 'маша и медведь']);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const autoCompleteRef = useRef();
+  const [isFocus, setIsFocus] = useState(false);
+
   let navigate = useNavigate();
 
   const handleVoiceInput = () => {
@@ -56,7 +58,7 @@ function Header({setVideos}) {
   }, [listening]);
 
   return (
-    <div className={cl.header}>
+    <div className={isFocus ? `${cl.header} ${cl.focus}` : cl.header}>
         <div className={cl.logo}>
           <Link to="/"><img src={logo} alt="Logo" /></Link>
         </div>
@@ -66,9 +68,11 @@ function Header({setVideos}) {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)} 
               onKeyDown={handleSearchInputKeyDown}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
               />
               {
-                autoCompleteList.length > 0 && (
+                autoCompleteList.length > 0 && isFocus && (
                   <div className={cl.autoComplete__container}>
                     <AutoComplete  ref={autoCompleteRef} autoCompleteList={autoCompleteList} onClick={choiceWord}/>
                   </div>

@@ -92,6 +92,11 @@
         flex-direction: column;
     }
 
+    .focus{
+        height: 100dvh;
+        background-color: #1b1b1f;
+    }
+
     .logo{
         display: none;
     }

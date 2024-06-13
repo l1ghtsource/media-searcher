@@ -17,3 +17,42 @@
 .autoComplete__option:hover, .highlighted{
     color: #fff;
 }
+
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+
+}
+
+@media (max-width: 1200px) {
+    
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .autoComplete{
+        background-color: transparent;
+        padding: 0px 20px;
+    }
+
+    .autoComplete__option{
+        color: #fff;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 884px){
+
+}
+
+@media (max-width: 767px) {
+    
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
+}
