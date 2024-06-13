@@ -91,7 +91,7 @@ export default class SendServer{
       // }
 
       try{
-        const response = await axios.post(url, formData, 
+        const response = await axios.put(url, formData, 
         {
           headers: {
             'Content-Type': 'multipart/form-data'
