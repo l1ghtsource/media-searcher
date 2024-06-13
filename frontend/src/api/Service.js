@@ -80,14 +80,28 @@ export default class SendServer{
     }
 
     static async putVideo(file){
-      const url = this.getLinkS3();      
+      const s3 = await this.getLinkS3();
+      const url = s3.url;
+      const id = s3.id;           
 
       try{
         const response = await axios.put(url, {'file': file});
         console.log(response.data);
+        if (response.status == 200){
+          await this.startProcess(id);
+        }
       } 
       catch (error) {
         console.log(error);
+      }
+    }
+
+    static async startProcess(id){
+      try{
+        const response = await axios.get('/start_process', id);
+        console.log(response.data);
+      } catch (error){
+        console.error(error);
       }
     }
 
