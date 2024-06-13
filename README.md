@@ -91,7 +91,7 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 <div align="center">
 
-| Модель          | Время GPU (ms) | Время CPU (ms) |
+| Модель          | Время GPU (s) | Время CPU (s) |
 |-----------------|-----------------|-----------------|
 | [face_founder_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/face_founder_model.py) | -           | 10             |
 
