@@ -87,7 +87,7 @@ export default class SendServer{
       try{
         const response = await axios.put(url, {'file': file});
         console.log(response.data);
-        if (response.status == 200){
+        if (response.status === 200){
           await this.startProcess(id);
         }
       } 
