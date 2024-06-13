@@ -67,16 +67,16 @@ export default class SendServer{
             console.log(error);
         }        
     }
-
+    
     static async postVideo(file){
       const url = 'https://s3.cloud.ru/my-bucket';
       const fields = {
         'key': '1329',
         'x-amz-algorithm': 'AWS4-HMAC-SHA256',
-        'x-amz-credential': '51cc92b6-7a2e-4f81-8d81-ee3fe42a9a93:69c950e74f56bf5498c5d29fa8c62daf/20240612/ru-central-1/s3/aws4_request',
-        'x-amz-date': '20240612T220024Z',
-        'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjQtMDYtMTJUMjM6MDA6MjRaIiwgImNvbmRpdGlvbnMiOiBbWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDIwMDAwMDAwXSwgeyJidWNrZXQiOiAibXktYnVja2V0In0sIHsia2V5IjogIjEzMjkifSwgeyJ4LWFtei1hbGdvcml0aG0iOiAiQVdTNC1ITUFDLVNIQTI1NiJ9LCB7IngtYW16LWNyZWRlbnRpYWwiOiAiNTFjYzkyYjYtN2EyZS00ZjgxLThkODEtZWUzZmU0MmE5YTkzOjY5Yzk1MGU3NGY1NmJmNTQ5OGM1ZDI5ZmE4YzYyZGFmLzIwMjQwNjEyL3J1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjQwNjEyVDIyMDAyNFoifV19',
-        'x-amz-signature': 'bc8db3f4b5f5550f53906650ce1138b34032797322d45e21e1e9b8507ef870d3'
+        'x-amz-credential': '51cc92b6-7a2e-4f81-8d81-ee3fe42a9a93:69c950e74f56bf5498c5d29fa8c62daf/20240613/ru-central-1/s3/aws4_request',
+        'x-amz-date': '20240613T112052Z',
+        'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjQtMDYtMTNUMTI6MjA6NTJaIiwgImNvbmRpdGlvbnMiOiBbWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDIwMDAwMDAwXSwgeyJidWNrZXQiOiAibXktYnVja2V0In0sIHsia2V5IjogIjEzMjkifSwgeyJ4LWFtei1hbGdvcml0aG0iOiAiQVdTNC1ITUFDLVNIQTI1NiJ9LCB7IngtYW16LWNyZWRlbnRpYWwiOiAiNTFjYzkyYjYtN2EyZS00ZjgxLThkODEtZWUzZmU0MmE5YTkzOjY5Yzk1MGU3NGY1NmJmNTQ5OGM1ZDI5ZmE4YzYyZGFmLzIwMjQwNjEzL3J1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSwgeyJ4LWFtei1kYXRlIjogIjIwMjQwNjEzVDExMjA1MloifV19',
+        'x-amz-signature': 'd51354f3789404e3b756afb624cbb11e151baef416360026a4db2bfdc339c2ac'
       };
 
       const formData = new FormData();
@@ -85,18 +85,19 @@ export default class SendServer{
       }
       formData.append('file', file);
 
-      //! отладка
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+      // //! отладка
+      // for (const [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
 
       try{
-        const response = await axios.post(url, formData, {
+        const response = await axios.get(url, formData, 
+        {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'application/json'
           }
         });
-        console.log(response);
+        console.log(response.data);
       } 
       catch (error) {
         console.log(error);
