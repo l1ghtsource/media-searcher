@@ -87,12 +87,13 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 Среднее время обработки одного видео:
 
+<div align="center">
+
 | Модель          | Время GPU (ms) | Время CPU (ms) |
 |-----------------|-----------------|-----------------|
 | [face_founder_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/face_founder_model.py) | -           | 10             |
 
-
-
+</div>
 
 Код кластеризации: [clusterization_by_faces.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/clusterization_by_faces.py)
 
@@ -100,11 +101,15 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 ## Kaggle ноутбуки
 
+<div align="center">
+
 | Ноутбук                                           | Описание                                     |
 |---------------------------------------------------|----------------------------------------------|
 | [Ноутбук с OCR, ASR, CLIP, Ranker, кластеризацией по тематикам и замерами скорости](https://www.kaggle.com/code/l1ghtsource/yappy-hackathon/) | Включает основные классы и замеры времени на GPU и CPU. |
 | [Ноутбук с файн-тюнингом переводчика](https://www.kaggle.com/code/l1ghtsource/transaltor-finetune/) | Содержит файн-тюнинг переводчика на собственном датасете. |
 | [Ноутбук с кластеризацией видео по лицам](https://www.kaggle.com/code/l1ghtsource/yappy-faces-clustering/) | Содержит код для кластеризации видео по лицам. |
+
+</div>
 
 ### Пример поиска видео:
 
