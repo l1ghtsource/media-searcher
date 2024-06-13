@@ -39,10 +39,10 @@ API: [itutitam.ru/api/](https://www.google.com/)
    
 | Модель          | Время GPU (s) | Время CPU (s) |
 |-----------------|-----------------|-----------------|
-| [clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clip_model.py)   | 4.3             | 7.5             |
-| [whisper_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/whisper_model.py)| 2.68 (medium)   | 6 (base)        |
-| [ocr_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ocr_model.py)    | 2.23            | 21              |
-| [meta_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/meta_model.py) (объединяет в себя все прошлые пункты)   | 8               | 32              |
+| [clip_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/clip_model.py)   | 4.3             | 7.5             |
+| [whisper_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/whisper_model.py)| 2.68 (medium)   | 6 (base)        |
+| [ocr_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/ocr_model.py)    | 2.23            | 21              |
+| [meta_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/meta_model.py) (объединяет в себя все прошлые пункты)   | 8               | 32              |
 
 Изначально *OCRModel* считывал текст с фреймов последовательно, а в *MetaModel* происходило распараллеливание *CLIPModel*, *OCRModel* и *WhisperModel*. Однако, когда мы начали проводить замеры скорости на CPU, было обнаружено, что если распараллелить именно процесс считывания текста с фреймов в *OCRModel*, то скорость значительно возрастет. То есть сначала на все возможные ресурсы параллелится *OCRModel*, а когда считываение текста завершится уже *CLIPModel* и *WhisperModel* распределяют ресурсы между собой. Это ускорило инференс на CPU с одной минуты до 20 секунд!
 
@@ -59,9 +59,9 @@ API: [itutitam.ru/api/](https://www.google.com/)
    
 | Модель          | Время GPU (ms) | Время CPU (ms) |
 |-----------------|-----------------|-----------------|
-| [text2clip_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2clip_model.py) (построение эмбеддинга)| 17           | 50             |
-| [text2minilm_model.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/text2minilm_model.py) (построение эмбеддинга)| 8   | 22        |
-| [ranker.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/ranker.py)<br>(включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
+| [text2clip_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/text2clip_model.py) (построение эмбеддинга)| 17           | 50             |
+| [text2minilm_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/text2minilm_model.py) (построение эмбеддинга)| 8   | 22        |
+| [ranker.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/ranker.py)<br>(включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
 
 </div>
 
@@ -69,13 +69,13 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 Имея значительное количество строк в БД с эмбеддингами видео, захотелось провести их кластеризацию. К эмбеддингам *CLIP* были применены стандартизация, *PCA* с 50 главными компонентами, затем был использован алгоритм *hdbscan* непосредственно для кластеризации. Было получено 98 различных кластеров, содержащих внутри себя видео одной тематики, дальше кластерам были даны названия и была проведена их фильтрация. В итоге осталось 48 качественных кластеров. Таким образом, у пользователя помимо опции обычного поиска подходящих видео по его запросу появилась опция выбрать определенный кластер, внутри которого содержатся точно отобранные видео на одну определённую тематику, соответствующую названию кластера.
 
-Код кластеризации: [clusterization.py](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/clusterization.py)
+Код кластеризации: [clusterization.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/clusterization_by_themes.py)
 
-Полученные кластеры: [final_clusters.csv](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/data/final_clusters.csv)
+Полученные кластеры: [final_clusters.csv](https://github.com/l1ghtsource/media-searcher/blob/main/data/final_clusters.csv)
 
 ## Fine-tuning переводчика на собственном датасете
 
-Перед нами встала проблема: использовать API Google Translator и других популярных переводчиков запрещено, а open-source решения, к удивлению, не справляются с простыми запросами. Например, на запрос "роблокс", все популярные модели с huggingface выдавали результат "robls" или "roblocks", а эмбеддинг этого слова в CLIP-пространстве был далек от непосредственно роблокса и близок к блокам, что портило поисковую выдачу. На запрос "райан гослинг" маленькими буквами модель вовсе давала ответ "I'll take care of you. I'll take care of you". Поэтому, из популярных под видео тэгов Yappy, а также некоторых добавленных слов был [собран](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/utils/generate_dataset_for_translator_tuning.py) небольшой датасет из 10000 русских слов, далее эти слова были переведены с помощью Google Translator на английский и на полученных парах слов была [дообучена](https://github.com/l1ghtsource/lct-hack-yappy-2024/blob/main/ml/translator_train.py) модель машинного перевода *Helsinki-NLP/opus-mt-en-ru*. Модель выбирали исходя из [бенчмарков](https://huggingface.co/spaces/utrobinmv/TREX_benchmark_en_ru_zh) по соотношению скорости и качества ru-en перевода.
+Перед нами встала проблема: использовать API Google Translator и других популярных переводчиков запрещено, а open-source решения, к удивлению, не справляются с простыми запросами. Например, на запрос "роблокс", все популярные модели с huggingface выдавали результат "robls" или "roblocks", а эмбеддинг этого слова в CLIP-пространстве был далек от непосредственно роблокса и близок к блокам, что портило поисковую выдачу. На запрос "райан гослинг" маленькими буквами модель вовсе давала ответ "I'll take care of you. I'll take care of you". Поэтому, из популярных под видео тэгов Yappy, а также некоторых добавленных слов был [собран](https://github.com/l1ghtsource/media-searcher/blob/main/utils/generate_dataset_for_translator_tuning.py) небольшой датасет из 10000 русских слов, далее эти слова были переведены с помощью Google Translator на английский и на полученных парах слов была [дообучена](https://github.com/l1ghtsource/media-searcher/blob/main/ml/translator_train.py) модель машинного перевода *Helsinki-NLP/opus-mt-en-ru*. Модель выбирали исходя из [бенчмарков](https://huggingface.co/spaces/utrobinmv/TREX_benchmark_en_ru_zh) по соотношению скорости и качества ru-en перевода.
 
 Модель: https://huggingface.co/lightsource/yappy-fine-tuned-opus-mt-ru-en
 
@@ -83,12 +83,27 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 ## Кластеризация видео по действующим лицам
 
+Также у нас появилась идея - кластеризовать видео по лицам, участвующих в них. Для этого использовали *opencv* и *face_recognition*, мы находим уникальные лица на видео и возвращаем эмбеддинг самого часто встречающегося лица. На обработку 1000 видео на CPU уходило примерно 3 часа, на GPU не завелось :(
+
+Среднее время обработки одного видео:
+
+| Модель          | Время GPU (ms) | Время CPU (ms) |
+|-----------------|-----------------|-----------------|
+| [face_founder_model.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/face_founder_model.py) | -           | 10             |
+
+
+
+
+Код кластеризации: [clusterization_by_faces.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/clusterization_by_faces.py)
+
+Полученные кластеры: [faces-31000-videos-filtered.csv](https://github.com/l1ghtsource/media-searcher/blob/main/data/faces-31000-videos-filtered.csv)
+
 ## Kaggle ноутбуки
 
 | Ноутбук                                           | Описание                                     |
 |---------------------------------------------------|----------------------------------------------|
 | [Ноутбук с OCR, ASR, CLIP, Ranker, кластеризацией по тематикам и замерами скорости](https://www.kaggle.com/code/l1ghtsource/yappy-hackathon/) | Включает основные классы и замеры времени на GPU и CPU. |
-| [Ноутбук с файн-тюнингом переводчика](https://www.kaggle.com/code/l1ghtsource/transaltor-finetune/) | Предназначен для проведения файн-тюнинга переводчика на собственном датасете. |
+| [Ноутбук с файн-тюнингом переводчика](https://www.kaggle.com/code/l1ghtsource/transaltor-finetune/) | Содержит файн-тюнинг переводчика на собственном датасете. |
 | [Ноутбук с кластеризацией видео по лицам](https://www.kaggle.com/code/l1ghtsource/yappy-faces-clustering/) | Содержит код для кластеризации видео по лицам. |
 
 ### Пример поиска видео:
