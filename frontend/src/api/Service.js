@@ -67,7 +67,7 @@ export default class SendServer{
             console.log(error);
         }        
     }
-    
+
     static async postVideo(file){
       const url = 'https://s3.cloud.ru/my-bucket';
       const fields = {
@@ -91,10 +91,10 @@ export default class SendServer{
       // }
 
       try{
-        const response = await axios.get(url, formData, 
+        const response = await axios.post(url, formData, 
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data'
           }
         });
         console.log(response.data);
