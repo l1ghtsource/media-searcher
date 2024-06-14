@@ -7,13 +7,18 @@ import Service from "../../api/Service"
 
 function NewVideoPage() {
   const [videoFile, setVideoFile] = useState(null);
+  const [videoLink, setVideoLink] = useState(null);
+  const [description, setDescription] = useState(null);
 
   function sendVideo(){
     if(videoFile) {
-      Service.putVideo(videoFile);
-      console.log(videoFile);
+      Service.putVideo(videoFile, description);
+      console.log(videoFile, description);
+    } else if (videoLink) {
+      Service.putVideo(videoLink, description); // Assuming you have a method to handle video links
+      console.log(videoLink, description);
     } else {
-      console.error("No video file to upload!")
+      console.error("No video file or link to upload!")
     }
   }
 
@@ -25,7 +30,13 @@ function NewVideoPage() {
       </div>
       <div className={cl.newVideoPage__form}>
         <DragVideo setVideoFile={setVideoFile}/>
-        <FormVideo videoFile={videoFile} onClick={sendVideo}/>
+        <FormVideo 
+          videoFile={videoFile} 
+          videoLink={videoLink} 
+          setVideoLink={setVideoLink} 
+          onClick={sendVideo} 
+          setDescription={setDescription}
+        />
       </div>
     </div>
   )

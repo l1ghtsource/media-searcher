@@ -17,6 +17,8 @@
 
 .disabled{
     background-color: #545454;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 /**** ADAPTIVE *****/

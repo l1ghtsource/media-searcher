@@ -17,6 +17,7 @@ function Header({setVideos}) {
   const [autoCompleteList, setAutoCompleteList] = useState(['машина', 'машина xiaomi', 'маша и медведь']);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const autoCompleteRef = useRef();
+  const searchInputRef = useRef();
   const [isFocus, setIsFocus] = useState(false);
 
   let navigate = useNavigate();
@@ -39,6 +40,7 @@ function Header({setVideos}) {
   const handleSearchInputKeyDown = async (e) => {
     if(e.key === "Enter" && searchText.length > 0){
       searchVideo();
+      searchInputRef.current.blur();
     }
   }
 
@@ -65,6 +67,7 @@ function Header({setVideos}) {
         <div className={cl.searchDiv}>
             <div className={cl.searchBox}>
               <SearchInput 
+              ref={searchInputRef}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)} 
               onKeyDown={handleSearchInputKeyDown}

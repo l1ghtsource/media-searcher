@@ -68,7 +68,7 @@ export default class SendServer{
         }        
     }
 
-
+    //* Функция, получения нужной ссылки в S3 
     static async getLinkS3(){
       try{
         const response = await axios.get('/get_upload_url');
@@ -79,7 +79,8 @@ export default class SendServer{
       
     }
 
-    static async putVideo(file){
+    //* Загрузка видео в S3 
+    static async putVideo(file, description){
       const s3 = await this.getLinkS3();
       const url = s3.url;
       const id = s3.id;           
@@ -88,7 +89,7 @@ export default class SendServer{
         const response = await axios.put(url, {'file': file});
         console.log(response.data);
         if (response.status === 200){
-          await this.startProcess(id);
+          await this.startProcess(id, description);
         }
       } 
       catch (error) {
@@ -96,9 +97,14 @@ export default class SendServer{
       }
     }
 
-    static async startProcess(id){
+    //* Говорим s3, что готово можешь делать свои махинации
+    static async startProcess(id, description){
       try{
-        const response = await axios.get('/start_process', id);
+        const response = await axios.get('/start_process', 
+          {
+            'id': id,
+            'description': description
+          });
         console.log(response.data);
       } catch (error){
         console.error(error);

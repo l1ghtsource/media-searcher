@@ -67,7 +67,7 @@
         background-color: rgba(0, 0, 0, 0.7);
         border: none;
         height: 422px;
-        width: 358px;
+        width: 90dvw;
         border-radius: 17px;
         color: #fff;
         font-size: 17px;
@@ -82,7 +82,6 @@
         position: absolute;
         left: 27%;
         bottom: 60px;
-        display: none;
     }
 }
 

@@ -82,14 +82,14 @@
 .filtersMobile{
   position: absolute;
   top: 12%;
-  left: 2%;
+  left: 20px;
   z-index: 100;
 }
 
 .transcriptionMobile{
   position: absolute;
   top: 11%;
-  left: 2%;
+  left: 20px;
   z-index: 100;
 }
 
