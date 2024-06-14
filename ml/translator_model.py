@@ -9,9 +9,9 @@ class MarianTranslator:
         self.tokenizer = MarianTokenizer.from_pretrained('lightsource/yappy-fine-tuned-opus-mt-ru-en')
 
     def translate(self, text):
-        inputs = self.tokenizer(text, return_tensors='pt', padding=True).to(self.device)
+        inputs = self.tokenizer(text, return_tensors='pt', padding=True, truncation=True).to(self.device)
         translated = self.model.generate(**inputs)
 
-        translated_text = [self.tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+        translated_text = [self.tokenizer.decode(t, skip_special_tokens=True, truncation=True) for t in translated]
 
         return translated_text[0]
