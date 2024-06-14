@@ -30,8 +30,8 @@ class MetaModel:
         return clip_emb
     
     def get_embeddings(self, video):
-        clip_emb = get_clip_embeddings(video)
-        ocr_emb, ocr_len = get_ocr_embeddings(video)
-        whisper_emb, whisper_len = get_whisper_embeddings(video)
+        clip_emb = self.get_clip_embeddings(video)
+        ocr_emb, ocr_len = self.get_ocr_embeddings(video)
+        whisper_emb, whisper_len = self.get_whisper_embeddings(video)
         
         return clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len
