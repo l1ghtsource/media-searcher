@@ -101,6 +101,10 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 Полученные кластеры: [faces-31000-videos-filtered.csv](https://github.com/l1ghtsource/media-searcher/blob/main/data/faces-31000-videos-filtered.csv)
 
+## Нереализованные идеи
+
+pass
+
 ## Kaggle ноутбуки
 
 <div align="center">
