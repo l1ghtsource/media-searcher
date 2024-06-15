@@ -34,6 +34,7 @@ export default class SendServer{
     static async getLinkS3(){
       try{
         const response = await axios.get('/api/get_upload_url');
+        console.log(response.data);
         return response.data;
       } catch (error){
         console.error(error);
