@@ -16,21 +16,21 @@ function FiltersMobileComponent({ filters, selectedOptions, toggleOption, faces 
                 Array.from(selectedOptions[filter.title]).map((option, i) => (
                   <FilterBtn
                     key={i}
-                    onClick={() => toggleOption(filter.title, option)}
+                    onClick={() => toggleOption(filter.title, option.name)}
                     isActive={true}
                   >
-                    {option}
+                    {option.name}
                   </FilterBtn>
                 ))}
               {/* Затем отображаем остальные опции */}
               {filter.options.map((option, i) => (
-                !selectedOptions[filter.title]?.has(option) && (
+                !selectedOptions[filter.title]?.has(option.name) && (
                   <FilterBtn
                     key={i}
-                    onClick={() => toggleOption(filter.title, option)}
-                    isActive={selectedOptions[filter.title]?.has(option)}
+                    onClick={() => toggleOption(filter.title, option.name)}
+                    isActive={selectedOptions[filter.title]?.has(option.name)}
                   >
-                    {option}
+                    {option.name}
                   </FilterBtn>
                 )
               ))}

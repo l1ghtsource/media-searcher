@@ -23,8 +23,11 @@ function FacesComponent({ faces, selectedOptions, toggleOption }) {
     // Функция для получения отсортированных опций с учетом выбранных
     const getSortedOptions = (face) => {
         const selected = selectedOptions[face.title] || new Set();
-        const unselectedOptions = face.options.filter(option => !selected.has(option));
-        return [...selected, ...unselectedOptions];
+        const unselectedOptions = face.options.filter(option => !selected.has(option.name));
+        return [
+            ...face.options.filter(option => selected.has(option.name)),
+            ...unselectedOptions
+        ];
     };
 
     return (
@@ -36,12 +39,12 @@ function FacesComponent({ faces, selectedOptions, toggleOption }) {
                         <div className={cl.face__options}>
                             {
                                 // Отображаем либо все опции либо только первые expandedStart опций
-                                getSortedOptions(face).slice(0, expanded[index] ? face.options.length : expandedStart).map((faceOption, i) => (
+                                getSortedOptions(face).slice(0, expanded[index] ? face.options.length : expandedStart).map((faceOption) => (
                                     <FaceBtn
-                                        key={i}
-                                        onClick={() => toggleOption(face.title, faceOption)}
-                                        isActive={selectedOptions[face.title] && selectedOptions[face.title].has(faceOption)} // Проверяем, является ли текущая опция активной
-                                        face={faceOption}
+                                        key={faceOption.id}
+                                        onClick={() => toggleOption(face.title, faceOption.name)}
+                                        isActive={selectedOptions[face.title] && selectedOptions[face.title].has(faceOption.name)} // Проверяем, является ли текущая опция активной
+                                        face={faceOption.image_url}
                                     />
                                 ))
                             }

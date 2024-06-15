@@ -15,6 +15,20 @@ export default class SendServer{
         }
     }
 
+    //* Функция получения кластера тематик
+    static async getClusters(){
+      return await axios.get('/api/get_clusters')
+            .then(response => response.data)
+            .catch(error => console.log('Error fetching clusters:', error));
+    }
+
+    //* Функция получения кластера лиц
+    static async getFaces(){
+      return await axios.get('/api/get_faces')
+            .then(response => response.data)
+            .catch(error => console.log('Error fetching faces:', error));
+    }
+
     //* Функция получения текста из видео
     static async getTranscription(url){
         try{
@@ -32,14 +46,9 @@ export default class SendServer{
 
     //* Функция, получения нужной ссылки в S3 
     static async getLinkS3(){
-      try{
-        const response = await axios.get('/api/get_upload_url');
-        console.log(response.data);
-        return response.data;
-      } catch (error){
-        console.error(error);
-      }
-      
+      return await axios.get('/api/get_upload_url')
+        .then(response => response.data)
+        .catch(error => console.error('Error fetching upload URL:', error)); 
     }
 
     //* Загрузка видео в S3 

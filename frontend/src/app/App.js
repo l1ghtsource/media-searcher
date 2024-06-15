@@ -5,11 +5,7 @@ import './styles/main.css'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NewVideoPage from '../pages/NewVideoPage/NewVideoPage';
 import useWindowWidth from '../hooks/useWindowWidth';
-import egorik from "../assets/svgIcons/egorik.jpg";
-import maslennikov from "../assets/svgIcons/maslennikov.jpg";
-import tinkoff from "../assets/svgIcons/tinkoff.jpg";
-import durov from "../assets/svgIcons/durov.png";
-import a4 from "../assets/svgIcons/a4.jpg";
+import Service from "../api/Service"
 
 function App() {
 
@@ -17,17 +13,35 @@ function App() {
   const location = useLocation();
   const windowWidth = useWindowWidth();
 
-  const [filters] = useState([
-    {title: "Подборки", options: ["аниме", "баскетбол", "творчество", "мир видеоигр", "roblox", "мода"]},
-    // {title: "Язык", options: ["русский", "english"]},
-  ])
+  const [filters, setFilters] = useState([])
 
-  const [faces] = useState([
-    {title: "Лица", options: [egorik, maslennikov, tinkoff, durov, a4]},
-  ])
+  const [faces, setFaces] = useState([])
 
 
   const [videos, setVideos] = useState();
+
+  useEffect(() => {
+    const fetchFaces = async () => {
+      try {
+        const facesResponse = await Service.getFaces();
+        setFaces(facesResponse); 
+      } catch (error){
+        console.log(error);
+      }
+    }
+
+    const fetchFilters = async () => {
+      try{
+        const filtersResponse = await Service.getClusters();
+        setFilters(filtersResponse);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchFilters();
+    fetchFaces();
+  }, [])
 
   useEffect(() => {
     if (location.pathname === "/addVideo") {
