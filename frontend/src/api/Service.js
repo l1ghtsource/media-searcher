@@ -45,9 +45,7 @@ export default class SendServer{
             //     },  
             //   ];
             
-            const response = await axios.get("/api/search", {
-              text: searchText
-            })
+            const response = await axios.get(`/api/search?text=${searchText}`)
             console.log(response.data);
             return response.data;
         } 
