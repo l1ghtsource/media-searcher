@@ -44,16 +44,16 @@ export default class SendServer{
 
     //* Загрузка видео в S3 
     static async putVideo(file, description){
-      const s3 = await this.getLinkS3();
-      const url = s3.url;
-      const id = s3.id;           
+      // const s3 = await this.getLinkS3();
+      const url = "https://s3.cloud.ru/lct-video-0/0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=51cc92b6-7a2e-4f81-8d81-ee3fe42a9a93%3A69c950e74f56bf5498c5d29fa8c62daf%2F20240615%2Fru-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240615T185335Z&X-Amz-Expires=252000&X-Amz-SignedHeaders=host&X-Amz-Signature=8bb6fe19cf02dcb013177f175b3f0b370f5befc1bd828a7f388966789ab2afa3";
+      // const id = s3.id;           
 
       try{
         const response = await axios.put(url, {'file': file});
         console.log(response.data);
-        if (response.status === 200){
-          await this.startProcess(id, description);
-        }
+        // if (response.status === 200){
+        //   await this.startProcess(0, description);
+        // }
       } 
       catch (error) {
         console.log(error);
