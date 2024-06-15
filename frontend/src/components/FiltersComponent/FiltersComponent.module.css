@@ -5,29 +5,28 @@
     gap: 19px;
     max-height: 80vh;
     overflow: auto;
-    padding-right: 5px;
+    background-color: #24292b;
+    border-radius: 14px;
+    width: 240px;
 }
 
 .filter{
-    background-color: #24292b;
     padding: 20px 24px;
-    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    width: 240px;
-    gap: 10px;
+    gap: 14px;
 }
 
 .filter__title{
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .filter__options{
     display: flex;
     flex-wrap: wrap;
-    gap: 16px 10px;
+    gap: 9px 10px;
+    margin-bottom: 3px;
 }
 
 .expand{
@@ -39,6 +38,7 @@
     justify-content: center;
     font-size: 15px;
     height: 26px;
+    cursor: pointer;
 }
 
 .fold{
@@ -46,6 +46,7 @@
     align-items: center;
     position: absolute;
     right: 30px;
+    cursor: pointer;
 }
 
 .fold__text{

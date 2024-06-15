@@ -40,6 +40,7 @@
     border-radius: 2px;
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
+    cursor: pointer;
 }
 
 .progressBar::-webkit-slider-thumb {
@@ -53,6 +54,7 @@
   border-radius: 18px;
   height: 601px;
   width: inherit;
+  cursor: pointer;
 }
 
 .addVideo{
@@ -70,7 +72,15 @@
   position: absolute;
   left: 26px;
   bottom: 94px;
-  z-index: 100;
+  z-index: 10;
+}
+
+.videoBtn{
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .videoBtn > img{

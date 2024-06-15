@@ -129,12 +129,12 @@ function MainPage({ filters, videos, faces }) {
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.max(prevIndex - 1, 0)));
-            }, 150); 
+            }, 100); 
           } else if (e.deltaY > 0) {
             clearTimeout(timerId);
             timerId = setTimeout(() => {
               setPlayingVideoIndex((prevIndex) => (prevIndex === null ? 0 : Math.min(prevIndex + 1, videos.length - 1)));
-            }, 150); 
+            }, 100); 
           }
         } else if (e.touches !== undefined) { // Обработка скролла на мобильных устройствах
           const deltaY = e.touches[0].clientY - startY;

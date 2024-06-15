@@ -9,7 +9,6 @@ import filter from "../../assets/svgIcons/filter.svg"
 import AddVideoBtn from '../AddVideoBtn/AddVideoBtn';
 import FiltersMobileComponent from '../FiltersMobileComponent/FiltersMobileComponent';
 import TranscriptionInput from '../TranscriptionInput/TranscriptionInput';
-// import FacesComponent from '../FacesComponent/FacesComponent';
 
 function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces, filters, isFilters, isTranscription, onToggleFilters, onToggleTranscription }) {
   const videoRef = useRef(null);
@@ -133,8 +132,7 @@ function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces,
       {
         isFilters && (
           <div className={cl.filtersMobile}>
-            <FiltersMobileComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
-            {/* <FacesComponent filters={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/> */}
+            <FiltersMobileComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption} faces={faces}/>
           </div>
         )
       }

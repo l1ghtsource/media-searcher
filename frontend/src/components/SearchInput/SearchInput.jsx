@@ -14,7 +14,7 @@ const SearchInput = forwardRef(({ value, onChange, onKeyDown, onFocus, onBlur },
         onChange={onChange}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
-        onBlur={onBlur}
+        onBlur={() => setTimeout(onBlur, 100)}
         ref={ref}
       />
     </div>

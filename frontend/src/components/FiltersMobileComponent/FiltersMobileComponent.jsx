@@ -1,10 +1,11 @@
 import React from 'react';
 import cl from "./FiltersMobileComponent.module.css";
 import FilterBtn from '../../UI/FilterBtn/FilterBtn';
+// import FacesComponent from '../FacesComponent/FacesComponent';
 
-function FiltersMobileComponent({ filters, selectedOptions, toggleOption }) {
+function FiltersMobileComponent({ filters, selectedOptions, toggleOption, faces }) {
   return (
-    <div className={cl.filtersMobile}>
+    <div className={cl.filtersMobileComponent}>
       {filters &&
         filters.map((filter, index) => (
           <div key={index} className={cl.filterMobile}>
@@ -36,6 +37,7 @@ function FiltersMobileComponent({ filters, selectedOptions, toggleOption }) {
             </div>
           </div>
         ))}
+        {/* <FacesComponent faces={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/> */}
     </div>
   );
 }

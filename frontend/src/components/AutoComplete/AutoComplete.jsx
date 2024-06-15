@@ -10,7 +10,7 @@ function AutoComplete({autoCompleteList, onClick}) {
                     <li 
                       key={index} 
                       className={cl.autoComplete__option}
-                      onClick={() => onClick(text)} 
+                      onClick={() => {console.log('Клик по элементу автозаполнения:', text);onClick(text)}} 
                     >{text}</li>
                 ))
             }
