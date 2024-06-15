@@ -1,3 +1,25 @@
+.uploadedVideo{
+    position: relative;
+}
+
+.uploadedVideo__delete{
+    position: absolute;
+    bottom: 70px;
+    right: 17px;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 7px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.uploadedVideo__delete:hover{
+    background-color: rgba(0,0,0,1);
+}
 
 .dropArea, .dropAreaDrag{
     text-align: center;

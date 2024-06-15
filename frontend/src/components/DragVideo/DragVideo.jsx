@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cl from "./DragVideo.module.css"
 import upload from "../../assets/svgIcons/upload.svg"
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
+import trash from "../../assets/svgIcons/trash.svg"
 
 function DragVideo({setVideoFile}) {
   const [drag, setDrag] = useState(false);
@@ -62,6 +63,10 @@ function DragVideo({setVideoFile}) {
     handleFile(file)
   }
 
+  function onDeleteHandler(){
+    setVideoSrc(null);
+  }
+
   return (
     <div>
       {
@@ -77,6 +82,9 @@ function DragVideo({setVideoFile}) {
         videoSrc 
         ? 
           <div className={cl.uploadedVideo}>
+            <div className={cl.uploadedVideo__delete} onClick={() => onDeleteHandler()}>
+              <img src={trash} alt='trash'/>
+            </div>
             <video className={cl.video} loop preload='metadata' src={videoSrc} playsInline controls>
               Простите, но ваш браузер не поддерживает встроенные видео.
               Попробуйте скачать видео <a href={videoSrc}>по этой ссылке</a>
