@@ -49,7 +49,7 @@ export default class SendServer{
       // const id = s3.id;           
 
       try{
-        const response = await axios.put(url, {'file': file});
+        const response = await axios.put(url, file);
         console.log(response.data);
         // if (response.status === 200){
         //   await this.startProcess(0, description);
