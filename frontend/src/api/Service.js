@@ -60,6 +60,20 @@ export default class SendServer{
       }
     }
 
+    //* Загрузка видео ссылки в S3 
+    static async postVideoLink(url, description){
+      try{
+        const response = await axios.post("/api/index", {
+          'url': url,
+          'description': description
+        });
+        console.log(response.data);
+      } 
+      catch (error) {
+        console.log(error);
+      }
+    }
+
     //* Говорим s3, что готово можешь делать свои махинации
     static async startProcess(id, description){
       try{

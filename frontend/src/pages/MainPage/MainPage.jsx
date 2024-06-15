@@ -169,6 +169,13 @@ function MainPage({ filters, videos, faces }) {
     };
   }, [videos, playingVideoIndex, isFilters, isTranscription]);
 
+  // Эффект для прокрутки к первому видео при изменении списка видео
+  useEffect(() => {
+    if (videos && videos.length > 0) {
+      setPlayingVideoIndex(0);
+    }
+  }, [videos]);
+
   return (
     <div className={cl.mainPage}>
       <div className={cl.mainPage__filters}>

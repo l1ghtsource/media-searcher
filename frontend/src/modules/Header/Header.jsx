@@ -19,40 +19,50 @@ function Header({setVideos}) {
   const autoCompleteRef = useRef();
   const searchInputRef = useRef();
   const [isFocus, setIsFocus] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
   let navigate = useNavigate();
 
   const handleVoiceInput = () => {
-    resetTranscript();
-    SpeechRecognition.startListening({
-      continuous: false,
-      language: 'ru-RU'
-    })
+    if (isListening) {
+      SpeechRecognition.stopListening(); // Остановка прослушивания
+      setIsListening(false);
+      resetTranscript(); // Сброс распознанного текста
+    } else {
+      resetTranscript();
+      SpeechRecognition.startListening({
+        continuous: false,
+        language: 'ru-RU',
+      });
+      setIsListening(true);
+    }
   } 
 
-  const searchVideo = async () => {
-    console.log('Отправка текста:', searchText);
-    const response = await Service.getVideos(searchText);
+  const searchVideo = async (text) => {
+    console.log('Отправка текста:', text);
+    const response = await Service.getVideos(text);
     setVideos(response);
     navigate('/');
   }
 
   const handleSearchInputKeyDown = async (e) => {
     if(e.key === "Enter" && searchText.length > 0){
-      searchVideo();
+      searchVideo(searchText);
       searchInputRef.current.blur();
     }
   }
 
-  const choiceWord = (text) => {
+  const choiceWord = async (text) => {
+    searchVideo(text);
     setSearchText(text);
     setAutoCompleteList([]);
-    searchVideo();
   }
 
   useEffect(() => {
     // console.log('Распознанный текст:', transcript);
-    setSearchText(transcript);
+    if(transcript !== undefined){
+      setSearchText(transcript);
+    }
   }, [transcript]);
 
   useEffect(() => {
@@ -91,7 +101,7 @@ function Header({setVideos}) {
               }
             </div>
             <div className={cl.searchVoice}>
-              <SearchVoice onClick={handleVoiceInput}/>
+              <SearchVoice onStart={handleVoiceInput}/>
             </div>
         </div>
         <div className={cl.rightHeader}>

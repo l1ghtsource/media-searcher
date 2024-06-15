@@ -15,7 +15,7 @@ function NewVideoPage() {
       Service.putVideo(videoFile, description);
       console.log(videoFile, description);
     } else if (videoLink) {
-      Service.putVideo(videoLink, description); 
+      Service.postVideoLink(videoLink, description); 
       console.log(videoLink, description);
     } else {
       console.error("No video file or link to upload!")
