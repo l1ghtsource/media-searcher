@@ -45,7 +45,7 @@ export default class SendServer{
     //* Загрузка видео в S3 
     static async putVideo(file, description){
       // const s3 = await this.getLinkS3();
-      const url = "https://storage.yandexcloud.net/lct-video/0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=YCAJEHmkOlKYPjr4wENVqB3eX%2F20240615%2Fru-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240615T214043Z&X-Amz-Expires=252000&X-Amz-SignedHeaders=host&X-Amz-Signature=c50903ce457fedbdd6c73dd2b730575144c904537e5b18454f19b59edfdb1295";
+      const url = "https://storage.yandexcloud.net/lct-video-0/0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=YCAJEHmkOlKYPjr4wENVqB3eX%2F20240615%2Fru-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240615T220301Z&X-Amz-Expires=252000&X-Amz-SignedHeaders=host&X-Amz-Signature=7dc734d271190668890edc40aed3b561da56020f70b9f784805689909a760add";
       // const id = s3.id;           
 
       try{
