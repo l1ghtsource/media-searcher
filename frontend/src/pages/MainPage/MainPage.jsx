@@ -172,9 +172,20 @@ function MainPage({ filters, videos, faces }) {
   // Эффект для прокрутки к первому видео при изменении списка видео
   useEffect(() => {
     if (videos && videos.length > 0) {
+      // Останавливаем текущее воспроизводимое видео
+      if (playingVideoIndex !== null) {
+        const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
+        if (currentVideo) {
+          currentVideo.pause();
+        }
+      }
       setPlayingVideoIndex(0);
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto',
+      });
     }
-  }, [videos]);
+  }, [videos, playingVideoIndex]);
 
   return (
     <div className={cl.mainPage}>
