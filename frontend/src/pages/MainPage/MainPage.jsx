@@ -18,6 +18,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
   const [isFilters, setIsFilters] = useState(false);
   const [isTranscription, setIsTranscription] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
+  const [loadedVideosCount, setLoadedVideosCount] = useState(10);
   
   const toggleDescription = () => {
     setIsFilters(false);
@@ -162,6 +163,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       // Автоматически получаем новые видео при прохождение предпоследнего видео в списке
       if(videos.length - 2 > 0 && playingVideoIndex === videos.length - 2){
         console.log('Получить новые видео');
+        setLoadedVideosCount(prevCount => prevCount + 10);
       }
     }
 
@@ -240,7 +242,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       </div>
       <div className={cl.mainPage__videos}>
         {videos &&
-          videos.map((video, index) => (
+          videos.slice(0, loadedVideosCount).map((video, index) => (
             <div ref={(el) => (videoRefs.current[index] = el)} className={cl.video} key={index}>
               <VideoComponent 
               videoInfo={{url: video.url, description: video.description, facesVideo: video.faces, cluster: video.cluster}}
