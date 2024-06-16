@@ -44,7 +44,7 @@ function FacesComponent({ faces, selectedOptions, toggleOption }) {
                                         key={faceOption.id}
                                         onClick={() => toggleOption(face.title, faceOption.name)}
                                         isActive={selectedOptions[face.title] && selectedOptions[face.title].has(faceOption.name)} // Проверяем, является ли текущая опция активной
-                                        face={faceOption.image_url}
+                                        face={faceOption.url}
                                     />
                                 ))
                             }
