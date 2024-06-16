@@ -117,11 +117,11 @@ async def upload_complete(data: UploadByUrl):
     return StartProcessAnswer(id=video_id)
 
 @app.get('/search')
-async def search(text: str, number:int=20) -> List[Video]:
+async def search(text: str, number:int=20) -> List[VideoJSON]:
     video_ids = requests.get(SEARCH_URL + '/search', json={'text': text, 'top-k': number}).json()['videos']
     final_data = []
     with Session(engine) as pg_session:
-        videos =  pg_session.query(Video).filter(Video.clickhouse_id.in_(video_ids)).all()
+        videos = pg_session.query(Video).filter(Video.clickhouse_id.in_(video_ids)).all()
         for video in videos:
             final_data.append(video.to_json())
     
@@ -136,7 +136,7 @@ async def search_suggest(data: SearchSuggest) -> List[str]:
 
 
 @app.get('/get_cluster_video')
-def get_cluster_video(data: dict) -> List[Video]:
+def get_cluster_video(data: dict) -> List[VideoJSON]:
     cluster_id = data['id']
     res = []
     with Session(engine) as pg_session:
@@ -146,7 +146,7 @@ def get_cluster_video(data: dict) -> List[Video]:
     return res
 
 @app.get('/get_face_video')
-def get_face_video(data: dict) -> List[Video]:
+def get_face_video(data: dict) -> List[VideoJSON]:
     face_id = data['id']
     res = []
     with Session(engine) as pg_session:

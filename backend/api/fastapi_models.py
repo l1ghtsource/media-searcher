@@ -25,7 +25,7 @@ class ShortFace(BaseModel):
     name: str
     url: str
 
-class Video(BaseModel):
+class VideoJSON(BaseModel):
     url: str
     description: str
     faces: List[ShortFace]
