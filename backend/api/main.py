@@ -130,7 +130,7 @@ async def search(text: str, number:int=20) -> List[Video]:
 
 @app.get('/search_suggest')
 async def search_suggest(data: SearchSuggest) -> List[str]:
-    video_ids = requests.get(SEARCH_URL + '/search_suggest', json={text: data.text}).json()
+    video_ids = requests.get(SEARCH_URL + '/search_suggest', json={'text': data.text}).json()
     return video_ids
 
 
