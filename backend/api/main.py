@@ -72,7 +72,7 @@ async def upload_complete(report: UploadCompleteReport):
     video_id = report['id']
     desc = report['description']
     with Session(engine) as pg_session:
-        video = pg_session.query(Video).filter_by(clickhouse_id=video_id).first()
+        video = pg_session.query(Video).filter_by(id=video_id).first()
         video.description = desc
         url = video.url
         pg_session.add(video)
@@ -174,6 +174,15 @@ def get_faces() -> FacesList:
         for c in pg_session.query(Face).all():
             res.append({'id': c.id, 'name': c.name, 'url': c.image_url})
     return {'title': 'Блогеры', 'options': res}
+
+@app.get('/video')
+async def search(video_id: int) -> VideoJSON:
+    video_id = int(video_id)
+    with Session(engine) as pg_session:
+        video = pg_session.filter_by(id=video_id).first()
+        final_data = video.to_json()
+
+    return final_data
 
 
 @app.get('/video_status')
