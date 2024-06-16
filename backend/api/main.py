@@ -51,43 +51,6 @@ ocr_zero = [0 for i in range(96*4)]
 whisper_zero = [0 for i in range(96*4)]
 
 
-@app.get("/get_upload_url")
-async def prepare_to_download():
-    with Session(engine) as pg_session:
-        video = Video()
-        pg_session.add(video)
-        pg_session.commit()
-        video_id = video.id
-        video.clickhouse_id = video_id
-        video.url = 'https://lct-video-0.storage.yandexcloud.net/' + str(video_id)
-        pg_session.commit()
-
-    s3 = s3_session.client(service_name="s3", endpoint_url="https://storage.yandexcloud.net")
-    put_url = s3.generate_presigned_url("put_object", Params={"Bucket": 'lct-video-0', "Key": video_id}, ExpiresIn=3600)
-    return UploadUrl(url=put_url, id=video_id)
-
-
-@app.post("/upload_complete")
-async def upload_complete(report: UploadCompleteReport):
-    report = report.dict()
-    video_id = report['id']
-    desc = report['description']
-    with Session(engine) as pg_session:
-        video = pg_session.query(Video).filter_by(id=video_id).first()
-        video.description = desc
-        url = video.url
-        pg_session.add(video)
-        pg_session.commit()
-    with clickhouse_connect.get_client(host=CLICKHOUSE_HOST, port=8123, username=CLICKHOUSE_USERNAME, password=CLICKHOUSE_PASSWORD) as client:
-        client.insert('embeddings', [[video_id, clip_zero, ocr_zero, whisper_zero, 0, 0]], column_names=[
-                      'id', 'clip_emb', 'ocr_emb', 'whisper_emb', 'whisper_len', 'ocr_len'])
-
-    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_clip")
-    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_facefounder")
-    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_ocr")
-    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_whisper")
-
-    return StartProcessAnswer(id=video_id)
 
 
 @app.post("/index")
@@ -127,6 +90,55 @@ async def search(text: str, number:int=20) -> List[VideoJSON]:
             final_data.append(video.to_json())
 
     return final_data
+
+
+@app.get('/video')
+async def search(video_id: int) -> VideoJSON:
+    video_id = int(video_id)
+    with Session(engine) as pg_session:
+        video = pg_session.query(Video).filter_by(id=video_id).first()
+        final_data = video.to_json()
+
+    return final_data
+
+@app.get("/get_upload_url")
+async def prepare_to_download():
+    with Session(engine) as pg_session:
+        video = Video()
+        pg_session.add(video)
+        pg_session.commit()
+        video_id = video.id
+        video.clickhouse_id = video_id
+        video.url = 'https://lct-video-0.storage.yandexcloud.net/' + str(video_id)
+        pg_session.commit()
+
+    s3 = s3_session.client(service_name="s3", endpoint_url="https://storage.yandexcloud.net")
+    put_url = s3.generate_presigned_url("put_object", Params={"Bucket": 'lct-video-0', "Key": video_id}, ExpiresIn=3600)
+    return UploadUrl(url=put_url, id=video_id)
+
+
+@app.post("/upload_complete")
+async def upload_complete(report: UploadCompleteReport):
+    report = report.dict()
+    video_id = report['id']
+    desc = report['description']
+    with Session(engine) as pg_session:
+        video = pg_session.query(Video).filter_by(id=video_id).first()
+        video.description = desc
+        url = video.url
+        pg_session.add(video)
+        pg_session.commit()
+    with clickhouse_connect.get_client(host=CLICKHOUSE_HOST, port=8123, username=CLICKHOUSE_USERNAME, password=CLICKHOUSE_PASSWORD) as client:
+        client.insert('embeddings', [[video_id, clip_zero, ocr_zero, whisper_zero, 0, 0]], column_names=[
+                      'id', 'clip_emb', 'ocr_emb', 'whisper_emb', 'whisper_len', 'ocr_len'])
+
+    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_clip")
+    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_facefounder")
+    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_ocr")
+    await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_whisper")
+
+    return StartProcessAnswer(id=video_id)
+
 
 
 @app.get('/search_suggest')
@@ -177,18 +189,3 @@ def get_faces() -> FacesList:
         for c in pg_session.query(Face).all():
             res.append({'id': c.id, 'name': c.name, 'url': c.image_url})
     return {'title': 'Блогеры', 'options': res}
-
-@app.get('/video')
-async def search(video_id: int) -> VideoJSON:
-    video_id = int(video_id)
-    with Session(engine) as pg_session:
-        video = pg_session.query(Video).filter_by(id=video_id).first()
-        final_data = video.to_json()
-
-    return final_data
-
-
-@app.get('/video_status')
-async def video_status(data: dict):
-    video_id = data['video_id']
-    return ['OCR', 'CLIP', 'FACES', 'WHISPER', 'CLUSTER']
