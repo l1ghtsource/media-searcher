@@ -13,34 +13,41 @@ function NewVideoPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [idVideo, setIdVideo] = useState(null);
 
-  function sendVideo(){
-    if(videoFile) {
-      const [status, id] = Service.putVideo(videoFile, description);
-      if (status === 200 || status === 204) {
+  async function sendVideo() {
+    if (videoFile) {
+      try {
+        const [status, id] = await Service.putVideo(videoFile, description);
+        if (status >= 400 && status < 600) {
+          setIsError(true);
+        } else {
+          console.log(id);
+          setIsSuccess(true);
+          setIdVideo(id);
+        }
+      } catch (error) {
         setIsError(true);
-      } else {
-        console.log(id)
-        setIsSuccess(true);
-        setIdVideo(id);
       }
-      setVideoLink('');
-      setDescription('');
-      setVideoFile(null);
     } else if (videoLink) {
-      const response = Service.postVideoLink(videoLink, description); 
-      if(response.status === 200 || response.status === 204){
+      try {
+        const response = await Service.postVideoLink(videoLink, description);
+        if (response.status >= 400 && response.status < 600) {
+          setIsError(true);
+        } else {
+          console.log(response);
+          setIdVideo(response.id);
+          setIsSuccess(true);
+        }
+      } catch (error) {
         setIsError(true);
-      } else {
-        console.log(response);
-        setIdVideo(response.id);
-        setIsSuccess(true);
       }
-      setVideoLink('');
-      setDescription('');
-      setVideoFile(null);
     } else {
-      console.error("No video file or link to upload!")
+      console.error("No video file or link to upload!");
     }
+
+    // Очистка полей после обработки
+    setVideoLink('');
+    setDescription('');
+    setVideoFile(null);
   }
 
   return (
@@ -67,4 +74,4 @@ function NewVideoPage() {
   )
 }
 
-export default NewVideoPage
+export default NewVideoPage;
