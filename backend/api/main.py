@@ -10,6 +10,8 @@ from faststream.kafka.fastapi import KafkaRouter
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from models import Base, Face, Video, Cluster
+from fastapi_models import *
+
 
 
 TRANSLATOR_URL = os.environ['TRANSLATOR_URL']
@@ -38,9 +40,7 @@ s3_session = boto3.session.Session(
 )
 
 app = FastAPI(lifespan=router.lifespan_context,
-              description='Метод /find для получения всех аномалий, на вход принимает название колонки и модели \
-            с помощью которых будет производиться обработка. необязательный параметр data_source указывает на \
-                источник данных в ClickHouse, по умолчанию берутся данные из датасета')
+              description='Документация к api поиска, и обработки видео')
 app.include_router(router)
 
 engine = create_engine(POSTGRES_URL, pool_pre_ping=True)
@@ -55,7 +55,6 @@ whisper_zero = [0 for i in range(96*4)]
 
 @app.get("/get_upload_url")
 async def prepare_to_download():
-     
     with Session(engine) as pg_session:
         video = Video()
         pg_session.add(video)
@@ -67,13 +66,13 @@ async def prepare_to_download():
 
     s3 = s3_session.client(service_name="s3", endpoint_url="https://storage.yandexcloud.net")
     put_url = s3.generate_presigned_url("put_object", Params={"Bucket": 'lct-video-0', "Key": video_id}, ExpiresIn=3600)
-    
-    return {'url': put_url, 'id': video_id}
+    return UploadUrl(url=put_url, id=video_id)
 
 @app.post("/upload_complete")
-async def upload_complete(data: dict):
-    video_id = data['video_id']
-    desc = data['description']
+async def upload_complete(report: UploadCompleteReport):
+    report = report.dict()
+    video_id = report['id']
+    desc = report['description']
     with Session(engine) as pg_session:
         video = pg_session.query(Video).filter_by(clickhouse_id=video_id).first()
         video.description = desc
@@ -89,10 +88,11 @@ async def upload_complete(data: dict):
     await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_ocr")
     await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_whisper")
 
-    return {'status': 'Started processing'}
+    return StartProcessAnswer(id=video_id)
 
 @app.post("/index")
-async def upload_complete(data: dict):
+async def upload_complete(data: UploadByUrl):
+    data = data.dict()
     url = data['url']
     desc = data['description']
     with Session(engine) as pg_session:
@@ -114,10 +114,10 @@ async def upload_complete(data: dict):
     await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_ocr")
     await router.broker.publish({"ch_video_id": video_id, 's3_url': url}, "new_video_whisper")
 
-    return {'status': 'Started processing', 'video_id': video_id}
+    return StartProcessAnswer(id=video_id)
 
 @app.get('/search')
-async def search(text: str, number:int=20):
+async def search(text: str, number:int=20) -> List[Video]:
     video_ids = requests.get(SEARCH_URL + '/search', json={'text': text, 'top-k': number}).json()['videos']
     final_data = []
     with Session(engine) as pg_session:
@@ -129,14 +129,14 @@ async def search(text: str, number:int=20):
 
 
 @app.get('/search_suggest')
-async def search_suggest(data: dict):
-    video_ids = requests.get(SEARCH_URL + '/search_suggest', json=data).json()
+async def search_suggest(data: SearchSuggest) -> List[str]:
+    video_ids = requests.get(SEARCH_URL + '/search_suggest', json={text: data.text}).json()
     return video_ids
 
 
 
 @app.get('/get_cluster_video')
-def get_cluster_video(data: dict):
+def get_cluster_video(data: dict) -> List[Video]:
     cluster_id = data['id']
     res = []
     with Session(engine) as pg_session:
@@ -146,7 +146,7 @@ def get_cluster_video(data: dict):
     return res
 
 @app.get('/get_face_video')
-def get_face_video(data: dict):
+def get_face_video(data: dict) -> List[Video]:
     face_id = data['id']
     res = []
     with Session(engine) as pg_session:
@@ -156,19 +156,19 @@ def get_face_video(data: dict):
     return res
 
 @app.get('/get_clusters')
-def get_clusters():
+def get_clusters() -> ClustersList:
     res = []
     with Session(engine) as pg_session:
         for c in pg_session.query(Cluster).all():
-            res.append({'id': c.id, 'name': c.name, 'videos_count': 1})
+            res.append({'id': c.id, 'name': c.name})
     return {'title': 'Подборки', 'options': res}
 
 @app.get('/get_faces')
-def get_faces():
+def get_faces() -> FacesList:
     res = []
     with Session(engine) as pg_session:
         for c in pg_session.query(Face).all():
-            res.append({'id': c.id, 'name': c.name, 'image_url': c.image_url, 'videos_count': 1})
+            res.append({'id': c.id, 'name': c.name, 'url': c.image_url})
     return {'title': 'Блогеры', 'options': res}
 
 
