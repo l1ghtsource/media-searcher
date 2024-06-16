@@ -8,7 +8,7 @@ import FacesComponent from '../../components/FacesComponent/FacesComponent';
 import AddVideoBtn from '../../components/AddVideoBtn/AddVideoBtn';
 import filter from "../../assets/svgIcons/filter.svg"
 import FiltersMobileComponent from '../../components/FiltersMobileComponent/FiltersMobileComponent';
-// import Service from '../../api/Service';
+import Service from '../../api/Service';
 
 function MainPage({ filters, videos, setVideos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
@@ -53,28 +53,28 @@ function MainPage({ filters, videos, setVideos, faces }) {
     });
   };  
 
-  // useEffect(() => {
-  //   console.log(selectedOptions);
-  //   const fetchFilteredVideos = async (selectedOptions) => {
-  //     const fil = {};
-  //     for (const [key, value] of Object.entries(selectedOptions)){
-  //       fil[key] = Array.from(value);
-  //     }
-  //     console.log(fil);
-  //     let clusters = [];
-  //     if (fil.faces && fil.faces.length > 0){
-  //       clusters = await Service.getVideoSelectedFaces(fil.faces);
-  //     } else if (fil.themes && fil.themes.length > 0){
-  //       clusters = await Service.getVideoSelectedClusters(fil.themes);
-  //     }
+  useEffect(() => {
+    console.log(selectedOptions);
+    const fetchFilteredVideos = async (selectedOptions) => {
+      const fil = {};
+      for (const [key, value] of Object.entries(selectedOptions)){
+        fil[key] = Array.from(value);
+      }
+      console.log(fil);
+      let clusters = [];
+      if (fil.faces && fil.faces.length > 0){
+        clusters = await Service.getVideoSelectedFaces(fil.faces);
+      } else if (fil.themes && fil.themes.length > 0){
+        clusters = await Service.getVideoSelectedClusters(fil.themes);
+      }
   
-  //     setVideos(clusters);
-  //     console.log(clusters);
-  //   }
-  //   if(Object.keys(selectedOptions).length > 0){
-  //     fetchFilteredVideos(selectedOptions);
-  //   }
-  // }, [selectedOptions, setVideos])
+      setVideos(clusters);
+      console.log(clusters);
+    }
+    if(Object.keys(selectedOptions).length > 0){
+      fetchFilteredVideos(selectedOptions);
+    }
+  }, [selectedOptions, setVideos])
 
   useEffect(() => {
     // Отменяем скролл при размонтировании компонента
@@ -197,23 +197,23 @@ function MainPage({ filters, videos, setVideos, faces }) {
     };
   }, [videos, playingVideoIndex, isFilters, isTranscription]);
 
-  // // Эффект для прокрутки к первому видео при изменении списка видео
-  // useEffect(() => {
-  //   if (videos && videos.length > 0) {
-  //     // Останавливаем текущее воспроизводимое видео
-  //     if (playingVideoIndex !== null) {
-  //       const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
-  //       if (currentVideo) {
-  //         currentVideo.pause();
-  //       }
-  //     }
-  //     setPlayingVideoIndex(0);
-  //     window.scrollTo({
-  //       top: 0,
-  //       behavior: 'auto',
-  //     });
-  //   }
-  // }, [videos, playingVideoIndex]);
+  // Эффект для прокрутки к первому видео при изменении списка видео
+  useEffect(() => {
+    if (videos && videos.length > 0) {
+      // Останавливаем текущее воспроизводимое видео
+      if (playingVideoIndex !== null) {
+        const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
+        if (currentVideo) {
+          currentVideo.pause();
+        }
+      }
+      setPlayingVideoIndex(0);
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto',
+      });
+    }
+  }, [videos, playingVideoIndex]);
 
   return (
     <div className={cl.mainPage}>

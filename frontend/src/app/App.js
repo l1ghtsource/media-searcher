@@ -6,6 +6,11 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import NewVideoPage from '../pages/NewVideoPage/NewVideoPage';
 import useWindowWidth from '../hooks/useWindowWidth';
 import Service from "../api/Service"
+import a4 from "../assets/svgIcons/a4.jpg"
+import egorik from "../assets/svgIcons/egorik.jpg"
+import durov from "../assets/svgIcons/durov.png"
+import tinkoff from "../assets/svgIcons/tinkoff.jpg"
+import maslennikov from "../assets/svgIcons/maslennikov.jpg"
 
 function App() {
 
@@ -13,8 +18,24 @@ function App() {
   const location = useLocation();
   const windowWidth = useWindowWidth();
 
-  const [filters, setFilters] = useState([])
-  const [faces, setFaces] = useState([])
+  const [filters, setFilters] = useState([
+    {title: "Подборки", options: [
+      {id: 0, name: "Баскетбол"},
+      {id: 1, name: "Машины"},
+      {id: 2, name: "Roblox"},
+      {id: 3, name: "Аниме"},
+      {id: 4, name: "Мир видеоигр"},
+    ]}
+  ])
+  const [faces, setFaces] = useState([
+    {title: "Блогеры", options: [
+      {id: 0, name: "Баскетбол", url: a4},
+      {id: 1, name: "Машины", url: egorik},
+      {id: 2, name: "Roblox", url: maslennikov},
+      {id: 3, name: "Аниме", url: tinkoff},
+      {id: 4, name: "Мир видеоигр", url: durov},
+    ]}
+  ])
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
@@ -23,8 +44,11 @@ function App() {
     const fetchFaces = async () => {
       try {
         const facesResponse = await Service.getFaces();
-        setFaces([facesResponse]);
-        console.log([facesResponse]); 
+        if (facesResponse.status === 200){
+          setFaces([facesResponse.data]);
+        console.log([facesResponse.data]);
+        }
+         
       } catch (error){
         console.log(error);
       }
@@ -34,8 +58,10 @@ function App() {
     const fetchFilters = async () => {
       try{
         const filtersResponse = await Service.getClusters();
-        setFilters([filtersResponse]);
-        console.log([filtersResponse]);
+        if (filtersResponse.status === 200){
+          setFilters([filtersResponse.data]);
+          console.log([filtersResponse.data]);
+        }
       } catch (error) {
         console.log(error);
       }
