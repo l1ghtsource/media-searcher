@@ -68,3 +68,42 @@
     height: 601px;
     width: 334px;
 }
+
+.darkVideo > video{
+    filter: brightness(50%);
+}
+
+.error, .success{
+    position: absolute;
+    top: 42%;
+    left: 42%;
+    text-align: center;
+}
+
+.error > *:not(:last-child), .success > *:not(:last-child){
+    margin-bottom: 6px;
+}
+
+.error > img{
+    filter: brightness(0) saturate(100%) invert(35%) sepia(65%) saturate(787%) hue-rotate(325deg) brightness(97%) contrast(81%);
+}
+
+.success > img{
+    filter: brightness(0) saturate(100%) invert(66%) sepia(94%) saturate(655%) hue-rotate(71deg) brightness(92%) contrast(88%);
+    width: 42px;
+    height: 42px;
+}
+
+.error__text{
+    color: #BE4040;
+}
+
+.success__text{
+    color: #25DA42;
+}
+
+.error__text, .success__text{
+    font-size: 16px;
+    font-weight: semibold;
+    text-transform: capitalize;
+}

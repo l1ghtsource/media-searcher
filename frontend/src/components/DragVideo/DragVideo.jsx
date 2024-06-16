@@ -3,8 +3,10 @@ import cl from "./DragVideo.module.css"
 import upload from "../../assets/svgIcons/upload.svg"
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
 import trash from "../../assets/svgIcons/trash.svg"
+import errorImg from "../../assets/svgIcons/error.svg"
+import successImg from "../../assets/svgIcons/success.svg"
 
-function DragVideo({setVideoFile}) {
+function DragVideo({setVideoFile, isError, isSuccess}) {
   const [drag, setDrag] = useState(false);
   const [error, setError] = useState(' ');
   const [videoSrc, setVideoSrc] = useState(null);
@@ -83,7 +85,7 @@ function DragVideo({setVideoFile}) {
         :
         videoSrc 
         ? 
-          <div className={cl.uploadedVideo}>
+          <div className={isError || isSuccess ? `${cl.uploadedVideo} ${cl.darkVideo}` : cl.uploadedVideo}>
             <div className={cl.uploadedVideo__delete} onClick={() => onDeleteHandler()}>
               <img src={trash} alt='trash'/>
             </div>
@@ -92,6 +94,22 @@ function DragVideo({setVideoFile}) {
               Попробуйте скачать видео <a href={videoSrc}>по этой ссылке</a>
               и открыть его на своём устройстве.
             </video>
+            {
+              isError && (
+                <div className={cl.error}>
+                  <img src={errorImg} alt="error"/>
+                  <div className={cl.error__text}>Error</div>
+                </div>
+              )
+            }
+            {
+              isSuccess && (
+                <div className={cl.success}>
+                  <img src={successImg} alt="success"/>
+                  <div className={cl.success__text}>Success</div>
+                </div>
+              )
+            }
           </div>
         :
           <div 
