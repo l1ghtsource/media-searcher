@@ -258,7 +258,7 @@ def get_cluster(data: dict):
     cluster_id = cluster_searcher.define_cluster(data['embeddings'])
     with Session(engine) as pg_session:
         video = pg_session.query(Video).filter_by(clickhouse_id=data['ch_video_id']).first()
-        cluster = pg_session.query(Cluster).filter_by(id=cluster_id).first()
+        cluster = pg_session.query(Cluster).filter_by(id=cluster_id + 1).first()
         cluster.videos.append(video)
         pg_session.add(cluster)
         pg_session.add(video)
