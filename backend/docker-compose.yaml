@@ -78,7 +78,7 @@ services:
       - kafka
     labels:
       - traefik.enable=true
-      - traefik.http.routers.api.rule=Host(`itut.123581321.ru`) && PathPrefix(`/api/`)
+      - traefik.http.routers.api.rule=Host(`itut.itatmisis.ru`) && PathPrefix(`/api/`)
       - traefik.http.middlewares.api-strip.stripprefix.prefixes=/api/
       - traefik.http.middlewares.api-strip.stripprefix.forceslash=true
       - traefik.http.routers.api.middlewares=api-strip

@@ -167,7 +167,8 @@ class AutocompleteService:
         self.phrases_dict = self.get_dict()
         self.autocomplete = AutoComplete(
             words=self.phrases_dict,
-            valid_chars_for_string='абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+            autocomplete = AutoComplete(words=phrases_dict,
+                                valid_chars_for_string='абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         )
 
     def get_n_candidates(self, user_phrase):
