@@ -3,13 +3,17 @@ import torch
 from transformers import MarianMTModel, MarianTokenizer
 from fastapi import FastAPI
 
+
 def download_models():
     if len(os.listdir("/opus_model")) == 0:
         model = MarianMTModel.from_pretrained('lightsource/yappy-fine-tuned-opus-mt-ru-en')
         tokenizer = MarianTokenizer.from_pretrained('lightsource/yappy-fine-tuned-opus-mt-ru-en')
         tokenizer.save_pretrained("/opus_model")
         model.save_pretrained("/opus_model")
+
+
 download_models()
+
 
 class MarianTranslator:
     def __init__(self):
@@ -25,14 +29,17 @@ class MarianTranslator:
 
         return translated_text[0]
 
+
 translator = MarianTranslator()
 
 
 app = FastAPI()
 
+
 @app.get("/")
 def base():
     return "Ok"
+
 
 @app.get("/translate")
 def translate(data: dict):
