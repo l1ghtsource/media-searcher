@@ -21,14 +21,6 @@ API: [тык](https://www.google.com/)
 
 ## Предложенное решение
 
-### Принцип работы системы изображен на блок-схеме: 
-
-<div align="center">
-   
-![back](back.png)
-
-</div>
-
 ### Для извлечения фичей из видео использовались следующие подходы:
 1) __CLIP__ (а именно *Searchium-ai/clip4clip-webvid150k*, обученный на парах "поисковый запрос - видео") - строим эмбеддинги видео (пространство этих эмбеддингов устроено так, что в нём векторные представления близких текстов и видео тоже близки, то есть эмбеддинги слова "кот" и видео с котом будут иметь высокие показатели близости, а это именно то, что нам и надо)
 ![scheme_clip](clip_scheme.png)
@@ -70,69 +62,6 @@ API: [тык](https://www.google.com/)
 | [ranker.py](https://github.com/l1ghtsource/media-searcher/blob/main/ml/ranker.py)<br>(включая перевод, построение эмбеддингов и сам поиск top-k при k=20)| 211               | 323              |
 
 </div>
-
-### backend составляющая:
-
-#### Backend состоит из
-
- - 1 контейнер под API
- - 7 контейнеров под ML модели
- - 2 бакета Object Storage (для хранения картинок лиц и видео)
- - clickhouse для хранения эмбеддингов
- - PostgreSQL для хранения информации о видео, кластерах лицах, и их связях 
- - traefik в режиме reverse-proxy 
- - kafka с zookeeper
-
- Схема:
-
-<div align="center">
-   
-![back](back.png)
-
-</div>
-
-
-#### Инструкции к запуску:
-
-Сконфигурируйте .env файл:
-```
-CLICKHOUSE_HOST=IP адрес кликхауса
-CLICKHOUSE_USERNAME=авторизация кликхауса
-CLICKHOUSE_PASSWORD=авторизация кликхауса
-
-POSTGRES_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME - адрес постгрес
-```
-Адреса контейнеровв с поиском, переводчиком и Text2MiniLM (планировалась возможность запускать на разных хостах для большей производительности)
-
-```
-TRANSLATOR_URL=http://translator 
-TEXTEMBEDDER_URL=http://textembedder
-SEARCH_URL`=http://search
-
-KAFKA_URL=kafka:9092
-```
-Ключи авторизации к бакету Object Storage, где хранятся видео 
-
-```
-S3_PUBLIC=ключи от Object Storage
-S3_SECRET=ключи от Object Storage
-```
-
-Пути к папкам ML моделей, все кроме OCR при первом запуске контейнера скачается автоматически
-Модели OCR craft_mlt_25k.pth и cyrillic_g2.pth можно скачать с https://www.jaided.ai/easyocr/modelhub/
-
-```
-OCR_MODELS
-EMBEDDING_MODEL
-TRANSLATOR_MODEL
-WHISPER_MEDIUM
-WHISPER_BASE
-CLIP_MODEL
-CLIP_TEXT_MODEL
-```
-
-Сконфгурируйте конфиг traefik внутри `docker-compose.yaml`
-После этого можно запускать через `docker compose up`
 
 ## Кластеризация или поиск видео по тематикам
 
@@ -191,6 +120,68 @@ CLIP_TEXT_MODEL
 | [Ноутбук с AutocompleteService](https://www.kaggle.com/code/l1ghtsource/yappy-autocomplete) | Содержит код системы автопродолжение и исправления поискового запроса. |
 
 </div>
+
+### Backend составляющая:
+
+ - 1 контейнер под API
+ - 7 контейнеров под ML модели
+ - 2 бакета Object Storage (для хранения картинок лиц и видео)
+ - clickhouse для хранения эмбеддингов
+ - PostgreSQL для хранения информации о видео, кластерах лицах, и их связях 
+ - traefik в режиме reverse-proxy 
+ - kafka с zookeeper
+
+### Схема:
+
+<div align="center">
+   
+![back](back.png)
+
+</div>
+
+### Инструкции к запуску:
+
+Сконфигурируйте .env файл:
+```
+CLICKHOUSE_HOST=<IP-адрес кликхауса>
+CLICKHOUSE_USERNAME=<авторизация кликхауса>
+CLICKHOUSE_PASSWORD=<авторизация кликхауса>
+
+POSTGRES_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME - адрес постгрес
+```
+
+Адреса контейнеров с поиском, переводчиком и Text2MiniLM (планировалась возможность запускать на разных хостах для большей производительности)
+
+```
+TRANSLATOR_URL=http://translator 
+TEXTEMBEDDER_URL=http://textembedder
+SEARCH_URL=http://search
+
+KAFKA_URL=kafka:9092
+```
+
+Ключи авторизации к бакету Object Storage, где хранятся видео 
+
+```
+S3_PUBLIC=<ключи от Object Storage>
+S3_SECRET=<ключи от Object Storage>
+```
+
+Пути к папкам ML моделей, все кроме OCR при первом запуске контейнера скачается автоматически
+Модели OCR craft_mlt_25k.pth и cyrillic_g2.pth можно скачать с https://www.jaided.ai/easyocr/modelhub/
+
+```
+OCR_MODELS
+EMBEDDING_MODEL
+TRANSLATOR_MODEL
+WHISPER_MEDIUM
+WHISPER_BASE
+CLIP_MODEL
+CLIP_TEXT_MODEL
+```
+
+Сконфгурируйте конфиг traefik внутри `docker-compose.yaml`
+После этого можно запускать через `docker compose up`
 
 ## Преимущества решения:
 1) Быстрый поиск подходящих видео с помощью *faiss* (~300ms на CPU, ~200ms на GPU для топ-20 видео)
