@@ -103,7 +103,7 @@ export default class SendServer{
         const response = await axios.post('/api/upload_complete', 
           {
             'id': id,
-            'description': description
+            'description': description || '' 
           });
         console.log(response.data);
       } catch (error){

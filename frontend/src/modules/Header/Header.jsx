@@ -77,7 +77,6 @@ function Header({ setVideos, setPlayingVideoIndex }) {
     const fetchSuggestions = async () => {
       if (searchText && searchText.length > 0) {
         const suggestions = await Service.getSuggest(searchText);
-        console.log(suggestions);
         setAutoCompleteList(suggestions);
       } else {
         setAutoCompleteList([]);

@@ -7,8 +7,8 @@ import Service from "../../api/Service"
 
 function NewVideoPage() {
   const [videoFile, setVideoFile] = useState(null);
-  const [videoLink, setVideoLink] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [videoLink, setVideoLink] = useState('');
+  const [description, setDescription] = useState('');
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [idVideo, setIdVideo] = useState(null);
@@ -23,24 +23,21 @@ function NewVideoPage() {
         setIsSuccess(true);
         setIdVideo(id);
       }
-      console.log(videoFile, description);
       setVideoLink('');
       setDescription('');
       setVideoFile(null);
     } else if (videoLink) {
       const response = Service.postVideoLink(videoLink, description); 
-      if(response.status !== 200 && response.status !== 204){
+      if(response.status !== 200 || response.status !== 204){
         setIsError(true);
       } else {
         console.log(response);
-        console.log(response.id);
         setIdVideo(response.id);
         setIsSuccess(true);
       }
       setVideoLink('');
       setDescription('');
       setVideoFile(null);
-      console.log(videoLink, description);
     } else {
       console.error("No video file or link to upload!")
     }
