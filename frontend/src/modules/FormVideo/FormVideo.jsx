@@ -3,7 +3,7 @@ import cl from "./FormVideo.module.css"
 import FormInput from '../../components/FormInput/FormInput'
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
 
-function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription}) {
+function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription, isError, isSuccess}) {
   
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -20,6 +20,20 @@ function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription}
         <FormInput placeholder="Добавить видео по ссылке" onChange={handleVideoLinkChange}/>
         <FormInput placeholder="Описание" onChange={handleDescriptionChange}/>
         <UploadBtn isDisabled={isDisabled} size="18px" onClick={onClick}>Загрузить</UploadBtn>
+        {
+          isError && (
+            <div className={cl.errorBlock}>
+              ❌error
+            </div>
+          )
+        }
+        {
+          isSuccess && (
+            <div className={cl.successBlock}>
+              ✅success
+            </div>
+          )
+        }
     </div>
   )
 }

@@ -72,7 +72,7 @@ export default class SendServer{
 
       try{
         const response = await axios.put(url, file);
-        console.log(response.data);
+        console.log(response);
         if (response.status === 200){
           await this.startProcess(id, description);
         }
@@ -89,7 +89,7 @@ export default class SendServer{
           'url': url,
           'description': description
         });
-        return response.data;
+        return response;
       } 
       catch (error) {
         console.log(error);

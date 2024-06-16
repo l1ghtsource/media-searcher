@@ -9,13 +9,29 @@ function NewVideoPage() {
   const [videoFile, setVideoFile] = useState(null);
   const [videoLink, setVideoLink] = useState(null);
   const [description, setDescription] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   function sendVideo(){
     if(videoFile) {
-      Service.putVideo(videoFile, description);
+      const response = Service.putVideo(videoFile, description);
+      if (response.status >= 400 && response.status < 600) {
+        setIsError(true);
+      } else {
+        setVideoLink(null);
+        setDescription(null);
+        setIsSuccess(true);
+      }
       console.log(videoFile, description);
     } else if (videoLink) {
-      Service.postVideoLink(videoLink, description); 
+      const response = Service.postVideoLink(videoLink, description); 
+      if(response.status >= 400 && response.status < 600){
+        setIsError(true);
+      } else {
+        setDescription(null);
+        setVideoFile(null);
+        setIsSuccess(true);
+      }
       console.log(videoLink, description);
     } else {
       console.error("No video file or link to upload!")
@@ -29,13 +45,15 @@ function NewVideoPage() {
         <div className={cl.newVideoPageTitle}>Новая публикация</div>
       </div>
       <div className={cl.newVideoPage__form}>
-        <DragVideo setVideoFile={setVideoFile}/>
+        <DragVideo setVideoFile={setVideoFile} isError={isError} isSuccess={isSuccess}/>
         <FormVideo 
           videoFile={videoFile} 
           videoLink={videoLink} 
           setVideoLink={setVideoLink} 
           onClick={sendVideo} 
           setDescription={setDescription}
+          isError={isError}
+          isSuccess={isSuccess}
         />
       </div>
     </div>

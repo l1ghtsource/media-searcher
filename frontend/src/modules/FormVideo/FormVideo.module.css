@@ -6,6 +6,19 @@
     margin-bottom: 35px;
 }
 
+.errorBlock, .successBlock{
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.errorBlock{
+    color: #f92f60;
+}
+
+.successBlock{
+    color: #00d26a;
+}
+
 /**** ADAPTIVE *****/
 
 /*****************TABLET******************/
