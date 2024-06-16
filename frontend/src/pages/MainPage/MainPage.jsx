@@ -204,23 +204,23 @@ function MainPage({ filters, videos, setVideos, faces }) {
     };
   }, [videos, playingVideoIndex, isFilters, isTranscription]);
 
-  // Эффект для прокрутки к первому видео при изменении списка видео
-  useEffect(() => {
-    if (videos && videos.length > 0) {
-      // Останавливаем текущее воспроизводимое видео
-      if (playingVideoIndex !== null) {
-        const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
-        if (currentVideo) {
-          currentVideo.pause();
-        }
-      }
-      setPlayingVideoIndex(0);
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto',
-      });
-    }
-  }, [videos, playingVideoIndex]);
+  // // Эффект для прокрутки к первому видео при изменении списка видео
+  // useEffect(() => {
+  //   if (videos && videos.length > 0) {
+  //     // Останавливаем текущее воспроизводимое видео
+  //     if (playingVideoIndex !== null) {
+  //       const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
+  //       if (currentVideo) {
+  //         currentVideo.pause();
+  //       }
+  //     }
+  //     setPlayingVideoIndex(0);
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: 'auto',
+  //     });
+  //   }
+  // }, [videos, playingVideoIndex]);
 
   return (
     <div className={cl.mainPage}>
