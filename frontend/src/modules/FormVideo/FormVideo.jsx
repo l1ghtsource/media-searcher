@@ -3,7 +3,7 @@ import cl from "./FormVideo.module.css"
 import FormInput from '../../components/FormInput/FormInput'
 import UploadBtn from '../../UI/UploadBtn/UploadBtn'
 
-function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription, isError, isSuccess}) {
+function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription, isError, isSuccess, idVideo}) {
   
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -31,6 +31,11 @@ function FormVideo({videoFile, videoLink, setVideoLink, onClick, setDescription,
           isSuccess && (
             <div className={cl.successBlock}>
               ✅success
+              {
+                idVideo && (
+                  <div>Ваши видео доступно по <a href={`https://itut.itatmisis.ru/api/video?video_id=${idVideo}`}>ссылке</a></div>
+                )
+              }
             </div>
           )
         }

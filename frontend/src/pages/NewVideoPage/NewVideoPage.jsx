@@ -11,27 +11,32 @@ function NewVideoPage() {
   const [description, setDescription] = useState(null);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [idVideo, setIdVideo] = useState(null);
 
   function sendVideo(){
     if(videoFile) {
-      const response = Service.putVideo(videoFile, description);
-      if (response.status >= 400 && response.status < 600) {
+      const [status, id] = Service.putVideo(videoFile, description);
+      if (status >= 400 && status < 600) {
         setIsError(true);
       } else {
-        setVideoLink(null);
-        setDescription(null);
         setIsSuccess(true);
+        setIdVideo(id);
       }
       console.log(videoFile, description);
+      setVideoLink('');
+      setDescription('');
+      setVideoFile(null);
     } else if (videoLink) {
       const response = Service.postVideoLink(videoLink, description); 
       if(response.status >= 400 && response.status < 600){
         setIsError(true);
       } else {
-        setDescription(null);
-        setVideoFile(null);
+        setIdVideo(response.id);
         setIsSuccess(true);
       }
+      setVideoLink('');
+      setDescription('');
+      setVideoFile(null);
       console.log(videoLink, description);
     } else {
       console.error("No video file or link to upload!")
@@ -54,6 +59,7 @@ function NewVideoPage() {
           setDescription={setDescription}
           isError={isError}
           isSuccess={isSuccess}
+          idVideo={idVideo}
         />
       </div>
     </div>

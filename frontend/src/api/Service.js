@@ -76,6 +76,7 @@ export default class SendServer{
         if (response.status === 200){
           await this.startProcess(id, description);
         }
+        return [response.status, id]
       } 
       catch (error) {
         console.log("Error fetching ya link: ", error);
@@ -99,7 +100,7 @@ export default class SendServer{
     //* Говорим yandex, что готово можешь делать свои махинации
     static async startProcess(id, description){
       try{
-        const response = await axios.get('/api/upload_complete', 
+        const response = await axios.post('/api/upload_complete', 
           {
             'id': id,
             'description': description
