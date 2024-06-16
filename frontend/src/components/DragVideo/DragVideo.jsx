@@ -6,10 +6,10 @@ import trash from "../../assets/svgIcons/trash.svg"
 import errorImg from "../../assets/svgIcons/error.svg"
 import successImg from "../../assets/svgIcons/success.svg"
 
-function DragVideo({setVideoFile, isError, isSuccess}) {
+function DragVideo({setVideoFile, isError, isSuccess, videoFile}) {
   const [drag, setDrag] = useState(false);
   const [error, setError] = useState(' ');
-  const [videoSrc, setVideoSrc] = useState(null);
+  const [videoSrc, setVideoSrc] = useState(videoFile);
 
   //Функция начала перетаскивания
   function dragStartHandler(e){

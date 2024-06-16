@@ -19,6 +19,7 @@ function NewVideoPage() {
       if (status >= 400 && status < 600) {
         setIsError(true);
       } else {
+        console.log(id)
         setIsSuccess(true);
         setIdVideo(id);
       }
@@ -31,6 +32,8 @@ function NewVideoPage() {
       if(response.status >= 400 && response.status < 600){
         setIsError(true);
       } else {
+        console.log(response);
+        console.log(response.id);
         setIdVideo(response.id);
         setIsSuccess(true);
       }
@@ -50,7 +53,7 @@ function NewVideoPage() {
         <div className={cl.newVideoPageTitle}>Новая публикация</div>
       </div>
       <div className={cl.newVideoPage__form}>
-        <DragVideo setVideoFile={setVideoFile} isError={isError} isSuccess={isSuccess}/>
+        <DragVideo setVideoFile={setVideoFile} isError={isError} isSuccess={isSuccess} videoFile={videoFile}/>
         <FormVideo 
           videoFile={videoFile} 
           videoLink={videoLink} 
@@ -60,6 +63,7 @@ function NewVideoPage() {
           isError={isError}
           isSuccess={isSuccess}
           idVideo={idVideo}
+          description={description}
         />
       </div>
     </div>
