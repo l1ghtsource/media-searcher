@@ -129,24 +129,6 @@ API: [тык](https://www.google.com/)
 
 </div>
 
-### Пример поиска видео:
-
-```python
-import clickhouse_connect
-from ml.ranker import SimilarityRanker
-
-client = clickhouse_connect.get_client(host='91.224.86.248', port=8123) # подключение к БД, содержащей предрасчитанные эмбеддинги
-TABLENAME = 'embeddings'
-
-data = client.query_df(f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM {TABLENAME}')
-data = data.drop_duplicates(subset='id')
-
-df = pd.read_csv('path-to-csv-with-links') # исходный CSV-файл, содержайщий ссылки на видео
-
-ranker = SimilarityRanker(data, df)
-res = ranker.find_top_k('бравл старс', k=10)
-```
-
 ## Преимущества решения:
 1) Быстрый поиск подходящих видео с помощью *faiss* (~300ms на CPU, ~200ms на GPU для топ-20 видео)
 2) Извлекаем максимум информации: текст с видео (*EasyOCR*, причем извлекаем текст с фреймов параллельно, что даёт сильный прирост в скорости), текстовое представление аудиосоставляющей (*Whisper*), учитываем происходящее на видео (CLIP)
