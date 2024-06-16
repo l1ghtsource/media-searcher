@@ -165,10 +165,8 @@ class ClusterSearcher():
 class AutocompleteService:
     def __init__(self):
         self.phrases_dict = self.get_dict()
-        self.autocomplete = AutoComplete(
-            words=self.phrases_dict,
-            autocomplete = AutoComplete(words=self.phrases_dict,
-                                valid_chars_for_string='абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        self.autocomplete = AutoComplete(words=self.phrases_dict,
+                                valid_chars_for_string='абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         )
 
     def get_n_candidates(self, user_phrase):
