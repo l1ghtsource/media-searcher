@@ -168,6 +168,7 @@ S3_SECRET=<ключи от Object Storage>
 ```
 
 Пути к папкам ML моделей, все кроме OCR при первом запуске контейнера скачается автоматически
+
 Модели OCR craft_mlt_25k.pth и cyrillic_g2.pth можно скачать с https://www.jaided.ai/easyocr/modelhub/
 
 ```
