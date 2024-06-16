@@ -15,13 +15,7 @@ function App() {
 
   const [filters, setFilters] = useState([])
   const [faces, setFaces] = useState([])
-  const [videos, setVideos] = useState([{
-    url: "https://cdn-st.rutubelist.ru/media/e9/e0/b47a9df14a5e97942715e5e705c0/fhd.mp4",
-    description: "Какая-то инфа, которая была дана + которую мы выявили отдельно",
-    user: "@kto-to_tam",
-    clusters: ["#такие_теги", "#ещё_теги", "#и_ещё_теги"],
-    faces: [""],
-  }, ]);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
 

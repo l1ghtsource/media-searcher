@@ -11,7 +11,7 @@ export default class SendServer{
 
     //* Функция автопродления слов и фраз, исходя из текущего текстового запроса
     static async getSuggest(searchText){
-      return await axios.get(`/api/search_suggest`, {text: searchText})
+      return await axios.get(`/api/search_suggest?text=${searchText}`)
               .then(response => response.data)
               .catch(error => console.log('Error fetching suggest: ', error));
     }
@@ -32,14 +32,14 @@ export default class SendServer{
 
     //* Функция получения видео с выбранными лицами
     static async getVideoSelectedFaces(id){
-      return await axios.get('/api/get_face_video', {
+      return await axios.post('/api/get_face_video', {
         'id': id
       }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
     }
 
     //* Функция получения видео с выбранными тематиками
     static async getVideoSelectedClusters(id){
-      return await axios.get('/api/get_cluster_video', {
+      return await axios.post('/api/get_cluster_video', {
         'id': id
       }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
     }

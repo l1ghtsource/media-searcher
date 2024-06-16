@@ -23,9 +23,9 @@ function FiltersComponent({ filters, selectedOptions, toggleOption }) {
     // Функция для получения отсортированных опций с учетом выбранных
     const getSortedOptions = (filter) => {
         const selected = selectedOptions[filter.title] || new Set();
-        const unselectedOptions = filter.options.filter(option => !selected.has(option.name));
+        const unselectedOptions = filter.options.filter(option => !selected.has(option.id));
         return [
-            ...filter.options.filter(option => selected.has(option.name)),
+            ...filter.options.filter(option => selected.has(option.id)),
             ...unselectedOptions
         ];
     };
@@ -41,8 +41,8 @@ function FiltersComponent({ filters, selectedOptions, toggleOption }) {
                                 getSortedOptions(filter).slice(0, expanded[index] ? filter.options.length : expandedStart).map((option, i) => (
                                     <FilterBtn
                                         key={i}
-                                        onClick={() => toggleOption(filter.title, option.name)}
-                                        isActive={selectedOptions[filter.title] && selectedOptions[filter.title].has(option.name)}
+                                        onClick={() => toggleOption(filter.title, option.id)}
+                                        isActive={selectedOptions[filter.title] && selectedOptions[filter.title].has(option.id)}
                                     >
                                         {option.name}
                                     </FilterBtn>

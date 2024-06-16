@@ -16,7 +16,7 @@ function FiltersMobileComponent({ filters, selectedOptions, toggleOption, faces 
                 Array.from(selectedOptions[filter.title]).map((option, i) => (
                   <FilterBtn
                     key={i}
-                    onClick={() => toggleOption(filter.title, option.name)}
+                    onClick={() => toggleOption(filter.title, option.id)}
                     isActive={true}
                   >
                     {option.name}
@@ -24,11 +24,11 @@ function FiltersMobileComponent({ filters, selectedOptions, toggleOption, faces 
                 ))}
               {/* Затем отображаем остальные опции */}
               {filter.options.map((option, i) => (
-                !selectedOptions[filter.title]?.has(option.name) && (
+                !selectedOptions[filter.title]?.has(option.id) && (
                   <FilterBtn
                     key={i}
-                    onClick={() => toggleOption(filter.title, option.name)}
-                    isActive={selectedOptions[filter.title]?.has(option.name)}
+                    onClick={() => toggleOption(filter.title, option.id)}
+                    isActive={selectedOptions[filter.title]?.has(option.id)}
                   >
                     {option.name}
                   </FilterBtn>

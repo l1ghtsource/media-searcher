@@ -38,16 +38,16 @@ function MainPage({ filters, videos, setVideos, faces }) {
   };
 
   //Функция для выбора опций
-  const toggleOption = (filterTitle, option) => {
+  const toggleOption = (filterTitle, optionId) => {
     setSelectedOptions(prevState => {
         const newState = { ...prevState };
         if (!newState[filterTitle]) {
             newState[filterTitle] = new Set();
         }
-        if (newState[filterTitle].has(option)) {
-            newState[filterTitle].delete(option);
+        if (newState[filterTitle].has(optionId)) {
+            newState[filterTitle].delete(optionId);
         } else {
-            newState[filterTitle].add(option);
+            newState[filterTitle].add(optionId);
         }
         return newState;
     });
@@ -197,23 +197,23 @@ function MainPage({ filters, videos, setVideos, faces }) {
     };
   }, [videos, playingVideoIndex, isFilters, isTranscription]);
 
-  // Эффект для прокрутки к первому видео при изменении списка видео
-  useEffect(() => {
-    if (videos && videos.length > 0) {
-      // Останавливаем текущее воспроизводимое видео
-      if (playingVideoIndex !== null) {
-        const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
-        if (currentVideo) {
-          currentVideo.pause();
-        }
-      }
-      setPlayingVideoIndex(0);
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto',
-      });
-    }
-  }, [videos, playingVideoIndex]);
+  // // Эффект для прокрутки к первому видео при изменении списка видео
+  // useEffect(() => {
+  //   if (videos && videos.length > 0) {
+  //     // Останавливаем текущее воспроизводимое видео
+  //     if (playingVideoIndex !== null) {
+  //       const currentVideo = document.getElementById(`video-${playingVideoIndex}`);
+  //       if (currentVideo) {
+  //         currentVideo.pause();
+  //       }
+  //     }
+  //     setPlayingVideoIndex(0);
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: 'auto',
+  //     });
+  //   }
+  // }, [videos, playingVideoIndex]);
 
   return (
     <div className={cl.mainPage}>

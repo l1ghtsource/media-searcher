@@ -23,9 +23,9 @@ function FacesComponent({ faces, selectedOptions, toggleOption }) {
     // Функция для получения отсортированных опций с учетом выбранных
     const getSortedOptions = (face) => {
         const selected = selectedOptions[face.title] || new Set();
-        const unselectedOptions = face.options.filter(option => !selected.has(option.name));
+        const unselectedOptions = face.options.filter(option => !selected.has(option.id));
         return [
-            ...face.options.filter(option => selected.has(option.name)),
+            ...face.options.filter(option => selected.has(option.id)),
             ...unselectedOptions
         ];
     };
@@ -42,8 +42,8 @@ function FacesComponent({ faces, selectedOptions, toggleOption }) {
                                 getSortedOptions(face).slice(0, expanded[index] ? face.options.length : expandedStart).map((faceOption) => (
                                     <FaceBtn
                                         key={faceOption.id}
-                                        onClick={() => toggleOption(face.title, faceOption.name)}
-                                        isActive={selectedOptions[face.title] && selectedOptions[face.title].has(faceOption.name)} // Проверяем, является ли текущая опция активной
+                                        onClick={() => toggleOption(face.title, faceOption.id)}
+                                        isActive={selectedOptions[face.title] && selectedOptions[face.title].has(faceOption.id)} // Проверяем, является ли текущая опция активной
                                         face={faceOption.url}
                                     />
                                 ))
