@@ -13,7 +13,7 @@ Team Members:
 
 Веб-сервис: [тык](https://itut.itatmisis.ru/)
 
-API: [тык](https://itut.itatmisis.ru/api/docs)
+Swagger API docs: [тык](https://itut.itatmisis.ru/api/docs)
 
 ## Кейс "Сервис текстового поиска по медиаконтенту" (Yappy)
 
