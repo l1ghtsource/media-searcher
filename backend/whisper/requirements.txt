@@ -1,0 +1,8 @@
+accelerate
+onnxruntime
+transformers
+clickhouse_connect
+requests
+faststream[kafka]
+sqlalchemy
+psycopg2-binary

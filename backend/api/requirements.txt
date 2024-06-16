@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+clickhouse_connect
+requests
+faststream[kafka]
+sqlalchemy
+psycopg2-binary
+boto3

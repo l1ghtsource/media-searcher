@@ -1,0 +1,13 @@
+transformers
+numpy
+fastapi
+scikit-learn
+pandas
+pydantic
+uvicorn
+clickhouse_connect
+requests
+sqlalchemy
+psycopg2-binary
+sentence_transformers
+fast-autocomplete[levenshtein] 
