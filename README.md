@@ -181,8 +181,7 @@ CLIP_MODEL
 CLIP_TEXT_MODEL
 ```
 
-Сконфгурируйте конфиг traefik внутри `docker-compose.yaml`
-После этого можно запускать через `docker compose up`
+Сконфгурируйте конфиг traefik внутри `docker-compose.yaml`, после этого можно запускать через `docker compose up`
 
 ## Преимущества решения:
 1) Быстрый поиск подходящих видео с помощью *faiss* (~300ms на CPU, ~200ms на GPU для топ-20 видео)
