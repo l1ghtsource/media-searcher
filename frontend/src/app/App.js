@@ -24,7 +24,8 @@ function App() {
     const fetchFaces = async () => {
       try {
         const facesResponse = await Service.getFaces();
-        setFaces(facesResponse); 
+        setFaces(facesResponse);
+        console.log(facesResponse); 
       } catch (error){
         console.log(error);
       }
@@ -34,6 +35,7 @@ function App() {
       try{
         const filtersResponse = await Service.getClusters();
         setFilters(filtersResponse);
+        console.log(filtersResponse);
       } catch (error) {
         console.log(error);
       }
