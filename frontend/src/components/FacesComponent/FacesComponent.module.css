@@ -28,7 +28,7 @@
 .face__options{
     display: flex;
     flex-wrap: wrap;
-    gap: 15px 37px;
+    gap: 15px 27px;
     margin-bottom: calc(27px - 15px);
 }
 

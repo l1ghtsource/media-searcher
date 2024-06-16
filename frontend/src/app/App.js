@@ -36,7 +36,19 @@ function App() {
       {id: 4, name: "Мир видеоигр", url: durov},
     ]}
   ])
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState([
+    {
+      "url": "https://cdn-st.rutubelist.ru/media/d9/90/7edc895249d4874bc0f02a472436/fhd.mp4",
+      "description": "#кино#movie#film#нарезкакино#чтопосfdjsksfdj",
+      "faces": [],
+      "cluster": [
+          {
+              "id": 3,
+              "name": "Dota 2"
+          }
+      ]
+  }
+  ]);
 
   useEffect(() => {
 

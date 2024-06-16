@@ -57,6 +57,7 @@
 .cluster__text{
     font-size: 20px;
     color: #8C8C8C;
+    word-break: break-all;
 }
 
 .cluster__text{
