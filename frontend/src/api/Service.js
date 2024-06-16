@@ -33,14 +33,14 @@ export default class SendServer{
     //* Функция получения видео с выбранными лицами
     static async getVideoSelectedFaces(id){
       return await axios.get('/api/get_face_video', {
-        id: id
+        'id': id
       }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
     }
 
     //* Функция получения видео с выбранными тематиками
     static async getVideoSelectedClusters(id){
       return await axios.get('/api/get_cluster_video', {
-        id: id
+        'id': id
       }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
     }
 

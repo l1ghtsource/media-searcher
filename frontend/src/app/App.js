@@ -15,7 +15,13 @@ function App() {
 
   const [filters, setFilters] = useState([])
   const [faces, setFaces] = useState([])
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState([{
+    url: "https://cdn-st.rutubelist.ru/media/e9/e0/b47a9df14a5e97942715e5e705c0/fhd.mp4",
+    description: "Какая-то инфа, которая была дана + которую мы выявили отдельно",
+    user: "@kto-to_tam",
+    clusters: ["#такие_теги", "#ещё_теги", "#и_ещё_теги"],
+    faces: [""],
+  }, ]);
 
   useEffect(() => {
 
@@ -23,8 +29,8 @@ function App() {
     const fetchFaces = async () => {
       try {
         const facesResponse = await Service.getFaces();
-        setFaces(facesResponse);
-        console.log(facesResponse); 
+        setFaces([facesResponse]);
+        console.log([facesResponse]); 
       } catch (error){
         console.log(error);
       }
@@ -34,8 +40,8 @@ function App() {
     const fetchFilters = async () => {
       try{
         const filtersResponse = await Service.getClusters();
-        setFilters(filtersResponse);
-        console.log(filtersResponse);
+        setFilters([filtersResponse]);
+        console.log([filtersResponse]);
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +71,7 @@ function App() {
       }
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
-        <Route path="/" element={<MainPage filters={filters} videos={videos} faces={faces}/>}/>
+        <Route path="/" element={<MainPage filters={filters} videos={videos} setVideos={setVideos} faces={faces}/>}/>
         <Route path="/addVideo" element={<NewVideoPage/>}/>
       </Routes>
     </div>

@@ -8,8 +8,9 @@ import FacesComponent from '../../components/FacesComponent/FacesComponent';
 import AddVideoBtn from '../../components/AddVideoBtn/AddVideoBtn';
 import filter from "../../assets/svgIcons/filter.svg"
 import FiltersMobileComponent from '../../components/FiltersMobileComponent/FiltersMobileComponent';
+// import Service from '../../api/Service';
 
-function MainPage({ filters, videos, faces }) {
+function MainPage({ filters, videos, setVideos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
   const videoRefs = useRef([]);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -52,6 +53,29 @@ function MainPage({ filters, videos, faces }) {
     });
   };  
 
+  // useEffect(() => {
+  //   console.log(selectedOptions);
+  //   const fetchFilteredVideos = async (selectedOptions) => {
+  //     const fil = {};
+  //     for (const [key, value] of Object.entries(selectedOptions)){
+  //       fil[key] = Array.from(value);
+  //     }
+  //     console.log(fil);
+  //     let clusters = [];
+  //     if (fil.faces && fil.faces.length > 0){
+  //       clusters = await Service.getVideoSelectedFaces(fil.faces);
+  //     } else if (fil.themes && fil.themes.length > 0){
+  //       clusters = await Service.getVideoSelectedClusters(fil.themes);
+  //     }
+  
+  //     setVideos(clusters);
+  //     console.log(clusters);
+  //   }
+  //   if(Object.keys(selectedOptions).length > 0){
+  //     fetchFilteredVideos(selectedOptions);
+  //   }
+  // }, [selectedOptions, setVideos])
+
   useEffect(() => {
     // Отменяем скролл при размонтировании компонента
     return () => {
@@ -59,6 +83,7 @@ function MainPage({ filters, videos, faces }) {
     };
   }, []);
 
+  //Изменения видео по стрелочкам
   useEffect(() => {
     let timerId;
     const handleKeyPress = (e) => {
@@ -93,6 +118,7 @@ function MainPage({ filters, videos, faces }) {
     };
   }, [playingVideoIndex, videos, isFilters, isTranscription]);
 
+  //Изменения видео по скроллу
   useEffect(() => {
     let timerId;
     let startY = 0;
