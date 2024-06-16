@@ -129,12 +129,12 @@ async def search(text: str, number:int=20) -> List[VideoJSON]:
 
 
 @app.get('/search_suggest')
-async def search_suggest(data: SearchSuggest) -> List[str]:
-    video_ids = requests.get(SEARCH_URL + '/search_suggest', json={'text': data.text}).json()
+async def search_suggest(text: str) -> List[str]:
+    video_ids = requests.get(SEARCH_URL + '/search_suggest', json={'text': text}).json()
     return video_ids
 
 
-@app.get('/get_cluster_video')
+@app.post('/get_cluster_video')
 def get_cluster_video(data: IdsList) -> List[VideoJSON]:
     cluster_ids = data.ids
     res = []
@@ -146,7 +146,7 @@ def get_cluster_video(data: IdsList) -> List[VideoJSON]:
     return res
 
 
-@app.get('/get_face_video')
+@app.post('/get_face_video')
 def get_face_video(data: IdsList) -> List[VideoJSON]:
     face_ids = data.ids
     res = []

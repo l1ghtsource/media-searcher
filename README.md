@@ -9,11 +9,11 @@ Team Members:
 4) **Кирилл Рыжичкин** - ML Engineer
 5) **Артём Плужников** - ML Engineer
 
-Презентация: [link](https://www.google.com/)
+Презентация: [тык](https://drive.google.com/file/d/1qJU1osjBlHlDIt1QoxHV9yw7s_KMg3Mi/view?usp=sharing)
 
-Веб-сервис: [itutitam.ru](https://www.google.com/)
+Веб-сервис: [тык](https://www.google.com/)
 
-API: [itutitam.ru/api/](https://www.google.com/)
+API: [тык](https://www.google.com/)
 
 ## Кейс "Сервис текстового поиска по медиаконтенту" (Yappy)
 
@@ -23,7 +23,11 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 ### Принцип работы системы изображен на блок-схеме: 
 
-<тут будет блок-схема>
+<div align="center">
+   
+![back](back.png)
+
+</div>
 
 ### Для извлечения фичей из видео использовались следующие подходы:
 1) __CLIP__ (а именно *Searchium-ai/clip4clip-webvid150k*, обученный на парах "поисковый запрос - видео") - строим эмбеддинги видео (пространство этих эмбеддингов устроено так, что в нём векторные представления близких текстов и видео тоже близки, то есть эмбеддинги слова "кот" и видео с котом будут иметь высокие показатели близости, а это именно то, что нам и надо)
@@ -124,24 +128,6 @@ API: [itutitam.ru/api/](https://www.google.com/)
 | [Ноутбук с AutocompleteService](https://www.kaggle.com/code/l1ghtsource/yappy-autocomplete) | Содержит код системы автопродолжение и исправления поискового запроса. |
 
 </div>
-
-### Пример поиска видео:
-
-```python
-import clickhouse_connect
-from ml.ranker import SimilarityRanker
-
-client = clickhouse_connect.get_client(host='91.224.86.248', port=8123) # подключение к БД, содержащей предрасчитанные эмбеддинги
-TABLENAME = 'embeddings'
-
-data = client.query_df(f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM {TABLENAME}')
-data = data.drop_duplicates(subset='id')
-
-df = pd.read_csv('path-to-csv-with-links') # исходный CSV-файл, содержайщий ссылки на видео
-
-ranker = SimilarityRanker(data, df)
-res = ranker.find_top_k('бравл старс', k=10)
-```
 
 ## Преимущества решения:
 1) Быстрый поиск подходящих видео с помощью *faiss* (~300ms на CPU, ~200ms на GPU для топ-20 видео)
