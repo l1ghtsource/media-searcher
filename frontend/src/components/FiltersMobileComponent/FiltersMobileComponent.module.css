@@ -36,3 +36,43 @@
     background-color: transparent; 
     border-radius: 10px;
 }
+
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+    .filtersMobileComponent{
+        width: 800px;
+    }
+}
+
+@media (max-width: 1250px){
+    
+}
+
+@media (max-width: 1200px) {
+
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .filtersMobileComponent{
+        width: 720px;
+    }
+}
+
+@media (max-width: 884px){
+    .filtersMobileComponent{
+        width: 90dvw;
+    }
+}
+
+@media (max-width: 767px) {
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
+}

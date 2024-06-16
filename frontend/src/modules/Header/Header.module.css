@@ -56,7 +56,7 @@
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
-    top: 45%;
+    top: 50%;
     min-height: 117px;
     max-width: 256px;
 }
@@ -73,16 +73,14 @@
     text-align: right;
 }
 
+.backBtn{
+    position: absolute;
+    bottom: 45px;
+    left: 15px;
+    display: none;
+}
+
 /**** ADAPTIVE *****/
-
-/***************LAPTOP**********************/
-@media (max-width: 1400px){
-
-}
-
-@media (max-width: 1200px) {
-    
-}
 
 /*****************TABLET******************/
 @media (max-width: 992px) {
@@ -110,22 +108,24 @@
     }
 
     .searchText__typo{
-        display: none;
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+        margin: 7px;
+    }
+
+    .typo__btn{
+        text-align: right;
     }
 
     .typo__mobile{
         display: flex;
     }
-}
-
-@media (max-width: 884px){
-
-}
-
-@media (max-width: 767px) {
     
+    .backBtn{
+        display: block;
+    }
 }
-
 
 /********* MOBILE **********/
 @media (max-width: 576px) {

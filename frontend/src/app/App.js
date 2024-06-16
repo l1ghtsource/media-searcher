@@ -14,13 +14,12 @@ function App() {
   const windowWidth = useWindowWidth();
 
   const [filters, setFilters] = useState([])
-
   const [faces, setFaces] = useState([])
-
-
-  const [videos, setVideos] = useState();
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
+
+    // Получение лиц
     const fetchFaces = async () => {
       try {
         const facesResponse = await Service.getFaces();
@@ -31,6 +30,7 @@ function App() {
       }
     }
 
+    // Получение фильтров
     const fetchFilters = async () => {
       try{
         const filtersResponse = await Service.getClusters();
@@ -45,6 +45,7 @@ function App() {
     fetchFaces();
   }, [])
 
+  // UseEffect, который следит за путем
   useEffect(() => {
     if (location.pathname === "/addVideo") {
       setIsHeader(false);

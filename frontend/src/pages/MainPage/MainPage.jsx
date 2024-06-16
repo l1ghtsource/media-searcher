@@ -5,6 +5,9 @@ import VideoComponent from '../../components/VideoComponent/VideoComponent';
 import ProfileBtn from '../../components/ProfileBtn/ProfileBtn';
 import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
 import FacesComponent from '../../components/FacesComponent/FacesComponent';
+import AddVideoBtn from '../../components/AddVideoBtn/AddVideoBtn';
+import filter from "../../assets/svgIcons/filter.svg"
+import FiltersMobileComponent from '../../components/FiltersMobileComponent/FiltersMobileComponent';
 
 function MainPage({ filters, videos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
@@ -72,7 +75,6 @@ function MainPage({ filters, videos, faces }) {
       
     };
 
-    // console.log(playingVideoIndex);
     document.addEventListener('keydown', handleKeyPress);
   
     if (!isTranscription && !isFilters && playingVideoIndex !== null && videoRefs.current[playingVideoIndex]) {
@@ -192,7 +194,9 @@ function MainPage({ filters, videos, faces }) {
       <div className={cl.mainPage__filters}>
         <FiltersComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
       </div>   
-
+      <div className={cl.mainPage__faces}>
+        <FacesComponent faces={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
+      </div>
       <div className={cl.mainPage__videos}>
         {videos &&
           videos.map((video, index) => (
@@ -222,10 +226,28 @@ function MainPage({ filters, videos, faces }) {
             </div>
           ))}
       </div>
-
-      <div className={cl.mainPage__faces}>
-        <FacesComponent faces={faces} selectedOptions={selectedOptions} toggleOption={toggleOption}/>
-      </div>
+      {
+        videos && videos.length === 0 && (
+          <div>
+            <div className={cl.mainPage__addVideo}>
+                <AddVideoBtn/>
+            </div>
+            <div className={cl.mainPage__btn}>
+                <div className={isFilters ? `${cl.filterBtn} ${cl.active}` : cl.filterBtn}>
+                  <img src={filter} alt="filter" onClick={toggleFilters} />
+                </div>
+            </div>
+            {
+              isFilters && (
+                <div className={cl.filtersMobile}>
+                  <FiltersMobileComponent filters={filters} selectedOptions={selectedOptions} toggleOption={toggleOption} faces={faces}/>
+                </div>
+              )
+            }
+          </div>
+        )
+      }
+      
     </div>
   );
 }

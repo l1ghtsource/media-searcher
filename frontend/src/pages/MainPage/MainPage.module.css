@@ -75,6 +75,47 @@
     left: 80px;
 }
 
+.mainPage__btn{
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: none;
+}
+
+.mainPage__addVideo{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: none;
+}
+
+.filterBtn{
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filterBtn > img{
+    height: 37px;
+    width: 37px;
+    filter: brightness(0) saturate(100%) invert(54%) sepia(98%) saturate(688%) hue-rotate(123deg) brightness(89%) contrast(102%);
+}
+
+.filtersMobile{
+    position: absolute;
+    top: 12%;
+    left: 20px;
+    z-index: 100;
+    margin-left: 170px;
+}
+
+.active{
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 11px;
+}
+
 /**** ADAPTIVE *****/
 
 /***************LAPTOP**********************/
@@ -92,10 +133,16 @@
     .mainPage__filters, .mainPage__faces{
         display: none;
     }
+
+    .mainPage__btn{
+        display: block;
+    }
 }
 
 @media (max-width: 1200px) {
-
+    .filtersMobile{
+        margin-left: 100px;
+    }
 }
 
 /*****************TABLET******************/
@@ -114,18 +161,18 @@
     .video__info{
         display: none;
     }
-}
 
-@media (max-width: 884px){
-    
+    .filtersMobile{
+        margin-left: 20px;
+    }
+
+    .mainPage__addVideo{
+        display: block;
+    }
 }
 
 @media (max-width: 767px) {
- 
-}
-
-
-/********* MOBILE **********/
-@media (max-width: 576px) {
-
+    .filtersMobile{
+        margin-left: 9px;
+    }
 }

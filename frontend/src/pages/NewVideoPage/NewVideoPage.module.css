@@ -26,15 +26,6 @@
 
 /**** ADAPTIVE *****/
 
-/***************LAPTOP**********************/
-@media (max-width: 1400px){
-
-}
-
-@media (max-width: 1200px) {
-    
-}
-
 /*****************TABLET******************/
 @media (max-width: 992px) {
 
@@ -55,18 +46,4 @@
     .newVideoPageTitle{
         display: none;
     }
-}
-
-@media (max-width: 884px){
-
-}
-
-@media (max-width: 767px) {
-    
-}
-
-
-/********* MOBILE **********/
-@media (max-width: 576px) {
-    
 }

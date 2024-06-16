@@ -58,11 +58,13 @@ function DragVideo({setVideoFile}) {
     console.log(error);
   }
 
+  // Функция для ввода файла через input
   function onFileInputChange(event) {
     const file = event.target.files[0];
     handleFile(file)
   }
 
+  // Функция удаления видео
   function onDeleteHandler(){
     setVideoSrc(null);
   }

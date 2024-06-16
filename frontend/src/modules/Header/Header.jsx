@@ -10,12 +10,13 @@ import Service from "../../api/Service"
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import AutoComplete from '../../components/AutoComplete/AutoComplete'
+import BackBtn from "../../UI/BackBtn/BackBtn"
 
 function Header({setVideos}) {
   const [searchText, setSearchText] = useState('');
   const [typoText] = useState('');
   const [autoCompleteList, setAutoCompleteList] = useState(['машина', 'машина xiaomi', 'маша и медведь']);
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const { transcript, resetTranscript } = useSpeechRecognition();
   const autoCompleteRef = useRef();
   const searchInputRef = useRef();
   const [isFocus, setIsFocus] = useState(false);
@@ -39,7 +40,6 @@ function Header({setVideos}) {
   } 
 
   const searchVideo = async (text) => {
-    console.log('Отправка текста:', text);
     const response = await Service.getVideos(text);
     setVideos(response);
     navigate('/');
@@ -59,15 +59,10 @@ function Header({setVideos}) {
   }
 
   useEffect(() => {
-    // console.log('Распознанный текст:', transcript);
     if(transcript !== undefined){
       setSearchText(transcript);
     }
   }, [transcript]);
-
-  useEffect(() => {
-    console.log('Listening status:', listening);
-  }, [listening]);
 
   return (
     <div className={isFocus ? `${cl.header} ${cl.focus}` : cl.header}>
@@ -108,11 +103,18 @@ function Header({setVideos}) {
             <AddVideoBtn/>
             <ProfileBtn/>
         </div>
-        {
+        {/* {
           typoText && (
             <div className={cl.typo__mobile}>
               <div className={cl.typoMobile__text}>Показаны результаты по запросу <span>{typoText}</span></div>
               <div className={cl.typoMobile__btn}>Отмена</div>
+            </div>
+          )
+        } */}
+        {
+          isFocus && (
+            <div className={cl.backBtn}>
+              <BackBtn>Назад</BackBtn>
             </div>
           )
         }

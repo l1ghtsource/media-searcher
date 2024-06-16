@@ -13,17 +13,7 @@
     background-color: #00c39f;
 }
 
-
 /**** ADAPTIVE *****/
-
-/***************LAPTOP**********************/
-@media (max-width: 1400px){
-
-}
-
-@media (max-width: 1200px) {
-    
-}
 
 /*****************TABLET******************/
 @media (max-width: 992px) {
@@ -38,18 +28,8 @@
     .addVideoBtn > * > img{
         filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(3726%) hue-rotate(124deg) brightness(104%) contrast(101%);
     }
-}
-
-@media (max-width: 884px){
-   
-}
-
-@media (max-width: 767px) {
-
-}
-
-
-/********* MOBILE **********/
-@media (max-width: 576px) {
-
+    
+    .addVideoBtn:hover > * > img{
+        filter: brightness(0) saturate(100%)
+    }
 }

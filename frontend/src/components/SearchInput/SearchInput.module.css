@@ -41,19 +41,10 @@
 
 /**** ADAPTIVE *****/
 
-/***************LAPTOP**********************/
-@media (max-width: 1400px){
-
-}
-
-@media (max-width: 1200px) {
-
-}
-
 /*****************TABLET******************/
 @media (max-width: 992px) {
     .search{
-        width: 785px;
+        width: 90dvw;
         background-color: rgba(255, 255, 255, 0.5);
     }
 
@@ -70,32 +61,8 @@
     }
 }
 
-@media (max-width: 884px){
-    .search{
-        width: 695px;
-    }
-}
-
 @media (max-width: 767px) {
     .logo{
         display: none;
-    }
-
-    .search{
-        width: 554px;
-    }
-}
-
-
-/********* MOBILE **********/
-@media (max-width: 576px) {
-    .search{
-        width: 475px;
-    }
-}
-
-@media (max-width: 476px) {
-    .search{
-        width: 335px;
     }
 }
