@@ -54,7 +54,7 @@ whisper_zero = [0 for i in range(96*4)]
 
 
 @app.post("/index")
-async def upload_complete(data: UploadByUrl):
+async def inedx_upload(data: UploadByUrl) -> StartProcessAnswer:
     data = data.dict()
     url = data['url']
     desc = data['description']
@@ -102,7 +102,7 @@ async def search(video_id: int) -> VideoJSON:
     return final_data
 
 @app.get("/get_upload_url")
-async def prepare_to_download():
+async def prepare_to_download() -> UploadUrl:
     with Session(engine) as pg_session:
         video = Video()
         pg_session.add(video)
@@ -113,12 +113,12 @@ async def prepare_to_download():
         pg_session.commit()
 
     s3 = s3_session.client(service_name="s3", endpoint_url="https://storage.yandexcloud.net")
-    put_url = s3.generate_presigned_url("put_object", Params={"Bucket": 'lct-video-0', "Key": video_id}, ExpiresIn=3600)
+    put_url = s3.generate_presigned_url("put_object", Params={"Bucket": 'lct-video-0', "Key": str(video_id)}, ExpiresIn=3600)
     return UploadUrl(url=put_url, id=video_id)
 
 
 @app.post("/upload_complete")
-async def upload_complete(report: UploadCompleteReport):
+async def upload_complete(report: UploadCompleteReport) -> StartProcessAnswer:
     report = report.dict()
     video_id = report['id']
     desc = report['description']
