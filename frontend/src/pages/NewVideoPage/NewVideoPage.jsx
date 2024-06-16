@@ -16,7 +16,7 @@ function NewVideoPage() {
   function sendVideo(){
     if(videoFile) {
       const [status, id] = Service.putVideo(videoFile, description);
-      if (status !== 200 || status !== 204) {
+      if (status === 200 || status === 204) {
         setIsError(true);
       } else {
         console.log(id)
@@ -28,7 +28,7 @@ function NewVideoPage() {
       setVideoFile(null);
     } else if (videoLink) {
       const response = Service.postVideoLink(videoLink, description); 
-      if(response.status !== 200 || response.status !== 204){
+      if(response.status === 200 || response.status === 204){
         setIsError(true);
       } else {
         console.log(response);
