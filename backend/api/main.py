@@ -179,7 +179,7 @@ def get_faces() -> FacesList:
 async def search(video_id: int) -> VideoJSON:
     video_id = int(video_id)
     with Session(engine) as pg_session:
-        video = pg_session.filter_by(id=video_id).first()
+        video = pg_session.query(Video).filter_by(id=video_id).first()
         final_data = video.to_json()
 
     return final_data
