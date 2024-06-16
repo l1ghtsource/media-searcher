@@ -262,7 +262,7 @@ function MainPage({ filters, videos, setVideos, faces, playingVideo }) {
               <div className={cl.video__info}>
                 <div className={cl.videoInfo__profile}>
                   <ProfileBtn />
-                  <div>{video.user}</div>
+                  <div>user</div>
                 </div>
                 <div className={cl.videoInfo__description}>
                   <div className={cl.description__title}>Описание</div>

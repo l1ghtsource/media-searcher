@@ -1,0 +1,43 @@
+.facesMobileComponent{
+    position: relative;
+}
+
+.faceMobile > *:not(:last-child){
+    margin-bottom: 13px;
+}
+
+.faceMobile__title{
+    font-size: 18px;
+}
+
+.faceMobile__options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.expand{
+    background-color: #1b5950;
+    color: #fff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    height: 26px;
+    cursor: pointer;
+}
+
+.fold{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 3.5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.fold__text{
+    color: #939393;
+    font-size: 15px;
+}
