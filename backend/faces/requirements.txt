@@ -1,0 +1,6 @@
+clickhouse_connect
+requests
+faststream[kafka]
+sqlalchemy
+psycopg2-binary
+opencv-python

@@ -1,0 +1,5 @@
+opencv-python
+easyocr
+clickhouse_connect
+requests
+faststream[kafka]

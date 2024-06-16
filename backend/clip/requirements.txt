@@ -1,0 +1,5 @@
+transformers
+clickhouse_connect
+requests
+faststream[kafka]
+opencv-python
