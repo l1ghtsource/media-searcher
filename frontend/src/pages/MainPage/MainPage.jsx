@@ -55,26 +55,33 @@ function MainPage({ filters, videos, setVideos, faces }) {
 
   useEffect(() => {
     console.log(selectedOptions);
+  
     const fetchFilteredVideos = async (selectedOptions) => {
       const fil = {};
-      for (const [key, value] of Object.entries(selectedOptions)){
+      for (const [key, value] of Object.entries(selectedOptions)) {
         fil[key] = Array.from(value);
       }
       console.log(fil);
       let clusters = [];
-      if (fil.faces && fil.faces.length > 0){
-        clusters = await Service.getVideoSelectedFaces(fil.faces);
-      } else if (fil.themes && fil.themes.length > 0){
-        clusters = await Service.getVideoSelectedClusters(fil.themes);
+  
+      // Определение метода API в зависимости от выбранной опции
+      if (fil["Подборки"] && fil["Подборки"].length > 0) {
+        // Выбраны подборки, вызываем метод getVideoSelectedClusters
+        clusters = await Service.getVideoSelectedClusters(fil["Подборки"]);
+      } else if (fil["Блогеры"] && fil["Блогеры"].length > 0) {
+        // Выбраны блогеры, вызываем метод getVideoSelectedFaces
+        clusters = await Service.getVideoSelectedFaces(fil["Блогеры"]);
       }
   
       setVideos(clusters);
       console.log(clusters);
-    }
-    if(Object.keys(selectedOptions).length > 0){
+    };
+  
+    if (Object.keys(selectedOptions).length > 0) {
       fetchFilteredVideos(selectedOptions);
     }
-  }, [selectedOptions, setVideos])
+  }, [selectedOptions, setVideos]);
+  
 
   useEffect(() => {
     // Отменяем скролл при размонтировании компонента
