@@ -1,4 +1,5 @@
 import os
+from random import shuffle
 import requests
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
@@ -143,6 +144,7 @@ def get_cluster_video(data: IdsList) -> List[VideoJSON]:
         for cluster in clusters:
             for video in cluster.videos:
                 res.append(video.to_json())
+    shuffle(res)
     return res
 
 
@@ -155,6 +157,7 @@ def get_face_video(data: IdsList) -> List[VideoJSON]:
         for face in faces:
             for video in face.videos:
                 res.append(video.to_json())
+    shuffle(res)
     return res
 
 
