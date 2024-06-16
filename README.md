@@ -9,7 +9,7 @@ Team Members:
 4) **Кирилл Рыжичкин** - ML Engineer
 5) **Артём Плужников** - ML Engineer
 
-Презентация: [тык](https://drive.google.com/file/d/1qJU1osjBlHlDIt1QoxHV9yw7s_KMg3Mi/view?usp=sharing)
+Презентация: [тык](https://disk.yandex.ru/i/YWLpgGftE838KA)
 
 Веб-сервис: [тык](https://itut.itatmisis.ru/)
 
