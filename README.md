@@ -9,11 +9,11 @@ Team Members:
 4) **Кирилл Рыжичкин** - ML Engineer
 5) **Артём Плужников** - ML Engineer
 
-Презентация: [link](https://www.google.com/)
+Презентация: [тык](https://drive.google.com/file/d/1qJU1osjBlHlDIt1QoxHV9yw7s_KMg3Mi/view?usp=sharing)
 
-Веб-сервис: [itutitam.ru](https://www.google.com/)
+Веб-сервис: [тык](https://www.google.com/)
 
-API: [itutitam.ru/api/](https://www.google.com/)
+API: [тык](https://www.google.com/)
 
 ## Кейс "Сервис текстового поиска по медиаконтенту" (Yappy)
 
@@ -23,7 +23,11 @@ API: [itutitam.ru/api/](https://www.google.com/)
 
 ### Принцип работы системы изображен на блок-схеме: 
 
-<тут будет блок-схема>
+<div align="center">
+   
+![back](back.png)
+
+</div>
 
 ### Для извлечения фичей из видео использовались следующие подходы:
 1) __CLIP__ (а именно *Searchium-ai/clip4clip-webvid150k*, обученный на парах "поисковый запрос - видео") - строим эмбеддинги видео (пространство этих эмбеддингов устроено так, что в нём векторные представления близких текстов и видео тоже близки, то есть эмбеддинги слова "кот" и видео с котом будут иметь высокие показатели близости, а это именно то, что нам и надо)
