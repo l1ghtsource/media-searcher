@@ -11,9 +11,9 @@ Team Members:
 
 Презентация: [тык](https://drive.google.com/file/d/1qJU1osjBlHlDIt1QoxHV9yw7s_KMg3Mi/view?usp=sharing)
 
-Веб-сервис: [тык](https://www.google.com/)
+Веб-сервис: [тык](https://itut.itatmisis.ru/)
 
-API: [тык](https://www.google.com/)
+API: [тык](https://itut.itatmisis.ru/api/docs)
 
 ## Кейс "Сервис текстового поиска по медиаконтенту" (Yappy)
 
