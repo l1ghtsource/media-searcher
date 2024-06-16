@@ -19,14 +19,28 @@ export default class SendServer{
     static async getClusters(){
       return await axios.get('/api/get_clusters')
             .then(response => response.data)
-            .catch(error => console.log('Error fetching clusters:', error));
+            .catch(error => console.log('Error fetching clusters: ', error));
     }
 
     //* Функция получения кластера лиц
     static async getFaces(){
       return await axios.get('/api/get_faces')
             .then(response => response.data)
-            .catch(error => console.log('Error fetching faces:', error));
+            .catch(error => console.log('Error fetching faces: ', error));
+    }
+
+    //* Функция получения видео с выбранными лицами
+    static async getVideoSelectedFaces(id){
+      return await axios.get('/api/get_face_video', {
+        id: id
+      }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
+    }
+
+    //* Функция получения видео с выбранными тематиками
+    static async getVideoSelectedClusters(id){
+      return await axios.get('/api/get_cluster_video', {
+        id: id
+      }).then(response => response.data).catch(error => console.log('Error fetching face video: ', error))
     }
 
     //* Функция получения текста из видео

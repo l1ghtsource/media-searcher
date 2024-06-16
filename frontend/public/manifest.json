@@ -1,0 +1,37 @@
+{
+    "short_name": "ITaM",
+    "name": "Yappy ITaM",
+    "icons": [
+        {
+            "src": "/images/Yappy_Icon.png",
+            "type": "image/png",
+            "sizes": "1000x1000"
+        },
+        {
+            "src": "/images/Yappy_Icon.svg",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+          },
+          {
+            "src": "/images/Yappy_Icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+          },
+          {
+            "src": "/images/Yappy_Icon.svg",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon",
+            "purpose": "any maskable"
+          },
+          {
+            "src": "/images/Yappy_Icon.svg",
+            "sizes": "144x144",
+            "type": "image/x-icon",
+            "purpose": "any"
+          }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#1b1b1f",
+    "background_color": "#1b1b1f"
+}
