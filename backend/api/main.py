@@ -135,24 +135,26 @@ async def search_suggest(data: SearchSuggest) -> List[str]:
 
 
 @app.get('/get_cluster_video')
-def get_cluster_video(data: dict) -> List[VideoJSON]:
-    cluster_id = data['id']
+def get_cluster_video(data: IdsList) -> List[VideoJSON]:
+    cluster_ids = data.ids
     res = []
     with Session(engine) as pg_session:
-        cluster = pg_session.query(Cluster).filter_by(id=cluster_id).first()
-        for video in cluster.videos:
-            res.append(video.to_json())
+        clusters = pg_session.query(Cluster).filter(Cluster.id.in_(cluster_ids)).all()
+        for cluster in clusters:
+            for video in cluster.videos:
+                res.append(video.to_json())
     return res
 
 
 @app.get('/get_face_video')
-def get_face_video(data: dict) -> List[VideoJSON]:
-    face_id = data['id']
+def get_face_video(data: IdsList) -> List[VideoJSON]:
+    face_ids = data.ids
     res = []
     with Session(engine) as pg_session:
-        cluster = pg_session.query(Face).filter_by(id=face_id).first()
-        for video in cluster.videos:
-            res.append(video.to_json())
+        faces = pg_session.query(Face).filter(Face.id.in_(face_ids)).all()
+        for face in faces:
+            for video in face.videos:
+                res.append(video.to_json())
     return res
 
 

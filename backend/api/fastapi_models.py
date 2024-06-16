@@ -54,3 +54,6 @@ class ClustersList(BaseModel):
 class FacesList(BaseModel):
     title: str = 'Блогеры'
     options: List[ShortFace]
+
+class IdsList(BaseModel):
+    ids: List[int]
