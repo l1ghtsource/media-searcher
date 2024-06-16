@@ -11,8 +11,8 @@ import FiltersMobileComponent from '../../components/FiltersMobileComponent/Filt
 import Service from '../../api/Service';
 import FaceBtn from '../../UI/FaceBtn/FaceBtn';
 
-function MainPage({ filters, videos, setVideos, faces }) {
-  const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
+function MainPage({ filters, videos, setVideos, faces, playingVideo }) {
+  const {playingVideoIndex, setPlayingVideoIndex} = playingVideo;
   const videoRefs = useRef([]);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [isFilters, setIsFilters] = useState(false);
@@ -89,7 +89,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
     if (Object.keys(selectedOptions).length > 0) {
       fetchFilteredVideos(selectedOptions);
     }
-  }, [selectedOptions, setVideos]);
+  }, [selectedOptions, setVideos, setPlayingVideoIndex]);
   
 
   useEffect(() => {
@@ -132,7 +132,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       document.removeEventListener('keydown', handleKeyPress);
       clearTimeout(timerId);
     };
-  }, [playingVideoIndex, videos, isFilters, isTranscription]);
+  }, [playingVideoIndex, videos, isFilters, isTranscription, setPlayingVideoIndex]);
 
   //Изменения видео по скроллу
   useEffect(() => {
@@ -163,7 +163,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       // Автоматически получаем новые видео при прохождение предпоследнего видео в списке
       if(loadedVideosCount - 2 > 0 && playingVideoIndex === loadedVideosCount - 2){
         console.log('Получить новые видео');
-        setLoadedVideosCount(loadedVideosCount + 10);
+        setLoadedVideosCount(loadedVideosCount + 5);
       }
     }
 
@@ -212,7 +212,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       document.removeEventListener('touchstart', handleTouchStart);
       clearTimeout(timerId);
     };
-  }, [videos, playingVideoIndex, isFilters, isTranscription, loadedVideosCount]);
+  }, [videos, playingVideoIndex, isFilters, isTranscription, loadedVideosCount, setPlayingVideoIndex]);
 
   // // Эффект для прокрутки к первому видео при изменении списка видео
   // useEffect(() => {

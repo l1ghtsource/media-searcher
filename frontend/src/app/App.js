@@ -15,6 +15,7 @@ import maslennikov from "../assets/svgIcons/maslennikov.jpg"
 function App() {
 
   const [isHeader, setIsHeader] = useState(true);
+  const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
   const location = useLocation();
   const windowWidth = useWindowWidth();
 
@@ -86,12 +87,20 @@ function App() {
     <div className="App">
       {
         (isHeader || windowWidth > 992) && (
-          <Header setVideos={setVideos}/>
+          <Header setVideos={setVideos} setPlayingVideoIndex={setPlayingVideoIndex}/>
         )
       }
       <Routes>
         <Route path='*' element={<Navigate to="/" replace/>}/>
-        <Route path="/" element={<MainPage filters={filters} videos={videos} setVideos={setVideos} faces={faces}/>}/>
+        <Route path="/" 
+        element={
+        <MainPage 
+          filters={filters} 
+          videos={videos} 
+          setVideos={setVideos} 
+          faces={faces} 
+          playingVideo={{playingVideoIndex: playingVideoIndex, setPlayingVideoIndex: setPlayingVideoIndex}}
+        />}/>
         <Route path="/addVideo" element={<NewVideoPage/>}/>
       </Routes>
     </div>

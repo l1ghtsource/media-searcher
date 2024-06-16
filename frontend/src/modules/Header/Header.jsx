@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import AutoComplete from '../../components/AutoComplete/AutoComplete';
 import BackBtn from "../../UI/BackBtn/BackBtn";
 
-function Header({ setVideos }) {
+function Header({ setVideos, setPlayingVideoIndex }) {
   const [searchText, setSearchText] = useState('');
   const [typoText] = useState('');
   const [autoCompleteList, setAutoCompleteList] = useState([]);
@@ -41,18 +41,24 @@ function Header({ setVideos }) {
 
   const searchVideo = async (text) => {
     const response = await Service.getVideos(text);
+    setPlayingVideoIndex(0);
+    window.scrollTo(0, 0);
     setVideos(response);
     navigate('/');
   };
 
   const handleSearchInputKeyDown = async (e) => {
     if (e.key === "Enter" && searchText && searchText.length > 0) {
+      setPlayingVideoIndex(0);
+      window.scrollTo(0, 0);
       searchVideo(searchText);
       searchInputRef.current.blur();
     }
   };
 
   const choiceWord = async (text) => {
+    setPlayingVideoIndex(0);
+    window.scrollTo(0, 0);
     searchVideo(text);
     setSearchText(text);
     setAutoCompleteList([]);
@@ -60,9 +66,11 @@ function Header({ setVideos }) {
 
   useEffect(() => {
     if (transcript !== undefined) {
+      setPlayingVideoIndex(0);
+      window.scrollTo(0, 0);
       setSearchText(transcript);
     }
-  }, [transcript]);
+  }, [transcript, setPlayingVideoIndex]);
 
   useEffect(() => {
     //Функция получения предложений
