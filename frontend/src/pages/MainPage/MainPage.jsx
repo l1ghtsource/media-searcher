@@ -9,6 +9,7 @@ import AddVideoBtn from '../../components/AddVideoBtn/AddVideoBtn';
 import filter from "../../assets/svgIcons/filter.svg"
 import FiltersMobileComponent from '../../components/FiltersMobileComponent/FiltersMobileComponent';
 import Service from '../../api/Service';
+import FaceBtn from '../../UI/FaceBtn/FaceBtn';
 
 function MainPage({ filters, videos, setVideos, faces }) {
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
@@ -16,13 +17,22 @@ function MainPage({ filters, videos, setVideos, faces }) {
   const [selectedOptions, setSelectedOptions] = useState({});
   const [isFilters, setIsFilters] = useState(false);
   const [isTranscription, setIsTranscription] = useState(false);
+  const [isDescription, setIsDescription] = useState(false);
   
+  const toggleDescription = () => {
+    setIsFilters(false);
+    setIsTranscription(false);
+    setIsDescription(prevState => !prevState);
+  }
+
   const toggleFilters = () => {
+    setIsDescription(false);
     setIsTranscription(false);
     setIsFilters(prevState => !prevState);
   }
 
   const toggleTranscription = () => {
+    setIsDescription(false);
     setIsFilters(false);
     setIsTranscription(prevState => !prevState);
   }
@@ -53,15 +63,13 @@ function MainPage({ filters, videos, setVideos, faces }) {
     });
   };  
 
-  useEffect(() => {
-    console.log(selectedOptions);
-  
+  // Поиск видео по кластерам
+  useEffect(() => {  
     const fetchFilteredVideos = async (selectedOptions) => {
       const fil = {};
       for (const [key, value] of Object.entries(selectedOptions)) {
         fil[key] = Array.from(value);
       }
-      console.log(fil);
       let clusters = [];
   
       // Определение метода API в зависимости от выбранной опции
@@ -74,7 +82,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       }
   
       setVideos(clusters);
-      console.log(clusters);
+      setPlayingVideoIndex(0);
     };
   
     if (Object.keys(selectedOptions).length > 0) {
@@ -235,7 +243,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
           videos.map((video, index) => (
             <div ref={(el) => (videoRefs.current[index] = el)} className={cl.video} key={index}>
               <VideoComponent 
-              url={video.url} 
+              videoInfo={{url: video.url, description: video.description, facesVideo: video.faces, cluster: video.cluster}}
               id={`video-${index}`} 
               onPlay={() => handlePlay(index)}
               selectedOptions={selectedOptions}
@@ -246,6 +254,8 @@ function MainPage({ filters, videos, setVideos, faces }) {
               isTranscription={isTranscription}
               onToggleFilters={toggleFilters}
               onToggleTranscription={toggleTranscription}
+              isDescription={isDescription}
+              onToggleDescription={toggleDescription}
               />
               <div className={cl.video__info}>
                 <div className={cl.videoInfo__profile}>
@@ -256,6 +266,33 @@ function MainPage({ filters, videos, setVideos, faces }) {
                   <div className={cl.description__title}>Описание</div>
                   <div className={cl.description__text}>{video.description}</div>
                 </div>
+                {video.cluster && video.cluster.length > 0 && (
+                  <div className={cl.videoInfo__cluster}>
+                    <div className={cl.cluster__title}>Подборки</div>
+                    <div className={cl.cluster__text}>
+                      { 
+                        video.cluster.map((cluster, index) => (
+                          <div key={index}>{cluster.name}</div>
+                        ))                    
+                      }
+                    </div>
+                  </div>
+                )}
+                {
+                  video.faces && video.faces.length > 0 && (
+                    <div className={cl.videoInfo__faces}>
+                      <div className={cl.faces__title}>Блогеры на видео</div>
+                      <div className={cl.faces__text}>
+                        {
+                          video.faces.map((face, index) => (
+                            <FaceBtn key={index} face={face.url}/>
+                          ))
+                        }
+                      </div>
+                    </div>
+                  )
+                }
+                
                 {/* <div className={cl.videoInfo__transcription}>
                   <TranscriptionInput url={video.url} />
                 </div> */}

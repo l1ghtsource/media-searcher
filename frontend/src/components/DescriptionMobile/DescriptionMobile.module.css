@@ -1,0 +1,84 @@
+.descriptionMobileComponent{
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 17px;
+    padding: 39px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 90dvw;
+    overflow: auto;
+}
+
+.descriptionMobileComponent::-webkit-scrollbar {
+    width: 5px; 
+}
+
+.descriptionMobileComponent::-webkit-scrollbar-thumb {
+    background-color: #676767; 
+    border-radius: 7px;
+}
+
+.descriptionMobileComponent::-webkit-scrollbar-track {
+    background-color: transparent; 
+    border-radius: 10px;
+}
+
+.cluster__title,
+.description__title,
+.faces__title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.description__text,
+.cluster__text{
+    font-size: 17px;
+    color: #8C8C8C;
+}
+
+.cluster__text{
+    color: #00E2B8;
+}
+
+/**** ADAPTIVE *****/
+
+/***************LAPTOP**********************/
+@media (max-width: 1400px){
+    .descriptionMobileComponent{
+        width: 900px;
+    }
+}
+
+@media (max-width: 1250px){
+    
+}
+
+@media (max-width: 1200px) {
+
+}
+
+/*****************TABLET******************/
+@media (max-width: 992px) {
+    .descriptionMobileComponent{
+        width: 870px;
+    }
+}
+
+@media (max-width: 884px){
+    .descriptionMobileComponent{
+        width: 800px;
+    }
+}
+
+@media (max-width: 767px) {
+    .descriptionMobileComponent{
+        width: 90dvw;
+    }
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+
+}

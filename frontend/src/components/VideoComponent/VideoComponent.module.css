@@ -89,7 +89,7 @@
   filter: brightness(0) saturate(100%) invert(54%) sepia(98%) saturate(688%) hue-rotate(123deg) brightness(89%) contrast(102%);
 }
 
-.filtersMobile{
+.filtersMobile, .descriptionMobile{
   position: absolute;
   top: 12%;
   left: 20px;
@@ -136,4 +136,29 @@
     .video__btn{
       display: flex;
     }
+
+    .descriptionMobile{
+      margin-left: 25px;
+    }
+}
+
+
+@media (max-width: 884px){
+  .descriptionMobile{
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .descriptionMobile{
+    margin-left: 15px;
+  }
+}
+
+
+/********* MOBILE **********/
+@media (max-width: 576px) {
+  .descriptionMobile{
+    margin-left: 4px;
+  }
 }

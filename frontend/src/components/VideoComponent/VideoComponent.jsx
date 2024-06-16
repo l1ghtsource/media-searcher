@@ -5,12 +5,29 @@ import mute from "../../assets/svgIcons/mute.svg";
 import play from "../../assets/svgIcons/play.svg";
 import pause from "../../assets/svgIcons/pause.svg";
 // import transcriptionImg from "../../assets/svgIcons/transcription.svg"
+import descriptionImg from "../../assets/svgIcons/description.svg";
 import filter from "../../assets/svgIcons/filter.svg"
 import AddVideoBtn from '../AddVideoBtn/AddVideoBtn';
 import FiltersMobileComponent from '../FiltersMobileComponent/FiltersMobileComponent';
+import DescriptionMobile from '../DescriptionMobile/DescriptionMobile';
 // import TranscriptionInput from '../TranscriptionInput/TranscriptionInput';
 
-function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces, filters, isFilters, isTranscription, onToggleFilters, onToggleTranscription }) {
+function VideoComponent({ 
+  videoInfo,
+  id, 
+  onPlay, 
+  selectedOptions, 
+  toggleOption, 
+  faces, 
+  filters, 
+  isFilters, 
+  isTranscription, 
+  onToggleFilters, 
+  onToggleTranscription, 
+  isDescription, 
+  onToggleDescription 
+}) {
+  const {url, description, facesVideo, cluster} = videoInfo;
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -120,6 +137,9 @@ function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces,
           {/* <div className={isTranscription ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
             <img src={transcriptionImg} alt="transcription" onClick={onToggleTranscription}/>
           </div> */}
+          <div className={isDescription ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
+            <img src={descriptionImg} alt="description" onClick={onToggleDescription} />
+          </div>
           <div className={isFilters ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
             <img src={filter} alt="filter" onClick={onToggleFilters} />
           </div>
@@ -143,6 +163,13 @@ function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces,
           </div>
         )
       } */}
+      {
+        isDescription && (
+          <div className={cl.descriptionMobile}>
+            <DescriptionMobile description={description} faces={facesVideo} cluster={cluster}/>
+          </div>
+        )
+      }
     </div>
   );
 }
