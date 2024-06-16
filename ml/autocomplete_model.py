@@ -1,16 +1,38 @@
 import numpy as np
 import pandas as pd
-import clickhouse_connect
+import torch
+import torch.nn.functional as F
+from transformers import AutoModel, AutoTokenizer
 from fast_autocomplete import AutoComplete
 from sentence_transformers import util
 from sklearn.cluster import AgglomerativeClustering
-from text2minilm_model import Text2MiniLM
 
 
-client = clickhouse_connect.get_client(host='91.224.86.248',
-                                       port=8123,
-                                       username=...,
-                                       password=...)
+class Text2MiniLM:
+    def __init__(self):
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model = AutoModel.from_pretrained('intfloat/multilingual-e5-small').to(self.device)
+        self.tokenizer = AutoTokenizer.from_pretrained('intfloat/multilingual-e5-small')
+
+    def mean_pooling(self, model_output, attention_mask):
+        token_embeddings = model_output[0]
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+
+        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+
+    def get_lm_embedding(self, text):
+        encoded_input = self.tokenizer([text], padding=True, truncation=True, return_tensors='pt').to(self.device)
+
+        with torch.no_grad():
+            model_output = self.model(**encoded_input)
+
+        embeddings = self.mean_pooling(model_output, encoded_input['attention_mask'])
+        embeddings = F.normalize(embeddings, p=2, dim=1)
+
+        return embeddings
+
+
+Text2Mini = Text2MiniLM()
 
 
 class AutocompleteService:
@@ -44,7 +66,7 @@ class AutocompleteService:
             return list_embeddings, list_candidates
 
         clustering = AgglomerativeClustering(
-            n_clusters=None, distance_threshold=0.2, affinity='cosine', linkage='average'
+            n_clusters=None, distance_threshold=0.2, metric='cosine', linkage='average'
         ).fit(list_embeddings)
         labels = clustering.fit_predict(list_embeddings)
 
