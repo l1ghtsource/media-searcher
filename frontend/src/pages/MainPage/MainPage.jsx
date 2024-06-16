@@ -161,7 +161,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       }
 
       // Автоматически получаем новые видео при прохождение предпоследнего видео в списке
-      if(videos.length - 2 > 0 && playingVideoIndex === videos.length - 2){
+      if(loadedVideosCount - 2 > 0 && playingVideoIndex === loadedVideosCount - 2){
         console.log('Получить новые видео');
         setLoadedVideosCount(loadedVideosCount + 10);
       }
