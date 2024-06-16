@@ -163,7 +163,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       // Автоматически получаем новые видео при прохождение предпоследнего видео в списке
       if(videos.length - 2 > 0 && playingVideoIndex === videos.length - 2){
         console.log('Получить новые видео');
-        setLoadedVideosCount(prevCount => prevCount + 10);
+        setLoadedVideosCount(loadedVideosCount + 10);
       }
     }
 
@@ -212,7 +212,7 @@ function MainPage({ filters, videos, setVideos, faces }) {
       document.removeEventListener('touchstart', handleTouchStart);
       clearTimeout(timerId);
     };
-  }, [videos, playingVideoIndex, isFilters, isTranscription]);
+  }, [videos, playingVideoIndex, isFilters, isTranscription, loadedVideosCount]);
 
   // // Эффект для прокрутки к первому видео при изменении списка видео
   // useEffect(() => {
