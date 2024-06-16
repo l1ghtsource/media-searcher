@@ -1,0 +1,106 @@
+services:
+  ocr:
+    build:
+      context: ocr
+      dockerfile: Dockerfile
+    env_file: '.env'
+    volumes:
+      - $OCR_MODELS:/ocr_models/model
+    # you can download models before usage from
+    # models from https://www.jaided.ai/easyocr/modelhub/ craft_mlt_25k.pth and cyrillic_g2.pth
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - kafka
+
+  textembedder:
+    build:
+      context: textembedder
+      dockerfile: Dockerfile
+    volumes:
+      - $EMBEDDING_MODEL:/minilm
+    depends_on:
+      - kafka
+
+  translator:
+    build:
+      context: translator
+      dockerfile: Dockerfile
+    volumes:
+      - $TRANSLATOR_MODEL:/opus_model
+    depends_on:
+      - kafka
+
+  whisper:
+    build:
+      context: whisper
+      dockerfile: Dockerfile
+    env_file: '.env'
+    volumes:
+      - $WHISPER_MEDIUM:/whisper_medium
+      - $WHISPER_BASE:/whisper_base
+    depends_on:
+      - kafka
+
+  clip:
+    build:
+      context: clip
+      dockerfile: Dockerfile
+    env_file: '.env'
+    volumes:
+      - $CLIP_MODEL:/clip_model
+    depends_on:
+      - kafka
+
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    env_file: '.env'
+    ports:
+      - '8000:80'
+    depends_on:
+      - kafka
+
+  faces:
+    build:
+      context: faces
+      dockerfile: Dockerfile
+    env_file: '.env'
+    depends_on:
+      - kafka
+
+  search:
+    build:
+      context: search
+      dockerfile: Dockerfile
+    env_file: '.env'
+    volumes:
+      - $CLIP_TEXT_MODEL:/clip_model
+    depends_on:
+      - kafka
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.4
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.4
+    depends_on:
+      - zookeeper
+    restart: unless-stopped
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
