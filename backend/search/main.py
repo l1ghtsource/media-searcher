@@ -32,10 +32,11 @@ engine = create_engine(POSTGRES_URL, pool_pre_ping=True)
 
 
 def build_embeddings(text):
-    return requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text':text}).json()['embeddings']
+    return requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text': text}).json()['embeddings']
+
 
 def translate_text(text):
-    return requests.get(TRANSLATOR_URL + '/translate', json={'text':text}).json()['translation']
+    return requests.get(TRANSLATOR_URL + '/translate', json={'text': text}).json()['translation']
 
 
 def download_models():
@@ -46,21 +47,24 @@ def download_models():
         tokenizer = CLIPTokenizer.from_pretrained("Searchium-ai/clip4clip-webvid150k")
         tokenizer.save_pretrained("/clip_model")
 
+
 download_models()
+
 
 class Text2CLIPModel:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = CLIPTextModelWithProjection.from_pretrained("/clip_model").to(self.device)
         self.tokenizer = CLIPTokenizer.from_pretrained("/clip_model")
-        
+
     def get_text_embedding(self, text):
         inputs = self.tokenizer(text=text, return_tensors="pt").to(self.device)
         outputs = self.model(input_ids=inputs["input_ids"], attention_mask=inputs["attention_mask"])
         final_output = outputs[0] / outputs[0].norm(dim=-1, keepdim=True)
         final_output = final_output.cpu().detach().numpy()
-        
+
         return final_output
+
 
 class SimilarityRanker:
     def __init__(self):
@@ -72,35 +76,37 @@ class SimilarityRanker:
         ctime = time()
         if ctime - self.known_updated > 7200:
             with clickhouse_connect.get_client(host=CLICKHOUSE_HOST, port=8123, username=CLICKHOUSE_USERNAME, password=CLICKHOUSE_PASSWORD) as client:
-                self.db = client.query_df(f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM embeddings')
+                self.db = client.query_df(
+                    f'SELECT id, clip_emb, ocr_emb, whisper_emb, whisper_len, ocr_len FROM embeddings')
             self.index_clip = self.create_faiss_index(np.vstack(self.db['clip_emb'].values).astype('float32'))
             self.index_ocr = self.create_faiss_index(np.vstack(self.db['ocr_emb'].values).astype('float32'))
             self.index_whisper = self.create_faiss_index(np.vstack(self.db['whisper_emb'].values).astype('float32'))
             self.known_updated = ctime
-        
+
     def create_faiss_index(self, embeddings):
         dim = embeddings.shape[1]
         index = faiss.IndexFlatL2(dim)
         index.add(embeddings)
         return index
-    
+
     def get_weights(self, word_whisper_count, word_ocr_count):
         max_count = 77
-        
+
         w_1 = (word_ocr_count / (max_count + word_ocr_count))
         w_2 = (word_whisper_count / (max_count + word_whisper_count))
-        
+
         ocr_weight = 0.05 * w_1
         whisper_weight = 0.05 * w_2
         clip_weight = 0.9 * (1 - (w_1 + w_2) / 2)
-        
-        ocr_weight, whisper_weight, clip_weight = np.exp([ocr_weight, whisper_weight, clip_weight]) / np.sum(np.exp([ocr_weight, whisper_weight, clip_weight]))
+
+        ocr_weight, whisper_weight, clip_weight = np.exp(
+            [ocr_weight, whisper_weight, clip_weight]) / np.sum(np.exp([ocr_weight, whisper_weight, clip_weight]))
 
         return clip_weight, ocr_weight, whisper_weight
-    
+
     def find_top_k(self, text, k=5):
         text = translate_text(text)
-        
+
         text_emb = np.array(build_embeddings(text), dtype='float32')
         clip_emb = self.cliptext.get_text_embedding(text).astype('float32')
         text_emb = text_emb.astype('float32')
@@ -108,13 +114,13 @@ class SimilarityRanker:
         _, clip_indices = self.index_clip.search(clip_emb.reshape(1, -1), k)
         _, ocr_indices = self.index_ocr.search(text_emb.reshape(1, -1), k)
         _, whisper_indices = self.index_whisper.search(text_emb.reshape(1, -1), k)
-        
+
         unique_indices = set(clip_indices[0]).union(ocr_indices[0]).union(whisper_indices[0])
-        
+
         best_videos = []
         for i in unique_indices:
             id_, video_clip_emb, video_ocr_emb, video_whisper_emb, word_whisper_count, word_ocr_count = self.db.iloc[i]
-            
+
             video_clip_emb = np.array(video_clip_emb).astype('float32')
             video_ocr_emb = np.array(video_ocr_emb).astype('float32')
             video_whisper_emb = np.array(video_whisper_emb).astype('float32')
@@ -126,13 +132,14 @@ class SimilarityRanker:
             clip_weight, ocr_weight, whisper_weight = self.get_weights(word_whisper_count, word_ocr_count)
 
             total_score = score_clip * clip_weight + score_ocr * ocr_weight + score_whisper * whisper_weight
-            
+
             best_videos.append((total_score, id_))
-        
+
         best_videos.sort(reverse=True, key=lambda x: x[0])
 
         res = [int(x[1]) for x in best_videos[:k]]
         return res
+
 
 class ClusterSearcher():
     def __init__(self):
@@ -146,10 +153,11 @@ class ClusterSearcher():
                 self.clusters = client.query_df(f'SELECT id, mean_emb FROM clusters_embeddings')
             self.clusters['mean_emb'] = self.clusters['mean_emb'].apply(lambda emb: np.array(emb))
             self.known_updated = ctime
-        
+
     def define_cluster(self, clip_emb):
-        clip_emb = np.array(clip_emb, dtype='float64') # CLIP-эмбеддинг поступившего видео
-        self.clusters['sim'] = self.clusters['mean_emb'].apply(lambda emb: cosine_similarity(emb.reshape(1, -1), clip_emb.reshape(1, -1))[0][0])
+        clip_emb = np.array(clip_emb, dtype='float64')  # CLIP-эмбеддинг поступившего видео
+        self.clusters['sim'] = self.clusters['mean_emb'].apply(
+            lambda emb: cosine_similarity(emb.reshape(1, -1), clip_emb.reshape(1, -1))[0][0])
         self.clusters = self.clusters.sort_values(by='sim', ascending=False)
         return self.clusters.head(1).id.tolist()[0]
 
@@ -177,7 +185,9 @@ class AutocompleteService:
             return [], []
 
         list_candidates = [word for sublist in candidates_words for word in sublist]
-        list_embeddings = [requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text':word}).json()['embeddings'] for word in list_candidates]
+        list_embeddings = [
+            requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text': word}).json()['embeddings']
+            for word in list_candidates]
         list_embeddings = np.array(list_embeddings).reshape(len(list_candidates), -1).tolist()
 
         if len(list_candidates) == 1:
@@ -231,14 +241,17 @@ ranker = SimilarityRanker()
 cluster_searcher = ClusterSearcher()
 autocompl = AutocompleteService()
 
+
 @app.get("/")
 def base():
     return "Ok"
+
 
 @app.get("/search")
 def findtop(data: dict):
     response = {'videos': ranker.find_top_k(data['text'], k=data['top-k'])}
     return response
+
 
 @app.post("/define_cluster")
 def get_cluster(data: dict):
@@ -250,8 +263,9 @@ def get_cluster(data: dict):
         pg_session.add(cluster)
         pg_session.add(video)
         pg_session.commit()
-        
+
     return 'ok'
+
 
 @app.get('/search_suggest')
 async def search_suggest(data: dict):

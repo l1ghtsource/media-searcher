@@ -11,7 +11,6 @@ from faststream import FastStream
 from faststream.kafka import KafkaBroker
 
 
-
 TRANSLATOR_URL = os.environ['TRANSLATOR_URL']
 TEXTEMBEDDER_URL = os.environ['TEXTEMBEDDER_URL']
 
@@ -27,7 +26,7 @@ def download_models():
 
 
 if torch.cuda.is_available():
-    mp.set_start_method('spawn', force=True) # для gpu, занимает примерно 2800MB памяти
+    mp.set_start_method('spawn', force=True)  # для gpu, занимает примерно 2800MB памяти
 
 
 class OCRModel:
@@ -56,7 +55,7 @@ class OCRModel:
             if frame_count % frame_interval == 0:
                 frames.append(frame)
             frame_count += 1
-        
+
         cap.release()
 
         all_outs = []
@@ -87,25 +86,29 @@ def get_video(video_id, url):
     with requests.get(url, stream=True) as r:
         r.raise_for_status()
         with open(fname, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=16384): 
+            for chunk in r.iter_content(chunk_size=16384):
                 f.write(chunk)
     return fname
 
+
 def push_data(ch_video_id, embeddings, text_len):
     with clickhouse_connect.get_client(host=CLICKHOUSE_HOST, port=8123, username=CLICKHOUSE_USERNAME, password=CLICKHOUSE_PASSWORD) as client:
-        client.query(f'ALTER TABLE embeddings UPDATE ocr_emb = {embeddings}, ocr_len = {text_len}  WHERE id = {ch_video_id}')
-        
+        client.query(
+            f'ALTER TABLE embeddings UPDATE ocr_emb = {embeddings}, ocr_len = {text_len}  WHERE id = {ch_video_id}')
+
+
 def build_embeddings(text):
-    return requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text':text}).json()['embeddings']
+    return requests.get(TEXTEMBEDDER_URL + '/build_embeddings', json={'text': text}).json()['embeddings']
+
 
 def translate_text(text):
-    return requests.get(TRANSLATOR_URL + '/translate', json={'text':text}).json()['translation']
-
+    return requests.get(TRANSLATOR_URL + '/translate', json={'text': text}).json()['translation']
 
 
 ocr_model = OCRModel()
 
 broker = KafkaBroker(KAFKA_URL)
+
 
 @broker.subscriber("new_video_ocr")
 async def base_handler(body):

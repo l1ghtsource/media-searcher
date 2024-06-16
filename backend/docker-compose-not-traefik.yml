@@ -3,9 +3,9 @@ services:
     build:
       context: ocr
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $OCR_MODELS:/ocr_models/model
+      - $OCR_MODELS:/ocr_models/model
     # you can download models before usage from
     # models from https://www.jaided.ai/easyocr/modelhub/ craft_mlt_25k.pth and cyrillic_g2.pth
     deploy:
@@ -16,76 +16,74 @@ services:
               count: 1
               capabilities: [gpu]
     depends_on:
-     - kafka
+      - kafka
 
   textembedder:
     build:
       context: textembedder
       dockerfile: Dockerfile
     volumes:
-    - $EMBEDDING_MODEL:/minilm
+      - $EMBEDDING_MODEL:/minilm
     depends_on:
-     - kafka
-  
+      - kafka
+
   translator:
     build:
       context: translator
       dockerfile: Dockerfile
     volumes:
-    - $TRANSLATOR_MODEL:/opus_model
+      - $TRANSLATOR_MODEL:/opus_model
     depends_on:
-     - kafka
-  
+      - kafka
+
   whisper:
     build:
       context: whisper
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $WHISPER_MEDIUM:/whisper_medium
-    - $WHISPER_BASE:/whisper_base
+      - $WHISPER_MEDIUM:/whisper_medium
+      - $WHISPER_BASE:/whisper_base
     depends_on:
-     - kafka
-  
+      - kafka
+
   clip:
     build:
       context: clip
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $CLIP_MODEL:/clip_model
+      - $CLIP_MODEL:/clip_model
     depends_on:
-     - kafka
+      - kafka
 
   api:
     build:
       context: api
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     ports:
-      - "8000:80"
+      - '8000:80'
     depends_on:
-     - kafka
-    
+      - kafka
 
   faces:
     build:
       context: faces
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     depends_on:
-     - kafka
-
+      - kafka
 
   search:
     build:
       context: search
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-     - $CLIP_TEXT_MODEL:/clip_model
+      - $CLIP_TEXT_MODEL:/clip_model
     depends_on:
-     - kafka
+      - kafka
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4

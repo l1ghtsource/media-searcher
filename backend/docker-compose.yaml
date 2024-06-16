@@ -3,9 +3,9 @@ services:
     build:
       context: ocr
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $OCR_MODELS:/ocr_models/model
+      - $OCR_MODELS:/ocr_models/model
     # you can download models before usage from
     # models from https://www.jaided.ai/easyocr/modelhub/ craft_mlt_25k.pth and cyrillic_g2.pth
     #deploy:
@@ -16,7 +16,7 @@ services:
     #          count: 1
     #          capabilities: [gpu]
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
 
@@ -25,45 +25,45 @@ services:
       context: textembedder
       dockerfile: Dockerfile
     volumes:
-    - $EMBEDDING_MODEL:/minilm
+      - $EMBEDDING_MODEL:/minilm
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
-  
+
   translator:
     build:
       context: translator
       dockerfile: Dockerfile
     volumes:
-    - $TRANSLATOR_MODEL:/opus_model
+      - $TRANSLATOR_MODEL:/opus_model
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
-  
+
   whisper:
     build:
       context: whisper
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $WHISPER_MEDIUM:/whisper_medium
-    - $WHISPER_BASE:/whisper_base
+      - $WHISPER_MEDIUM:/whisper_medium
+      - $WHISPER_BASE:/whisper_base
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
-  
+
   clip:
     build:
       context: clip
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-    - $CLIP_MODEL:/clip_model
+      - $CLIP_MODEL:/clip_model
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
 
@@ -71,47 +71,45 @@ services:
     build:
       context: api
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     ports:
-      - "8000:80"
+      - '8000:80'
     depends_on:
-     - kafka
+      - kafka
     labels:
-    - traefik.enable=true
-    - traefik.http.routers.api.rule=Host(`itut.123581321.ru`) && PathPrefix(`/api/`)
-    - traefik.http.middlewares.api-strip.stripprefix.prefixes=/api/
-    - traefik.http.middlewares.api-strip.stripprefix.forceslash=true
-    - traefik.http.routers.api.middlewares=api-strip
-    - traefik.http.routers.api.entrypoints=websecure, web
-    - traefik.http.routers.api.tls=true
-    - traefik.http.routers.api.tls.certresolver=le
-    - traefik.http.services.api.loadbalancer.server.port=80
-    - traefik.docker.network=web
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`itut.123581321.ru`) && PathPrefix(`/api/`)
+      - traefik.http.middlewares.api-strip.stripprefix.prefixes=/api/
+      - traefik.http.middlewares.api-strip.stripprefix.forceslash=true
+      - traefik.http.routers.api.middlewares=api-strip
+      - traefik.http.routers.api.entrypoints=websecure, web
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=le
+      - traefik.http.services.api.loadbalancer.server.port=80
+      - traefik.docker.network=web
     networks:
       - internal
       - web
-
 
   faces:
     build:
       context: faces
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
-
 
   search:
     build:
       context: search
       dockerfile: Dockerfile
-    env_file: ".env"
+    env_file: '.env'
     volumes:
-     - $CLIP_TEXT_MODEL:/clip_model
+      - $CLIP_TEXT_MODEL:/clip_model
     depends_on:
-     - kafka
+      - kafka
     networks:
       - internal
 

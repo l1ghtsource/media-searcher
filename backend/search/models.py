@@ -24,7 +24,7 @@ class Video(Base):
     speech_text = Column(String, default="")
     known_faces = relationship("Face", secondary=Video2Face, back_populates="videos")
     cluster_id = Column(Integer, ForeignKey("Cluster.id"))
-    #cluster = relationship("Cluster", back_populates="videos")
+    # cluster = relationship("Cluster", back_populates="videos")
     url = Column(String, default="")
     url_expire = Column(Integer, default=0)
 
@@ -40,6 +40,7 @@ class Video(Base):
             "cluster": cluster
         }
 
+
 class Face(Base):
     __tablename__ = "Face"
     id = Column(Integer, primary_key=True, index=True)
@@ -48,12 +49,13 @@ class Face(Base):
     image_id = Column(Integer, default=0)
     image_url = Column(String, default="")
     image_url_expire = Column(Integer, default=0)
-    videos = relationship("Video", secondary=Video2Face, back_populates ="known_faces")
+    videos = relationship("Video", secondary=Video2Face, back_populates="known_faces")
+
 
 class Cluster(Base):
     __tablename__ = "Cluster"
     id = Column(Integer, primary_key=True, index=True)
     cluster_df_id = Column(Integer)
     clickhouse_id = Column(Integer, default=-1)
-    name =  Column(String, default="")
+    name = Column(String, default="")
     videos = relationship("Video", backref="cluster")
