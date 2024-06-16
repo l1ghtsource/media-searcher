@@ -4,11 +4,11 @@ import volume from "../../assets/svgIcons/volume.svg";
 import mute from "../../assets/svgIcons/mute.svg";
 import play from "../../assets/svgIcons/play.svg";
 import pause from "../../assets/svgIcons/pause.svg";
-import transcriptionImg from "../../assets/svgIcons/transcription.svg"
+// import transcriptionImg from "../../assets/svgIcons/transcription.svg"
 import filter from "../../assets/svgIcons/filter.svg"
 import AddVideoBtn from '../AddVideoBtn/AddVideoBtn';
 import FiltersMobileComponent from '../FiltersMobileComponent/FiltersMobileComponent';
-import TranscriptionInput from '../TranscriptionInput/TranscriptionInput';
+// import TranscriptionInput from '../TranscriptionInput/TranscriptionInput';
 
 function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces, filters, isFilters, isTranscription, onToggleFilters, onToggleTranscription }) {
   const videoRef = useRef(null);
@@ -117,9 +117,9 @@ function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces,
           <AddVideoBtn/>
       </div>
       <div className={cl.video__btn}>
-          <div className={isTranscription ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
+          {/* <div className={isTranscription ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
             <img src={transcriptionImg} alt="transcription" onClick={onToggleTranscription}/>
-          </div>
+          </div> */}
           <div className={isFilters ? `${cl.videoBtn} ${cl.active}` : cl.videoBtn}>
             <img src={filter} alt="filter" onClick={onToggleFilters} />
           </div>
@@ -136,13 +136,13 @@ function VideoComponent({ url, id, onPlay, selectedOptions, toggleOption, faces,
           </div>
         )
       }
-      {
+      {/* {
         isTranscription && (
           <div className={cl.transcriptionMobile}>
             <TranscriptionInput url={url}/>
           </div>
         )
-      }
+      } */}
     </div>
   );
 }

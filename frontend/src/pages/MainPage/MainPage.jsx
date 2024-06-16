@@ -3,7 +3,7 @@ import cl from "./MainPage.module.css";
 import FiltersComponent from '../../components/FiltersComponent/FiltersComponent';
 import VideoComponent from '../../components/VideoComponent/VideoComponent';
 import ProfileBtn from '../../components/ProfileBtn/ProfileBtn';
-import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
+// import TranscriptionInput from '../../components/TranscriptionInput/TranscriptionInput';
 import FacesComponent from '../../components/FacesComponent/FacesComponent';
 import AddVideoBtn from '../../components/AddVideoBtn/AddVideoBtn';
 import filter from "../../assets/svgIcons/filter.svg"
@@ -219,9 +219,13 @@ function MainPage({ filters, videos, faces }) {
                   <ProfileBtn />
                   <div>{video.user}</div>
                 </div>
-                <div className={cl.videoInfo__transcription}>
-                  <TranscriptionInput url={video.url} />
+                <div className={cl.videoInfo__description}>
+                  <div className={cl.description__title}>Описание</div>
+                  <div className={cl.description__text}>{video.description}</div>
                 </div>
+                {/* <div className={cl.videoInfo__transcription}>
+                  <TranscriptionInput url={video.url} />
+                </div> */}
               </div>
             </div>
           ))}
